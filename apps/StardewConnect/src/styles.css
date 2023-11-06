@@ -1,1 +1,108 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-image: url('./assets/Images/StardewBackGroundLightMode.jpeg');
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  .navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 10vh;
+    background-image: url('./assets/Images/hout.png');
+    background-repeat: repeat-x;
+    margin-bottom: 30px;
+  }
+  
+  .page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  a:hover {
+    color: #c46205;
+    text-decoration: underline;
+  }
+  .blank-box {
+    width: fit-content;
+    max-width: 60%;
+    border: 10px groove #c46205;
+    background-color: #fabc72;
+    border-radius: 5px;
+    height: fit-content;
+    padding: 10px;
+    margin: auto;
+  }
+  
+  #userlist.blank-box {
+    max-width: 100%;
+  }
+  
+  /* Card stuff*/
+  .ay-card {
+    background-image: url('./assets/Images/cardbackground.png');
+    background-repeat: no-repeat;
+    min-height: 298px;
+    min-width: 292px;
+    max-width: 292px;
+    max-height: 298px;
+    padding-top: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .ay-card-body {
+    padding-inline: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    text-shadow: black 1px 1px;
+    overflow-y: scroll;
+    max-height: 260px;
+  }
+  
+  /* scroll */
+  .scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .scroll::-webkit-scrollbar-thumb {
+    background: #ababab;
+    border-radius: 3px;
+  }
+  
+  .scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(100, 100, 100);
+  }
+  
+  .scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* image stuff */
+  .home-img {
+    width: 44px;
+    position: absolute;
+    left: 11px;
+    top: 0px;
+  }
+  
+  .home-img-bg{
+    width: 65px;
+    height: 65px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: antiquewhite;
+    padding: 15px;
+    border-radius: 50%;
+  }
