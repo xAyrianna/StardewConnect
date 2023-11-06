@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -8,6 +9,9 @@ import { AboutComponent } from './features/about-component/about.component';
 import { EventListComponent } from './features/event-component/event-list/event-list.component';
 import { EventDetailComponent } from './features/event-component/event-detail/event-detail.component';
 import { EventEditComponent } from './features/event-component/event-edit/event-edit.component';
+import { TownEditComponent } from './features/town-component/town-edit/town-edit.component';
+import { TownListComponent } from './features/town-component/town-list/town-list.component';
+import { TownDetailComponent } from './features/town-component/town-detail/town-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +25,11 @@ import { EventEditComponent } from './features/event-component/event-edit/event-
     EventListComponent,
     EventDetailComponent,
     EventEditComponent,
+    TownEditComponent,
+    TownListComponent,
+    TownDetailComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })
