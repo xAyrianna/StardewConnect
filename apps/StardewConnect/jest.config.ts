@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'stardew-connect',
+  displayName: 'StardewConnect',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/stardew-connect',
+  coverageDirectory: '../../coverage/apps/StardewConnect',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -1,25 +1,25 @@
 {
-  "name": "stardew-connect",
+  "name": "StardewConnect",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "stardew-connect",
-  "sourceRoot": "apps/stardew-connect/src",
+  "sourceRoot": "apps/StardewConnect/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/stardew-connect",
-        "index": "apps/stardew-connect/src/index.html",
-        "main": "apps/stardew-connect/src/main.ts",
+        "outputPath": "dist/apps/StardewConnect",
+        "index": "apps/StardewConnect/src/index.html",
+        "main": "apps/StardewConnect/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/stardew-connect/tsconfig.app.json",
+        "tsConfig": "apps/StardewConnect/tsconfig.app.json",
         "assets": [
-          "apps/stardew-connect/src/favicon.ico",
-          "apps/stardew-connect/src/assets"
+          "apps/StardewConnect/src/favicon.ico",
+          "apps/StardewConnect/src/assets"
         ],
-        "styles": ["apps/stardew-connect/src/styles.css"],
+        "styles": ["apps/StardewConnect/src/styles.css"],
         "scripts": []
       },
       "configurations": {
@@ -53,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "stardew-connect:build:production"
+          "browserTarget": "StardewConnect:build:production"
         },
         "development": {
-          "browserTarget": "stardew-connect:build:development"
+          "browserTarget": "StardewConnect:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "stardew-connect:build"
+        "browserTarget": "StardewConnect:build"
       }
     },
     "lint": {
@@ -72,8 +72,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/stardew-connect/**/*.ts",
-          "apps/stardew-connect/**/*.html"
+          "apps/StardewConnect/**/*.ts",
+          "apps/StardewConnect/**/*.html"
         ]
       }
     },
@@ -81,7 +81,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/stardew-connect/jest.config.ts",
+        "jestConfig": "apps/StardewConnect/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

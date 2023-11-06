@@ -1,0 +1,64 @@
+{
+  "name": "StardewConnect-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/StardewConnect-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/StardewConnect-api",
+        "main": "apps/StardewConnect-api/src/main.ts",
+        "tsConfig": "apps/StardewConnect-api/tsconfig.app.json",
+        "assets": ["apps/StardewConnect-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/StardewConnect-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "StardewConnect-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "StardewConnect-api:build:development"
+        },
+        "production": {
+          "buildTarget": "StardewConnect-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/StardewConnect-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/StardewConnect-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
