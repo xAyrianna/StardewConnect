@@ -1,1 +1,17 @@
-<p>villager-detail works!</p>
+<div class="blank-box" id="userlist">
+    <div class="row">
+        <div class="col">
+            <h1>{{villager?.name}}</h1>
+            <h6>Birthday: {{villager?.birthday}}</h6>
+            <p>Gender: {{villager?.gender}} <br> Lifestage: {{villager?.lifeStage}} <br> Marriageable:
+                {{villager?.marriageable ? "yes" : "no"}} </p>
+            <p>Favorite gifts:</p>
+            <ul>
+                <li *ngFor="let favoriteGift of villager?.favoriteGifts">{{favoriteGift }}</li>
+            </ul>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-info" routerLink="edit">Edit villager</button>
+        </div>
+    </div>
+</div>

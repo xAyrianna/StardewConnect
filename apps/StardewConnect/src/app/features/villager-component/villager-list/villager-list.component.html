@@ -1,1 +1,29 @@
-<p>villager-list works!</p>
+<div class="blank-box" id="userlist">
+    <div class="row">
+        <div class="col">
+            <h3>Villager list</h3>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-light" routerLink="new">New Villager</button>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Lifestage</th>
+                <th scope="col">Marriageable</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let villager of villagers">
+                <td><a routerLink="{{villager.name}}" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{villager.name}}</a></td>
+                <td class="text-center">{{villager.lifeStage}}</td>
+                <td class="text-center">{{villager?.marriageable ? "yes" : "no"}}</td>
+                <td><button type="button" class="btn btn-danger" (click)="deleteVillager(villager)"><i
+                            class="fa-solid fa-trash"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

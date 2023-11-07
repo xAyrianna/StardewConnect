@@ -1,1 +1,91 @@
-<p>villager-edit works!</p>
+<div class="blank-box" id="userlist">
+    <div *ngIf="componentExists">
+        <h1>Editing {{ villagerName }} </h1>
+    </div>
+    <div *ngIf="!componentExists">
+        <h1>Create new villager</h1>
+    </div>
+    <form #villagerEditForm="ngForm" name="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" [(ngModel)]="villager!.name" #name="ngModel"
+                        minlength="2" required [ngClass]="{ 'is-invalid' : name.invalid}">
+                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+                        <div *ngIf="name.errors!['required']">Name is required</div>
+                        <div *ngIf="name.errors!['minlength']">Name has to have at least 2 chars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="birthday">Birthday</label>
+                    <input type="text" placeholder="e.g. Spring 20" name="birthday" class="form-control"
+                        [(ngModel)]="villager!.birthday" #birthday="ngModel" minlength="6" required
+                        [ngClass]="{ 'is-invalid' : birthday.invalid}">
+                    <div *ngIf="birthday.invalid && birthday.touched" class="invalid-feedback">
+                        <div *ngIf="birthday.errors!['required']">Birthday is required</div>
+                        <div *ngIf="birthday.errors!['minlength']">Birthday has to have at least 6 chars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="gender">Gender:</label>
+                <select id="gender" class="form-control" name="gender" [(ngModel)]="villager!.gender" #gender="ngModel"
+                    required [ngClass]="{ 'is-invalid' : gender.invalid}">
+                    <option *ngFor="let type of eGender | keyvalue" [ngValue]="type.value">{{type.value}}</option>
+                </select>
+                <div *ngIf="lifeStage.invalid && lifeStage.touched" class="invalid-feedback">
+                    <div *ngIf="lifeStage.errors!['required']">Lifestage is required</div>
+                </div>
+            </div>
+            <div class="col">
+                <label for="lifeStage">Lifestage:</label>
+                <select id="lifeStage" class="form-control" name="lifeStage" [(ngModel)]="villager!.lifeStage"
+                    #lifeStage="ngModel" required [ngClass]="{ 'is-invalid' : lifeStage.invalid}">
+                    <option *ngFor="let type of eLifeStage | keyvalue" [ngValue]="type.value">{{type.value}}</option>
+                </select>
+                <div *ngIf="lifeStage.invalid && lifeStage.touched" class="invalid-feedback">
+                    <div *ngIf="lifeStage.errors!['required']">Lifestage is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="villager!.lifeStage === 'Adult'">
+            <div class="col">
+                <label for="marriageable">Marriageable:</label>
+                <select id="marriageable" class="form-control" name="marriageable" [(ngModel)]="villager!.marriageable"
+                    #marriageable="ngModel" [ngClass]="{ 'is-invalid' : marriageable.invalid}">
+                    <option selected [ngValue]="false">No</option>
+                    <option [ngValue]="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <label for="favoriteGifts" class="my-2">Favorite gifts</label>
+        <div class="row form-group"
+            *ngFor="let favoriteGift of villager!.favoriteGifts; let i = index; trackBy: trackByFn">
+            <div class="col-10 my-1">
+                <input type="text" name={{i}} class="form-control" [(ngModel)]="villager?.favoriteGifts![i]"
+                    #facilities="ngModel">
+            </div>
+            <div class="col text-end">
+                <button type="button" class="btn btn-danger" (click)="deleteFavoriteGift(i)"><i
+                        class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-success mx-auto mt-1" (click)="addToFacoriteGifts()">Add favorite
+                    gift</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-3">
+                <button type="submit" class="btn btn-secondary me-3" [disabled]="!villagerEditForm.valid">Submit</button>
+                <button class="btn btn-warning" routerLink="..">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
