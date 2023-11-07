@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -18,6 +19,8 @@ import { VillagerListComponent } from './features/villager-component/villager-li
 import { UserListComponent } from './features/user-component/user-list/user-list.component';
 import { UserEditComponent } from './features/user-component/user-edit/user-edit.component';
 import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,13 @@ import { UserDetailComponent } from './features/user-component/user-detail/user-
     UserEditComponent,
     UserDetailComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
