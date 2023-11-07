@@ -1,1 +1,29 @@
-<p>town-list works!</p>
+<div class="blank-box" id="userlist">
+    <div class="row">
+        <div class="col">
+            <h3>Town list</h3>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-light" routerLink="new">New Town</button>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Amount of facilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let town of towns">
+                <td><a routerLink="{{town.name}}" routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{town.name}}</a></td>
+                <td class="text-center">{{town.capacity}}</td>
+                <td class="text-center">{{town?.facilities?.length}}</td>
+                <td><button type="button" class="btn btn-danger" (click)="deleteTown(town)"><i
+                            class="fa-solid fa-trash"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

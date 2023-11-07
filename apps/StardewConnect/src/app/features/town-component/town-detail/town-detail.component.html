@@ -1,1 +1,16 @@
-<p>town-detail works!</p>
+<div class="blank-box" id="userlist">
+    <div class="row">
+        <div class="col">
+            <h1>{{town?.name}}</h1>
+            <h6>Founded in: {{creationDate}}</h6>
+            <p>Capacity: {{town?.capacity}}</p>
+            <p>Facilities:</p>
+            <ul>
+                <li *ngFor="let facility of town?.facilities">{{facility}}</li>
+            </ul>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-info" routerLink="edit">Edit town</button>
+        </div>
+    </div>
+</div>

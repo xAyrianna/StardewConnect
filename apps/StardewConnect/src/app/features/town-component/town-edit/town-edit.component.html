@@ -1,1 +1,57 @@
-<p>town-edit works!</p>
+<div class="blank-box" id="userlist">
+    <div *ngIf="componentExists">
+        <h1>Editing {{ townName }} </h1>
+    </div>
+    <div *ngIf="!componentExists">
+        <h1>Add new town</h1>
+    </div>
+    <form #townEditForm="ngForm" name="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" [(ngModel)]="town!.name" #name="ngModel"
+                        minlength="2" required [ngClass]="{ 'is-invalid' : name.invalid}">
+                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+                        <div *ngIf="name.errors!['required']">Name is required</div>
+                        <div *ngIf="name.errors!['minlength']">Name has to have at least 2 chars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="capacity">Capacity</label>
+                    <input type="number" name="capacity" class="form-control" [(ngModel)]="town!.capacity"
+                        #capacity="ngModel" minlength="2" required [ngClass]="{ 'is-invalid' : capacity.invalid}">
+                    <div *ngIf="capacity.invalid && capacity.touched" class="invalid-feedback">
+                        <div *ngIf="capacity.errors!['required']">Capacity is required</div>
+                        <div *ngIf="capacity.errors!['minlength']">Capacity has to have at least 2 chars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label for="facilities" class="my-2">Facilities</label>
+        <div class="row form-group" *ngFor="let facility of town!.facilities; let i = index; trackBy: trackByFn">
+            <div class="col-10 my-1">
+                <input type="text" name={{i}} class="form-control" [(ngModel)]="town?.facilities![i]"
+                    #facilities="ngModel">
+            </div>
+            <div class="col text-end">
+                <button type="button" class="btn btn-danger" (click)="deleteFacility(i)"><i
+                        class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-success mx-auto mt-1" (click)="addToFacilities()">Add
+                    facility</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-3">
+                <button type="submit" class="btn btn-secondary me-3" [disabled]="!townEditForm.valid">Submit</button>
+                <button class="btn btn-warning" routerLink="..">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
