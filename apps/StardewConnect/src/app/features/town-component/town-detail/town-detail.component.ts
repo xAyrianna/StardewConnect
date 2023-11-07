@@ -17,7 +17,6 @@ export class TownDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private townService: TownService
   ) {}
 
@@ -29,7 +28,11 @@ export class TownDetailComponent implements OnInit, OnDestroy {
           .getTownByName(this.componentId)
           .subscribe((response) => {
             this.town = response;
-            this.creationDate = response.creationDate.toLocaleDateString();
+            const date = new Date(response.creationDate);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+            const year = date.getFullYear();
+            this.creationDate = `${day}/${month}/${year}`;
             console.log(this.town);
           });
       } else {

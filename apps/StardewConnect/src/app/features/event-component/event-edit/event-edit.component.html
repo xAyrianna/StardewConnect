@@ -20,7 +20,7 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="date">Birthday</label>
+                    <label for="date">Date of event</label>
                     <input type="text" placeholder="e.g. Spring 20" name="date" class="form-control"
                         [(ngModel)]="event!.date" #date="ngModel" minlength="6" required
                         [ngClass]="{ 'is-invalid' : date.invalid}">
@@ -59,7 +59,7 @@
                     <textarea rows="5" type="text" name="description" class="form-control" [(ngModel)]="event!.description"
                         #description="ngModel" minlength="20" required [ngClass]="{ 'is-invalid' : description.invalid}"></textarea>
                     <div *ngIf="description.invalid && description.touched" class="invalid-feedback">
-                        <div *ngIf="description.errors!['required']">description is required</div>
+                        <div *ngIf="description.errors!['required']">Description is required</div>
                         <div *ngIf="description.errors!['minlength']">Location has to have at least 20 chars</div>
                     </div>
                 </div>
