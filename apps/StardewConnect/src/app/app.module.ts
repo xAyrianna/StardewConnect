@@ -12,6 +12,12 @@ import { EventEditComponent } from './features/event-component/event-edit/event-
 import { TownEditComponent } from './features/town-component/town-edit/town-edit.component';
 import { TownListComponent } from './features/town-component/town-list/town-list.component';
 import { TownDetailComponent } from './features/town-component/town-detail/town-detail.component';
+import { VillagerDetailComponent } from './features/villager-component/villager-detail/villager-detail.component';
+import { VillagerEditComponent } from './features/villager-component/villager-edit/villager-edit.component';
+import { VillagerListComponent } from './features/villager-component/villager-list/villager-list.component';
+import { UserListComponent } from './features/user-component/user-list/user-list.component';
+import { UserEditComponent } from './features/user-component/user-edit/user-edit.component';
+import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +34,12 @@ import { TownDetailComponent } from './features/town-component/town-detail/town-
     TownEditComponent,
     TownListComponent,
     TownDetailComponent,
+    VillagerDetailComponent,
+    VillagerEditComponent,
+    VillagerListComponent,
+    UserListComponent,
+    UserEditComponent,
+    UserDetailComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
