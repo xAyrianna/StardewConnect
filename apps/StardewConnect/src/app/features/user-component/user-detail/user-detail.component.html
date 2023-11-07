@@ -1,1 +1,12 @@
-<p>user-detail works!</p>
+<div class="blank-box" id="userlist">
+    <div class="row">
+        <div class="col">
+            <h1>{{user?.username}}</h1>
+            <h6>Has been a member since: {{memberSince}}</h6>
+            <p>Name: {{user?.name}} <br> Email: {{user?.emailAddress}} <br> Favorite thing: {{user?.favoriteThing}}</p>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-info" routerLink="edit">Edit user</button>
+        </div>
+    </div>
+</div>
