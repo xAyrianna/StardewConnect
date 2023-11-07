@@ -1,1 +1,75 @@
-<p>event-edit works!</p>
+<div class="blank-box" id="userlist">
+    <div *ngIf="componentExists">
+        <h1>Editing {{ eventName }} </h1>
+    </div>
+    <div *ngIf="!componentExists">
+        <h1>Organize event</h1>
+    </div>
+    <form #eventEditForm="ngForm" name="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" class="form-control" [(ngModel)]="event!.name" #name="ngModel"
+                        minlength="2" required [ngClass]="{ 'is-invalid' : name.invalid}">
+                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+                        <div *ngIf="name.errors!['required']">Name is required</div>
+                        <div *ngIf="name.errors!['minlength']">Name has to have at least 2 chars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="date">Birthday</label>
+                    <input type="text" placeholder="e.g. Spring 20" name="date" class="form-control"
+                        [(ngModel)]="event!.date" #date="ngModel" minlength="6" required
+                        [ngClass]="{ 'is-invalid' : date.invalid}">
+                    <div *ngIf="date.invalid && date.touched" class="invalid-feedback">
+                        <div *ngIf="date.errors!['required']">Date is required</div>
+                        <div *ngIf="date.errors!['minlength']">Date has to have at least 6 chars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" name="location" class="form-control" [(ngModel)]="event!.location"
+                        #location="ngModel" minlength="2" required [ngClass]="{ 'is-invalid' : location.invalid}">
+                    <div *ngIf="location.invalid && location.touched" class="invalid-feedback">
+                        <div *ngIf="location.errors!['required']">Location is required</div>
+                        <div *ngIf="location.errors!['minlength']">Location has to have at least 2 chars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label for="hasHappened">Has the event happened yet?:</label>
+                <select id="hasHappened" class="form-control" name="hasHappened" [(ngModel)]="event!.hasHappened"
+                    #hasHappened="ngModel" [ngClass]="{ 'is-invalid' : hasHappened.invalid}">
+                    <option selected [ngValue]="false">No</option>
+                    <option [ngValue]="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea rows="5" type="text" name="description" class="form-control" [(ngModel)]="event!.description"
+                        #description="ngModel" minlength="20" required [ngClass]="{ 'is-invalid' : description.invalid}"></textarea>
+                    <div *ngIf="description.invalid && description.touched" class="invalid-feedback">
+                        <div *ngIf="description.errors!['required']">description is required</div>
+                        <div *ngIf="description.errors!['minlength']">Location has to have at least 20 chars</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-3">
+                <button type="submit" class="btn btn-secondary me-3" [disabled]="!eventEditForm.valid">Submit</button>
+                <button class="btn btn-warning" routerLink="..">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
