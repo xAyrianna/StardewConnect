@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from '@StardewConnect/libs/data';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('event')
+@ApiTags('Event')
 export class EventController {
     constructor(private readonly eventService: EventService){}
 

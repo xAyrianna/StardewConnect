@@ -1,8 +1,10 @@
 import { Villager } from '@StardewConnect/libs/data';
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { VillagerService } from './villager.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('villager')
+@ApiTags('Villager')
 export class VillagerController {
     constructor(private readonly villagerService: VillagerService) {}
   
