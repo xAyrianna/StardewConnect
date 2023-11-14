@@ -16,7 +16,8 @@
         "tsConfig": "apps/StardewConnect-api/tsconfig.app.json",
         "assets": ["apps/StardewConnect-api/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/StardewConnect-api/webpack.config.js"
+        "webpackConfig": "apps/StardewConnect-api/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {},
