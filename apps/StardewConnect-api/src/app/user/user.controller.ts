@@ -27,6 +27,7 @@ export class UserController {
   getUserByUsername(@Param('id') username: string) {
     return this.userService.getUserByUsername(username);
   }
+
   @Post()
   @ApiResponse({ status: 201, description: 'User created successfully' })
   addUser(@Body() user: User) {

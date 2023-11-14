@@ -19,6 +19,7 @@ export class VillagerController {
     getVillagerByName(@Param('id') name: string) {
       return this.villagerService.getVillagerByName(name);
     }
+
     @Post()
     @ApiResponse({ status: 201, description: 'Villager created successfully' })
     addVillager(@Body() user: Villager) {

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from '@StardewConnect/libs/data';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
 @Controller('event')
 @ApiTags('Event')
@@ -19,6 +19,7 @@ export class EventController {
     getEventByUsername(@Param('id') name: string) {
       return this.eventService.getEventByName(name);
     }
+
     @Post()
     @ApiResponse({ status: 201, description: 'Event created successfully' })
     addEvent(@Body() event: Event) {
