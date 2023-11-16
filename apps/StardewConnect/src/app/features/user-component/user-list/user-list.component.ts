@@ -16,10 +16,11 @@ export class UserListComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    this.subscription = this.userService.getAllUsers().subscribe((response) => {
-      this.users = response;
-      console.log(this.users);
-    });
+    // this.subscription = this.userService.getAllUsers().subscribe((response) => {
+    //   this.users = response;
+    //   console.log(this.users);
+    // });
+    this.users = this.userService.getAllUsers();
   }
 
   ngOnDestroy(): void {
@@ -31,11 +32,12 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   deleteUser(user: User) {
     console.log('deleting user');
-    this.userService
-      .deleteUser(user)
-      .subscribe(
-        () => (this.users = this.users?.filter((u) => u.id !== user.id))
-      );
+    this.userService.deleteUser(user);
+    // this.userService
+    //   .deleteUser(user)
+    //   .subscribe(
+    //     () => (this.users = this.users?.filter((u) => u.id !== user.id))
+    //   );
   }
 }
 

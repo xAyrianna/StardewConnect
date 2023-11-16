@@ -30,13 +30,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.componentExists = true;
         // Haal de bestaande user uit het array
         //functie toevoegen!
-        this.subscription = this.userService
-          .getUserByUsername(this.componentId)
-          .subscribe((response) => {
-            this.user = { ...response }; //spread
-            this.userName = response.name;
-            console.log(this.user);
-          });
+        // this.subscription = this.userService
+        //   .getUserByUsername(this.componentId)
+        //   .subscribe((response) => {
+        //     this.user = { ...response }; //spread
+        //     this.userName = response.name;
+        //     console.log(this.user);
+        //   });
+        this.user = this.userService.getUserByUsername(this.componentId);
       } else {
         console.log('Nieuwe component');
         this.componentExists = false;
@@ -67,11 +68,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting user');
-      this.userService.updateUser(this.user!).subscribe();
+      this.userService.updateUser(this.user!)
+      // .subscribe();
     } else {
       // nieuwe user toevoegen aan array
       console.log('adding user');
-      this.userService.addUser(this.user!).subscribe();
+      this.userService.addUser(this.user!)
+      // .subscribe();
     }
     this.router.navigate(['user']);
   }
