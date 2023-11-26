@@ -8,6 +8,9 @@
             <ul>
                 <li *ngFor="let facility of town?.facilities">{{facility}}</li>
             </ul>
+            <ul *ngIf="town?.events">
+                <li *ngFor="let event of town?.events">{{event}}</li>
+            </ul>
         </div>
         <div class="col text-end">
             <button type="button" class="btn btn-info" routerLink="edit">Edit town</button>
