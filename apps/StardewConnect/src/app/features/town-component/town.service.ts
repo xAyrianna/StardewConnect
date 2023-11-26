@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, Town } from '@StardewConnect/libs/data';
+import { ApiResponse, Event, Town } from '@StardewConnect/libs/data';
 import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
@@ -25,8 +25,16 @@ export class TownService {
     );
   }
 
+
   getTownByName(name: string): Observable<Town> {
     const townUrl = this.BASE_URL + '/town/' + name;
+    return this.http
+      .get<ApiResponse<Town>>(townUrl)
+      .pipe(map((response: ApiResponse<Town>) => response.results));
+  }
+
+  getTownById(id: number): Observable<Town> {
+    const townUrl = this.BASE_URL + '/town/id/' + id;
     return this.http
       .get<ApiResponse<Town>>(townUrl)
       .pipe(map((response: ApiResponse<Town>) => response.results));
