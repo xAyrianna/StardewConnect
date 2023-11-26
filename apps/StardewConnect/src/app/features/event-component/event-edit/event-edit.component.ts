@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../event.service';
 import { Subscription } from 'rxjs';
-import { Event } from '@StardewConnect/libs/data';
+import { Event, Town } from '@StardewConnect/libs/data';
+import { TownService } from '../../town-component/town.service';
 
 @Component({
   selector: 'stardew-connect-event-edit',
@@ -15,16 +16,22 @@ export class EventEditComponent implements OnInit, OnDestroy {
   event: Event | undefined;
   subscription: Subscription | undefined;
   eventName: string | undefined;
+  selectedTownName: string | undefined;
+  availableTowns: Town[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private eventService: EventService
+    private eventService: EventService,
+    private townService: TownService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.componentId = params.get('id');
+      this.townService.getAllTowns().subscribe((response) => {
+        this.availableTowns = response;
+      });
       if (this.componentId) {
         console.log('Bestaande component');
         this.componentExists = true;
@@ -48,6 +55,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
           date: '',
           location: '',
           hasHappened: false,
+          inTownId: -1,
         };
       }
     });
@@ -63,6 +71,29 @@ export class EventEditComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log('Submitting the form');
     // User toevoegen aan UserArray
+
+    // trying to update the event list for chosen town
+    if (this.event && this.event.inTownId !== undefined) {
+      console.log("hi")
+      this.townService.getTownById(this.event.inTownId).subscribe( async (response) => {
+          console.log('Trying to update town');
+          if (response) {
+            console.log('Response:', response);
+            const town = response;
+            console.log('Town before update:', town);
+            town.events = town.events || [];  
+            town.events.push(this.event!);
+            console.log('Town after update:', town);
+            console.log('Updating now');
+            await this.townService.updateTown(town).subscribe();
+          } else {
+            console.error('Invalid town response:', response);
+          }
+      });
+  } else {
+      console.error('Invalid event or inTownId is undefined.');
+  }
+
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting event');
@@ -73,5 +104,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['event']);
   }
+
 }
 

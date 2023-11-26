@@ -55,6 +55,21 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
+                    <label for="town">Town:</label>
+                    <select id="town" class="form-control" name="townId" [(ngModel)]="event!.inTownId"
+                        #townId="ngModel" [ngClass]="{ 'is-invalid' : townId.invalid}" required>
+                        <option value="" disabled selected>Choose your town</option>
+                        <option *ngFor="let town of availableTowns" [ngValue]="town.id">{{ town.name }}</option>
+                    </select>
+                    <div *ngIf="townId.touched" class="invalid-feedback">
+                        <div *ngIf="townId.errors!['required']">Town is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
                     <label for="description">Description:</label>
                     <textarea rows="5" type="text" name="description" class="form-control" [(ngModel)]="event!.description"
                         #description="ngModel" minlength="20" required [ngClass]="{ 'is-invalid' : description.invalid}"></textarea>
