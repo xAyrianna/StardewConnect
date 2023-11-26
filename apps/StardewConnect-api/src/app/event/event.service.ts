@@ -12,6 +12,7 @@ export class EventService {
         date: 'Summer 11',
         location: 'Beach',
         hasHappened: false,
+        inTownId: 2,
       },
       {
         id: 2,
@@ -21,6 +22,7 @@ export class EventService {
         date: 'Fall 27',
         location: "Town's square",
         hasHappened: true,
+        inTownId: 1,
       },
       {
         id: 3,
@@ -30,6 +32,7 @@ export class EventService {
         date: 'Winter 25',
         location: "Town's square",
         hasHappened: false,
+        inTownId: 1,
       },
       {
         id: 4,
@@ -39,6 +42,7 @@ export class EventService {
         date: 'Spring 24',
         location: 'Forest',
         hasHappened: false,
+        inTownId: 3,
       },
     ];
     private getIndexById(event: Event): number {
