@@ -21,7 +21,8 @@ jobs:
       - name: npm install, build, test
         run: |
           npm ci
-          npm run build-tryout --if-present
+          npx nx run StardewConnect-api:build:production
+
       - name: zip artefacts
         run: |
           cd ${GITHUB_WORKSPACE}/dist/apps/StardewConnect-api/ && zip -r ${GITHUB_WORKSPACE}/StardewConnect-api-release.zip .
