@@ -1,0 +1,58 @@
+name: tryout CI/CD to Azure Webapp
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: StardewConnect-api    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '18.x'                # set this to the node version to use
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+
+      - name: npm install, build, test
+        run: |
+          npm ci
+          npm run build-tryout --if-present
+      - name: zip artefacts
+        run: |
+          cd ${GITHUB_WORKSPACE}/dist/apps/StardewConnect-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+
+      - name: upload NestJS artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nestjs-api
+          path: data-api-release.zip
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    steps:
+      - name: download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: nestjs-api
+      - name: unzip artifact
+        run: unzip data-api-release.zip
+      - name: install app dependencies
+        run: npm ci
+
+      - name: deploy to azure webapp
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.APP_NAME }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.API_PUBLISHPROFILE}}
+          package: .
+    
