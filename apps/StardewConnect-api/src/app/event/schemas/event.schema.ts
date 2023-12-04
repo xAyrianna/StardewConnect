@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 import { IsMongoId } from 'class-validator';
 
-export type EventDocument = HydratedDocument<Event>;
+export type EventDocument = Event & Document
 
 @Schema()
 export class Event {

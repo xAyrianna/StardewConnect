@@ -17,16 +17,15 @@ import { TownModule } from './town/town.module';
 import { UserModule } from './user/user.module';
 import { VillagerModule } from './villager/villager.module';
 import { AuthModule } from './auth/auth.module';
-import { EventSchema } from './event/schemas/event.schema';
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGO_CONN),
     EventModule,
-    TownModule,
-    UserModule,
-    VillagerModule,
-    AuthModule,
+    // TownModule,
+    // UserModule,
+    // VillagerModule,
+    // AuthModule,
   ],
   controllers: [
     AppController,
@@ -46,5 +45,3 @@ import { EventSchema } from './event/schemas/event.schema';
   ],
 })
 export class AppModule {}
-
-
