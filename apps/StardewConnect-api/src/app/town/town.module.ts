@@ -7,6 +7,7 @@ import { TownService } from './town.service';
 @Module({
     imports: [MongooseModule.forFeature([{name: "Town", schema: TownSchema}])],
     controllers: [TownController],
-    providers: [TownService],  
+    providers: [TownService], 
+    exports: [TownService], 
 })
 export class TownModule {}
