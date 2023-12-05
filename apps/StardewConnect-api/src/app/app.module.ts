@@ -22,10 +22,10 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     MongooseModule.forRoot(process.env.MONGO_CONN),
     EventModule,
-    // TownModule,
-    // UserModule,
-    // VillagerModule,
-    // AuthModule,
+    TownModule,
+    UserModule,
+    VillagerModule,
+    AuthModule,
   ],
   controllers: [
     AppController,
@@ -39,7 +39,6 @@ import { AuthModule } from './auth/auth.module';
     AppService,
     TownService,
     UserService,
-    EventService,
     VillagerService,
     AuthService,
   ],
