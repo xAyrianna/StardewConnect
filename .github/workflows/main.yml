@@ -40,13 +40,12 @@ jobs:
         with:
           name: StardewConnect
           path: StardewConnect-release.zip
-          
-      - name: Upload backend-api artifact for deployment job
+
+      - name: upload NestJS artifact
         uses: actions/upload-artifact@v3
         with:
-          name: StardewConnect-api
+          name: nestjs-api
           path: StardewConnect-api-release.zip
-          
           
   deploy-frontend-app:
     runs-on: ubuntu-latest
@@ -74,28 +73,27 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "" # Built app content directory - optional
 
-
-  deploy-backend-api:
+  deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
-      - name: Download artifact from build job
+      - name: download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: StardewConnect-api
-
-      - name: Unzip artifact for deployment
+          name: nestjs-api
+      - name: unzip artifact
         run: unzip StardewConnect-api-release.zip
-       
-      - name: 'Deploy to Azure Web App'
+      - name: install app dependencies
+        run: npm ci
+
+      - name: deploy to azure webapp
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
-          app-name: 'StardewConnect-api'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.API_PUBLISHPROFILE }},
+          app-name: ${{ env.APP_NAME }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.API_PUBLISHPROFILE}}
           package: .
