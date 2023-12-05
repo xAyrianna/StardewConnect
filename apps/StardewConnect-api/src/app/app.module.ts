@@ -37,7 +37,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   providers: [
     AppService,
-    TownService,
     UserService,
     VillagerService,
     AuthService,
