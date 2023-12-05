@@ -47,11 +47,7 @@ export class EventService {
   constructor(
     @InjectModel(EventModel.name) private eventModel: Model<EventDocument>
   ) {}
-
-  private getIndexById(event: Event): number {
-    return this.events.findIndex((e) => e.id === event.id);
-  }
-
+  
   async getAll(): Promise<{ results: Event[]}> {
     const events = await this.eventModel.find().exec();
     console.log("Database returns: ", events);
@@ -64,7 +60,7 @@ export class EventService {
   }
 
   async addEvent(createdEventDto: Event): Promise<EventModel> {
-    const createdEvent = new this.eventModel(createdEventDto);
+    const createdEvent = await new this.eventModel(createdEventDto);
     return createdEvent.save();
     // newEvent.id = this.events.at(this.events.length - 1)!.id + 1;
     // console.log(newEvent.id);
