@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { IsMongoId } from "class-validator";
-import { HydratedDocument } from "mongoose";
+import { Document } from "mongoose";
 
-export type TownDocument = HydratedDocument<Town>;
+export type TownDocument = Town & Document
 
 @Schema()
 export class Town {

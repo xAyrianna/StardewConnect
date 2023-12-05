@@ -1,5 +1,8 @@
 import { Town } from '@StardewConnect/libs/data';
 import { Injectable } from '@nestjs/common';
+import {Town as TownModel, TownDocument} from './schemas/town.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class TownService {
@@ -51,36 +54,33 @@ export class TownService {
         creationDate: new Date('August 30, 2009'),
       },
     ];
-  
-    private getIndexById(town: Town): number {
-      return this.towns.findIndex((t) => t.id === town.id);
+    constructor(
+      @InjectModel(TownModel.name) private townModel: Model<TownDocument>
+    ) {}
+      
+    async getAll(): Promise<{ results: Town[]}> {
+      const towns = await this.townModel.find().exec();
+      console.log("Database returns: ", towns);
+      return { results: towns};
     }
   
-    getAll() {
-      return { results: this.towns };
+    async getTownByName(name: string): Promise<{ results: Town}> {
+      const town = await this.townModel.findOne({ name }).exec();
+      return { results: town };
     }
   
-    getTownByName(name: string) {
-      return {
-        results: this.towns.filter((town) => town.name === name)[0],
-      };
+    async addTown(newTown: Town): Promise<TownModel> {
+      const createdTown = await new this.townModel(newTown);
+      return createdTown.save();
     }
   
-    addTown(newTown: Town) {
-      newTown.id = this.towns.at(this.towns.length - 1)!.id + 1;
-      console.log(newTown.id);
-      this.towns.push(newTown);
+    async updateTown(updatedTown: Town): Promise<Town> {
+      const town = await this.townModel.findOneAndUpdate({id: updatedTown.id}, updatedTown, {new: true}).exec();
+      return town;
     }
   
-    updateTown(updatedTown: Town) {
-      const index = this.getIndexById(updatedTown);
-      this.towns[index] = updatedTown;
-    }
-  
-    deleteTown(deletedTown: Town) {
-      const index = this.getIndexById(deletedTown);
-      this.towns.splice(index, 1);
-      console.log(this.towns);
+    async deleteTown(deletedTown: Town) {
+      return await this.townModel.deleteOne({ id: deletedTown.id }).exec();
     }
   }
   
