@@ -44,28 +44,28 @@ export class EventService {
   //     hasHappened: false,
   //   },
   // ];
-  // constructor(
-  //   @InjectModel(EventModel.name) private eventModel: Model<EventDocument>
-  // ) {}
+  constructor(
+    @InjectModel(EventModel.name) private eventModel: Model<EventDocument>
+  ) {}
 
   private getIndexById(event: Event): number {
     return this.events.findIndex((e) => e.id === event.id);
   }
 
-  getAll() {
-    return { results: this.events };
+  getAll() :Promise<Event[]> {
+    return this.eventModel.find().exec();
   }
 
   getEventByName(name: string) {
     return { results: this.events.filter((event) => event.name === name)[0] };
   }
 
-  async addEvent(newEvent: Event) {
-    // const createdEvent = new this.eventModel(createdEventDto);
-    // return createdEvent.save();
-    newEvent.id = this.events.at(this.events.length - 1)!.id + 1;
-    console.log(newEvent.id);
-    this.events.push(newEvent);
+  async addEvent(createdEventDto: Event) {
+    const createdEvent = new this.eventModel(createdEventDto);
+    return createdEvent.save();
+    // newEvent.id = this.events.at(this.events.length - 1)!.id + 1;
+    // console.log(newEvent.id);
+    // this.events.push(newEvent);
   }
 
   updateEvent(updatedEvent: Event) {
