@@ -1,7 +1,7 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export const swaggerOptions = new DocumentBuilder()
-  .setTitle('StardewConnect API Is it deployed?')
+  .setTitle('StardewConnect API')
   .setDescription('API for a school project build around Stardew Valley.')
   .setVersion('1.0')
   .addTag('Auth')
