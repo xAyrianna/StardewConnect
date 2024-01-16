@@ -31,6 +31,7 @@ export class UserController {
   @Post()
   @ApiResponse({ status: 201, description: 'User created successfully' })
   addUser(@Body() user: User) {
+    console.log("Create method called")
     this.userService.addUser(user);
   }
 

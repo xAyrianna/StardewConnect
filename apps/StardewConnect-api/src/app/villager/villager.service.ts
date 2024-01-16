@@ -1,6 +1,8 @@
-import { Gender, LifeStage, Villager } from '@StardewConnect/libs/data';
 import { Injectable } from '@nestjs/common';
-
+import { Gender, LifeStage, Villager } from '@StardewConnect/libs/data';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Villager as VillagerModel, VillagerDocument } from './schemas/villager.schema';
 @Injectable()
 export class VillagerService {
     villagers: Villager[] = [
@@ -59,36 +61,34 @@ export class VillagerService {
         ],
       },
     ];
+    constructor(
+      @InjectModel(VillagerModel.name) private villagerModel: Model<VillagerDocument>
+    ) {}
   
-    private getIndexById(villager: Villager): number {
-      return this.villagers.findIndex((v) => v.id === villager.id);
+    async getAll(): Promise <{ results: Villager[]}> {
+      const villagers = await this.villagerModel.find().exec();
+      console.log("Database returns: ", villagers);
+      return { results: villagers};
     }
   
-    getAll() {
-      return { results: this.villagers };
+    async getVillagerByName(name: string): Promise<{ results: Villager}> {
+    const villager = await this.villagerModel.findOne({ name }).exec();
+    return { results: villager }; 
     }
   
-    getVillagerByName(name: string) {
-      return {
-        results: this.villagers.filter((villager) => villager.name === name)[0],
-      };
+    async addVillager(createdVillagerDto: Villager): Promise<VillagerModel> {
+      const createdVillager = await new this.villagerModel(createdVillagerDto);
+      return createdVillager.save();
     }
   
-    addVillager(newVillager: Villager) {
-      newVillager.id = this.villagers.at(this.villagers.length - 1)!.id + 1;
-      console.log(newVillager.id);
-      this.villagers.push(newVillager);
+    async updateVillager(updatedVillager: Villager): Promise<VillagerModel> {
+      const villager = await this.villagerModel.findOne({ id: updatedVillager.id }).exec();
+      console.log("Updating " + villager);
+      return villager;
     }
   
-    updateVillager(updatedVillager: Villager) {
-      const index = this.getIndexById(updatedVillager);
-      this.villagers[index] = updatedVillager;
-    }
-  
-    deleteVillager(deletedVillager: Villager) {
+    async deleteVillager(deletedVillager: Villager) {
       // delete villager
-      const index = this.getIndexById(deletedVillager);
-      this.villagers.splice(index, 1);
-      console.log(this.villagers);
+      return await this.villagerModel.deleteOne({ id: deletedVillager.id }).exec();
     }
   }

@@ -1,22 +1,24 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { IsMongoId } from "class-validator";
-import { HydratedDocument } from "mongoose";
+import { Document } from "mongoose";
 
-export type TownDocument = HydratedDocument<Villager>;
+export type VillagerDocument = Villager & Document;
 
 @Schema()
 export class Villager {
+
     @IsMongoId()
     id: string;
 
     @Prop()
     name: string;
 
-    @Prop()
-    gender: {type: string, enum:["Female","Male","Other","Unknown"], default: "Unknown"};
 
-    @Prop()
-    lifeStage: {type: string, enum:["Child","Adult","Elder","Unknown"], default: "Unknown"};
+    @Prop({type: String, enum: ["Male", "Female", "Other", "Unknown"], default: "Unknown"})
+    gender;
+
+    @Prop({type: String, enum:["Child","Adult","Elder","Unknown"], default: "Unknown"})
+    lifeStage;
 
     @Prop()
     marriageable: boolean;

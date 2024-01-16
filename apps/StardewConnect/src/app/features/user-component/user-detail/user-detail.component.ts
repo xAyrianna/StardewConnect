@@ -25,13 +25,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((params) => {
       this.componentId = params.get('id');
       if (this.componentId) {
-        // this.subscription = this.userService
-        //   .getUserByUsername(this.componentId)
-        //   .subscribe((response) => {
-        //     this.user = response;
-        //     console.log(this.user);
-        //   });
-        this.user = this.userService.getUserByUsername(this.componentId);
+        this.subscription = this.userService
+          .getUserByUsername(this.componentId)
+          .subscribe((response) => {
+            this.user = response;
+            console.log(this.user);
+          });
         this.memberSince = this.user?.memberSince.toLocaleDateString();
       } else {
         console.log('Nieuwe component');

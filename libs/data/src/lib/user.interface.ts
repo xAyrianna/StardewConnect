@@ -4,6 +4,7 @@ export interface User{
     name: string
     emailAddress: string
     password: string
+    birthday: Date
     favoriteThing: string 
     memberSince: Date
 }
