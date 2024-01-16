@@ -62,17 +62,17 @@ export class UserEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log('Submitting the form');
     // User toevoegen aan UserArray
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting user');
-      this.userService.updateUser(this.user!).subscribe();
+      (await this.userService.updateUser(this.user!)).subscribe();
     } else {
       // nieuwe user toevoegen aan array
       console.log('adding user');
-      this.userService.addUser(this.user!).subscribe();
+      (await this.userService.addUser(this.user!)).subscribe();
     }
     this.router.navigate(['user']);
   }

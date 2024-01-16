@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable, map, tap } from 'rxjs';
 import { ApiResponse, User } from '@StardewConnect/libs/data';
+// import * as bcrypt from 'bcrypt'; 
 
 @Injectable({
   providedIn: 'root'
@@ -32,14 +33,16 @@ export class UserService {
       .pipe(map((response: ApiResponse<User>) => response.results));
   }
 
-  addUser(newUser: User) {
+  async addUser(newUser: User) {
     console.log("Adding new user")
     const userUrl = this.BASE_URL + '/user';
     console.log('post ' + userUrl);
+    // newUser.password = await bcrypt.hash(newUser.password, 10);
     return this.http.post<User>(userUrl, newUser);
   }
-  updateUser(updatedUser: User){
+  async updateUser(updatedUser: User){
     const userUrl = this.BASE_URL + '/user';
+    // updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     return this.http.put<User>(userUrl, updatedUser);
   }
 
