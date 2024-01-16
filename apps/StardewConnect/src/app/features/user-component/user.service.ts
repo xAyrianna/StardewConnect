@@ -9,6 +9,7 @@ import { ApiResponse, User } from '@StardewConnect/libs/data';
 })
 export class UserService {
   BASE_URL = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   getAllUsers(): Observable<User[]> {
@@ -31,18 +32,18 @@ export class UserService {
       .pipe(map((response: ApiResponse<User>) => response.results));
   }
 
-  addUser(newUser: User): Observable<User> {
-    // newUser.id = this.users.length + 1;
-    // newUser.id = this.users.at(this.users.length - 1)?.id + 1;
+  addUser(newUser: User) {
+    console.log("Adding new user")
     const userUrl = this.BASE_URL + '/user';
+    console.log('post ' + userUrl);
     return this.http.post<User>(userUrl, newUser);
   }
-  updateUser(updatedUser: User): Observable<User> {
+  updateUser(updatedUser: User){
     const userUrl = this.BASE_URL + '/user';
     return this.http.put<User>(userUrl, updatedUser);
   }
 
-  deleteUser(deletedUser: User): Observable<User> {
+  deleteUser(deletedUser: User){
     // delete user
     const userUrl = this.BASE_URL + '/user';
     const options = {

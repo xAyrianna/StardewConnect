@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TownController } from './town/town.controller';
@@ -12,9 +12,21 @@ import { VillagerService } from './villager/villager.service';
 import { VillagerController } from './villager/villager.controller';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
+import { EventModule } from './event/event.module';
+import { TownModule } from './town/town.module';
+import { UserModule } from './user/user.module';
+import { VillagerModule } from './villager/villager.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [],
+  imports: [
+    MongooseModule.forRoot(process.env.MONGO_CONN),
+    EventModule,
+    TownModule,
+    UserModule,
+    VillagerModule,
+    AuthModule,
+  ],
   controllers: [
     AppController,
     TownController,
@@ -25,10 +37,6 @@ import { AuthService } from './auth/auth.service';
   ],
   providers: [
     AppService,
-    TownService,
-    UserService,
-    EventService,
-    VillagerService,
     AuthService,
   ],
 })

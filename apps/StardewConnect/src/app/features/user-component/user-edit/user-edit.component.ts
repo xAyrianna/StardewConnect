@@ -37,7 +37,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
             this.userName = response.name;
             console.log(this.user);
           });
-
       } else {
         console.log('Nieuwe component');
         this.componentExists = false;
@@ -48,6 +47,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
           name: '',
           emailAddress: '',
           memberSince: new Date(),
+          birthday: new Date(),
           password: '',
           favoriteThing: '',
         };
@@ -68,13 +68,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting user');
-      this.userService.updateUser(this.user!)
-      .subscribe();
+      this.userService.updateUser(this.user!).subscribe();
     } else {
       // nieuwe user toevoegen aan array
       console.log('adding user');
-      this.userService.addUser(this.user!)
-      .subscribe();
+      this.userService.addUser(this.user!).subscribe();
     }
     this.router.navigate(['user']);
   }
