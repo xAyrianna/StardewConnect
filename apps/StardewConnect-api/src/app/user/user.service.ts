@@ -3,6 +3,7 @@ import { User } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User as UserModel, UserDocument } from './schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
     users: User[] = [
@@ -64,6 +65,7 @@ export class UserService {
   
     async addUser(createdUserDto: User): Promise<UserModel> {
       console.log("Creating "+  createdUserDto +" in the database");
+      createdUserDto.password = await bcrypt.hash(createdUserDto.password, 10)
       const createdUser = await new this.userModel(createdUserDto);
       return createdUser.save();
       // newUser.id = this.users.at(this.users.length - 1)!.id + 1;
@@ -72,6 +74,7 @@ export class UserService {
     }
   
     async updateUser(updatedUser: User): Promise<User> {
+      updatedUser.password = await bcrypt.hash(updatedUser.password, 10)
       const user = await this.userModel.findOneAndUpdate({ id: updatedUser.id }, updatedUser, { new: true }).exec();
       console.log("Updating " + user);
       return user;        
