@@ -5,5 +5,5 @@ export interface Town {
   capacity: number;
   facilities: string[];
   creationDate: Date;
-  events: Event[];
+  // events: Event[];
 }

@@ -55,7 +55,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
           date: '',
           location: '',
           hasHappened: false,
-          inTownId: -1,
+          // inTownId: -1,
         };
       }
     });
@@ -73,26 +73,26 @@ export class EventEditComponent implements OnInit, OnDestroy {
     // User toevoegen aan UserArray
 
     // trying to update the event list for chosen town
-    if (this.event && this.event.inTownId !== undefined) {
-      console.log("hi")
-      this.townService.getTownById(this.event.inTownId).subscribe( async (response) => {
-          console.log('Trying to update town');
-          if (response) {
-            console.log('Response:', response);
-            const town = response;
-            console.log('Town before update:', town);
-            town.events = town.events || [];  
-            town.events.push(this.event!);
-            console.log('Town after update:', town);
-            console.log('Updating now');
-            await this.townService.updateTown(town).subscribe();
-          } else {
-            console.error('Invalid town response:', response);
-          }
-      });
-  } else {
-      console.error('Invalid event or inTownId is undefined.');
-  }
+  //   if (this.event && this.event.inTownId !== undefined) {
+  //     console.log("hi")
+  //     // this.townService.getTownById(this.event.inTownId).subscribe( async (response) => {
+  //     //     console.log('Trying to update town');
+  //     //     if (response) {
+  //     //       console.log('Response:', response);
+  //     //       const town = response;
+  //     //       console.log('Town before update:', town);
+  //     //       town.events = town.events || [];  
+  //     //       town.events.push(this.event!);
+  //     //       console.log('Town after update:', town);
+  //     //       console.log('Updating now');
+  //     //       await this.townService.updateTown(town).subscribe();
+  //     //     } else {
+  //     //       console.error('Invalid town response:', response);
+  //     //     }
+  //     // });
+  // } else {
+  //     console.error('Invalid event or inTownId is undefined.');
+  // }
 
     if (this.componentExists) {
       // update bestaande entry

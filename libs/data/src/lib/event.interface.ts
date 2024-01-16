@@ -7,5 +7,5 @@ export interface Event {
   date: string;
   location: string;
   hasHappened: boolean;
-  inTownId: number; 
+  // inTownId: number; 
 }

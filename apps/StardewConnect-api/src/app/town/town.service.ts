@@ -68,6 +68,11 @@ export class TownService {
       const town = await this.townModel.findOne({ name }).exec();
       return { results: town };
     }
+
+    async getTownById(id: number): Promise<{ results: Town}> {
+      const town = await this.townModel.findById(id).exec();
+      return { results: town };
+    }
   
     async addTown(newTown: Town): Promise<TownModel> {
       const createdTown = await new this.townModel(newTown);

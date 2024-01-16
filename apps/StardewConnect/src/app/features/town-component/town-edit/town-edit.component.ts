@@ -47,7 +47,7 @@ export class TownEditComponent implements OnInit, OnDestroy {
           capacity: 0,
           facilities: [''],
           creationDate: new Date(),
-          events: [],
+          // events: [],
         };
       }
     });
