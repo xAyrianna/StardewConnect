@@ -50,6 +50,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
           birthday: new Date(),
           password: '',
           favoriteThing: '',
+          towns: [],
         };
       }
     });

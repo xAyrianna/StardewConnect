@@ -1,3 +1,5 @@
+import { Town } from "./town.interface"
+
 export interface User{
     id: number
     username: string
@@ -7,4 +9,5 @@ export interface User{
     birthday: Date
     favoriteThing: string 
     memberSince: Date
+    towns: Town[]
 }
