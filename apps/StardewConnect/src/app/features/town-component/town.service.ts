@@ -33,7 +33,7 @@ export class TownService {
       .pipe(map((response: ApiResponse<Town>) => response.results));
   }
 
-  getTownById(id: number): Observable<Town> {
+  getTownById(id: string): Observable<Town> {
     const townUrl = this.BASE_URL + '/town/id/' + id;
     return this.http
       .get<ApiResponse<Town>>(townUrl)
