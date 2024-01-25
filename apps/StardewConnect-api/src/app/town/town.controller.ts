@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { TownService } from './town.service';
 import { Town } from '@StardewConnect/libs/data';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('town')
 @ApiTags('Town')
@@ -30,7 +30,7 @@ export class TownController {
 
   @Get('id/:id')
   @ApiResponse({ status: 200, description: 'Town by id' })
-  getTownById(@Param('id') id: number) {
+  getTownById(@Param('id') id: string) {
     return this.townService.getTownById(id);
   }
 
