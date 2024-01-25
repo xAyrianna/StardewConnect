@@ -1,5 +1,3 @@
-import { Town } from "./town.interface";
-
 export interface Event {
   id: number;
   name: string;
@@ -7,5 +5,5 @@ export interface Event {
   date: string;
   location: string;
   hasHappened: boolean;
-  // inTownId: number; 
+  inTownId: string;
 }
