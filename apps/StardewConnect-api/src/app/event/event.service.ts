@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Event } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import { Event as EventModel, EventDocument } from './schemas/event.schema';
+import { Town as TownModel, TownDocument } from '../town/schemas/town.schema';
 
 @Injectable()
 export class EventService {
@@ -45,34 +46,43 @@ export class EventService {
   //   },
   // ];
   constructor(
-    @InjectModel(EventModel.name) private eventModel: Model<EventDocument>
+    @InjectModel(EventModel.name) private eventModel: Model<EventDocument>,
+    @InjectModel(TownModel.name) private townModel: Model<TownDocument>
   ) {}
-  
-  async getAll(): Promise<{ results: Event[]}> {
-    const events = await this.eventModel.find().exec();
-    console.log("Database returns: ", events);
-    return { results: events};
+
+  async getAll(): Promise<{ results: Event[] }> {
+    const events = await this.eventModel.find().populate('inTownId').exec();
+    console.log('Database returns: ', events);
+    return { results: events };
   }
 
-  async getEventByName(name: string): Promise<{ results: Event}> {
+  async getEventByName(name: string): Promise<{ results: Event }> {
     const event = await this.eventModel.findOne({ name }).exec();
     return { results: event };
   }
 
   async addEvent(createdEventDto: Event): Promise<EventModel> {
+    console.log('Creating ' + createdEventDto);
     const createdEvent = await new this.eventModel(createdEventDto);
     return createdEvent.save();
-    // newEvent.id = this.events.at(this.events.length - 1)!.id + 1;
-    // console.log(newEvent.id);
-    // this.events.push(newEvent);
   }
 
   async updateEvent(updatedEvent: Event): Promise<Event> {
-    const event = await this.eventModel.findOneAndUpdate({ id: updatedEvent.id }, updatedEvent, { new: true }).exec();
-    console.log("Updating " + event);
+    const event = await this.eventModel
+      .findOneAndUpdate({ _id: updatedEvent._id }, updatedEvent, { new: true })
+      .exec();
+    console.log('Updating ' + event);
     return event;
   }
   async deleteEvent(deletedEvent: Event) {
-    return await this.eventModel.deleteOne({ id: deletedEvent.id }).exec();
+    console.log('Deleting ' + deletedEvent._id);
+    const town = await this.townModel.findById(deletedEvent.inTownId).exec();
+    console.log('Town: ', town);
+    town.events = town.events.filter(
+      (event) => (event._id! = deletedEvent._id)
+    );
+    console.log('Events: ', town.events);
+    await town.save();
+    return await this.eventModel.deleteOne({ _id: deletedEvent._id }).exec();
   }
 }

@@ -26,7 +26,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
     private townService: TownService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.route.paramMap.subscribe(async (params) => {
       this.componentId = params.get('id');
       await this.townService.getAllTowns().subscribe((response) => {
@@ -51,7 +51,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         console.log(`${this.availableTowns}`);
         // geen bestaande object, dus nieuw object maken
         this.event = {
-          id: -1,
+          _id: undefined,
           name: '',
           description: '',
           date: '',
@@ -72,30 +72,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('Submitting the form');
-    console.log('town id' + this.event?.inTownId);
     // User toevoegen aan UserArray
 
     // trying to update the event list for chosen town
-    if (this.event && this.event.inTownId !== undefined) {
-      console.log("hi")
-      this.townService.getTownById(this.event.inTownId).subscribe( async (response) => {
-          console.log('Trying to update town');
-          if (response) {
-            console.log('Response:', response);
-            const town = response;
-            console.log('Town before update:', town);
-            town.events = town.events || [];  
-            town.events.push(this.event!);
-            console.log('Town after update:', town);
-            console.log('Updating now');
-            await this.townService.updateTown(town).subscribe();
-          } else {
-            console.error('Invalid town response:', response);
-          }
-      });
-  } else {
-      console.error('Invalid event or inTownId is undefined.');
-  }
+
 
     if (this.componentExists) {
       // update bestaande entry
@@ -107,6 +87,4 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['event']);
   }
-
 }
-
