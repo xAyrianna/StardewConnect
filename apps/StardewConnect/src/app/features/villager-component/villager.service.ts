@@ -38,6 +38,7 @@ export class VillagerService {
   }
 
   updateVillager(updatedvillager: Villager): Observable<Villager> {
+    console.log('Updating ' + updatedvillager);
     const villagerUrl = this.BASE_URL + '/villager';
     return this.http.put<Villager>(villagerUrl, updatedvillager);
   }
