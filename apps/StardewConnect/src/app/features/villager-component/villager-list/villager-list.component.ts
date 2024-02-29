@@ -33,7 +33,7 @@ export class VillagerListComponent implements OnInit, OnDestroy {
     this.villagerService
       .deleteVillager(villager)
       .subscribe(
-        () => (this.villagers = this.villagers?.filter((v) => v.id !== villager.id))
+        () => (this.villagers = this.villagers?.filter((v) => v._id !== villager._id))
       );
   }
 }

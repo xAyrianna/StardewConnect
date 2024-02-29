@@ -13,7 +13,7 @@ export enum LifeStage {
 }
 
 export interface Villager {
-  id: number;
+  _id?: string;
   name: string;
   gender: Gender;
   lifeStage: LifeStage;

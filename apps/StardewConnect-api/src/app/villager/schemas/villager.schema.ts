@@ -8,7 +8,7 @@ export type VillagerDocument = Villager & Document;
 export class Villager {
 
     @IsMongoId()
-    id: string;
+    _id: string;
 
     @Prop()
     name: string;

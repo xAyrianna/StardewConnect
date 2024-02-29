@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
-import { User } from '@StardewConnect/libs/data';
+import { Town, User } from '@StardewConnect/libs/data';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,6 +15,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
   user: User | undefined;
   subscription: Subscription | undefined;
   userName: string | undefined;
+  
+
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +44,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.componentExists = false;
         // geen bestaande user, dus nieuw object maken
         this.user = {
-          id: -1,
+          _id: undefined,
           username: '',
           name: '',
           emailAddress: '',
@@ -78,4 +80,3 @@ export class UserEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['user']);
   }
 }
-

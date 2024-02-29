@@ -58,9 +58,9 @@
                 <div class="form-group">
                     <label for="inTownId">Town:</label>
                     <select id="inTownId" class="form-control" name="inTownId" [(ngModel)]="event!.inTownId"
-                        #inTownId="ngModel"  [ngClass]="{ 'is-invalid' : inTownId.invalid}">
+                        #inTownId="ngModel" [ngClass]="{ 'is-invalid' : inTownId.invalid}">
                         <option value="" disabled>Select a town</option>
-                        <option *ngFor="let town of availableTowns" [ngValue]="town.id">{{ town.name }}</option>
+                        <option *ngFor="let town of availableTowns" [ngValue]="town._id">{{ town.name }}</option>
                     </select>
                     <div *ngIf="inTownId.invalid && inTownId.touched" class="invalid-feedback">
                         <div *ngIf="inTownId.errors!['required']">Town is required</div>

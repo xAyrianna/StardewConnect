@@ -5,62 +5,62 @@ import { Model } from 'mongoose';
 import { Villager as VillagerModel, VillagerDocument } from './schemas/villager.schema';
 @Injectable()
 export class VillagerService {
-    villagers: Villager[] = [
-      {
-        id: 1,
-        name: 'Evelyn',
-        gender: Gender.Female,
-        lifeStage: LifeStage.Elder,
-        marriageable: false,
-        birthday: 'Winter 20',
-        favoriteGifts: [
-          'Beet',
-          'Chocolate Cake',
-          'Diamond',
-          'Fairy Rose',
-          'Stuffing',
-          'Tulip',
-        ],
-      },
-      {
-        id: 2,
-        name: 'Sophia',
-        gender: Gender.Female,
-        lifeStage: LifeStage.Adult,
-        marriageable: true,
-        birthday: 'Winter 27',
-        favoriteGifts: [
-          'Fairy Stone',
-          'Grampleton Orange Chicken',
-          'Fairy Rose',
-          'Puppyfish',
-        ],
-      },
-      {
-        id: 3,
-        name: 'Morgan',
-        gender: Gender.Other,
-        lifeStage: LifeStage.Child,
-        marriageable: false,
-        birthday: 'Fall 7',
-        favoriteGifts: ['Iridium Bar', 'Void Egg', 'Void Mayonnaise'],
-      },
-      {
-        id: 4,
-        name: 'Victor',
-        gender: Gender.Male,
-        lifeStage: LifeStage.Adult,
-        marriageable: true,
-        birthday: 'Summer 23',
-        favoriteGifts: [
-          'Aged Blue Moon Wine',
-          'Spaghetti',
-          'Battery Pack',
-          'Duck Feather',
-          'Lunarite',
-        ],
-      },
-    ];
+    // villagers: Villager[] = [
+    //   {
+    //     id: 1,
+    //     name: 'Evelyn',
+    //     gender: Gender.Female,
+    //     lifeStage: LifeStage.Elder,
+    //     marriageable: false,
+    //     birthday: 'Winter 20',
+    //     favoriteGifts: [
+    //       'Beet',
+    //       'Chocolate Cake',
+    //       'Diamond',
+    //       'Fairy Rose',
+    //       'Stuffing',
+    //       'Tulip',
+    //     ],
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Sophia',
+    //     gender: Gender.Female,
+    //     lifeStage: LifeStage.Adult,
+    //     marriageable: true,
+    //     birthday: 'Winter 27',
+    //     favoriteGifts: [
+    //       'Fairy Stone',
+    //       'Grampleton Orange Chicken',
+    //       'Fairy Rose',
+    //       'Puppyfish',
+    //     ],
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'Morgan',
+    //     gender: Gender.Other,
+    //     lifeStage: LifeStage.Child,
+    //     marriageable: false,
+    //     birthday: 'Fall 7',
+    //     favoriteGifts: ['Iridium Bar', 'Void Egg', 'Void Mayonnaise'],
+    //   },
+    //   {
+    //     id: 4,
+    //     name: 'Victor',
+    //     gender: Gender.Male,
+    //     lifeStage: LifeStage.Adult,
+    //     marriageable: true,
+    //     birthday: 'Summer 23',
+    //     favoriteGifts: [
+    //       'Aged Blue Moon Wine',
+    //       'Spaghetti',
+    //       'Battery Pack',
+    //       'Duck Feather',
+    //       'Lunarite',
+    //     ],
+    //   },
+    // ];
     constructor(
       @InjectModel(VillagerModel.name) private villagerModel: Model<VillagerDocument>
     ) {}
@@ -82,13 +82,14 @@ export class VillagerService {
     }
   
     async updateVillager(updatedVillager: Villager): Promise<VillagerModel> {
-      const villager = await this.villagerModel.findOne({ id: updatedVillager.id }).exec();
-      console.log("Updating " + villager);
-      return villager;
+      const town = await this.villagerModel
+      .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, { new: true })
+      .exec();
+    return town;
     }
   
     async deleteVillager(deletedVillager: Villager) {
       // delete villager
-      return await this.villagerModel.deleteOne({ id: deletedVillager.id }).exec();
+      return await this.villagerModel.deleteOne({ _id: deletedVillager._id }).exec();
     }
   }

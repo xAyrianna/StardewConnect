@@ -6,10 +6,10 @@ import { Event } from '@StardewConnect/libs/data';
 
 export type TownDocument = Town & Document;
 
-@Schema({validateBeforeSave: false}) //TODO: validateBeforeSave: true
+@Schema()
 export class Town {
   @IsMongoId()
-  id: string;
+  _id: string;
 
   @Prop()
   name: string;
@@ -23,7 +23,11 @@ export class Town {
   @Prop()
   creationDate: Date;
 
-  @Prop({ required: false, type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  @Prop({
+    required: false,
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'User',
+  })
   createdBy: string;
 
   @Prop({
@@ -32,7 +36,10 @@ export class Town {
   })
   villagersInTown: string[];
 
-  @Prop({required: false, default: [], type: EventSchema })
+  @Prop({
+    default: [],
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Event' }],
+  })
   events: Event[];
 }
 

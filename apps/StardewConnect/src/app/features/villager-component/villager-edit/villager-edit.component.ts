@@ -44,7 +44,7 @@ export class VillagerEditComponent implements OnInit, OnDestroy {
         this.componentExists = false;
         // geen bestaande object, dus nieuw object maken
         this.villager = {
-          id: -1,
+          _id: undefined,
           name: '',
           gender: Gender.Unknown,
           lifeStage: LifeStage.Unknown,

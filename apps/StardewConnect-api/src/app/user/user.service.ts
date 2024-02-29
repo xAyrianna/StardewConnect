@@ -76,13 +76,16 @@ export class UserService {
   async updateUser(updatedUser: User): Promise<User> {
     updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     const user = await this.userModel
-      .findOneAndUpdate({ id: updatedUser.id }, updatedUser, { new: true })
+      .findOneAndUpdate({ _id: updatedUser._id }, updatedUser, { new: true })
       .exec();
     console.log('Updating ' + user);
     return user;
   }
 
   async deleteUser(deletedUser: User) {
-    return await this.userModel.findOneAndDelete({ id: deletedUser.id }).exec();
+    console.log('Deleting ' + deletedUser);
+    return await this.userModel
+      .findOneAndDelete({ _id: deletedUser._id })
+      .exec();
   }
 }

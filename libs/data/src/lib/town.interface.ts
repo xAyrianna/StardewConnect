@@ -1,6 +1,6 @@
 import { Event } from './event.interface';
 export interface Town {
-  id: number;
+  _id?: string;
   name: string;
   capacity: number;
   facilities: string[];

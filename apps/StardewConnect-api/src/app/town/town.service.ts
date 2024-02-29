@@ -59,7 +59,7 @@ export class TownService {
   ) {}
 
   async getAll(): Promise<{ results: Town[] }> {
-    const towns = await this.townModel.find().exec();
+    const towns = await this.townModel.find().populate('events').exec();
     console.log('Database returns: ', towns);
     return { results: towns };
   }
@@ -75,18 +75,19 @@ export class TownService {
   }
 
   async addTown(newTown: Town): Promise<TownModel> {
+    newTown.createdBy = null;
     const createdTown = await new this.townModel(newTown);
     return createdTown.save();
   }
 
   async updateTown(updatedTown: Town): Promise<Town> {
     const town = await this.townModel
-      .findOneAndUpdate({ id: updatedTown.id }, updatedTown, { new: true })
+      .findOneAndUpdate({ _id: updatedTown._id }, updatedTown, { new: true })
       .exec();
     return town;
   }
 
   async deleteTown(deletedTown: Town) {
-    return await this.townModel.deleteOne({ id: deletedTown.id }).exec();
+    return await this.townModel.deleteOne({ _id: deletedTown._id }).exec();
   }
 }

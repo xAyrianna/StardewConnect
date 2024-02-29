@@ -33,7 +33,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.eventService
       .deleteEvent(event)
       .subscribe(
-        () => (this.events = this.events?.filter((e) => e.id !== event.id))
+        () => (this.events = this.events?.filter((e) => e._id !== event._id))
       );
   }
 }

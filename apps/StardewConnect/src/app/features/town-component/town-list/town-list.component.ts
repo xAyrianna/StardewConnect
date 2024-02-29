@@ -33,7 +33,7 @@ export class TownListComponent implements OnInit, OnDestroy {
     this.townService
       .deleteTown(town)
       .subscribe(
-        () => (this.towns = this.towns?.filter((t) => t.id !== town.id))
+        () => (this.towns = this.towns?.filter((t) => t._id !== town._id))
       );
   }
 }

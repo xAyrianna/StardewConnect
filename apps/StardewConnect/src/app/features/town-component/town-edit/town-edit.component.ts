@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TownService } from '../town.service';
+import { User } from '@StardewConnect/libs/data';
 
 @Component({
   selector: 'stardew-connect-town-edit',
@@ -42,14 +43,14 @@ export class TownEditComponent implements OnInit, OnDestroy {
         this.componentExists = false;
         // geen bestaande object, dus nieuw object maken
         this.town = {
-          id: -1,
+          _id: undefined,
           name: '',
           capacity: 0,
           facilities: [''],
           creationDate: new Date(),
           events: [],
           villagersInTown: [],
-          createdBy: '', //Add user id
+          createdBy:  '', //Add user id
         };
       }
     });

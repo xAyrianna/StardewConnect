@@ -8,7 +8,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
     @IsMongoId()
-    id: string;
+    _id: string;
 
     @Prop()
     username: string;
@@ -31,8 +31,12 @@ export class User {
     @Prop()
     memberSince: Date;
 
-    @Prop({ default: [], type: MongooseSchema.Types.ObjectId, ref: 'Town' })
-    towns: Town[];
+    @Prop({
+        default: [],
+        type: [MongooseSchema.Types.ObjectId],
+        ref: 'Town',
+    })
+    towns?: Town[];
 
 }
 
