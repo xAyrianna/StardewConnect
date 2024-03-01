@@ -1,6 +1,7 @@
 import { Town } from '@StardewConnect/libs/data';
 import { Injectable } from '@nestjs/common';
 import { Town as TownModel, TownDocument } from './schemas/town.schema';
+import { Event as EventModel, EventDocument } from '../event/schemas/event.schema'
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -55,7 +56,7 @@ export class TownService {
   //   },
   // ];
   constructor(
-    @InjectModel(TownModel.name) private townModel: Model<TownDocument>
+    @InjectModel(TownModel.name) private townModel: Model<TownDocument>, @InjectModel(EventModel.name) private eventModel: Model<EventDocument>
   ) {}
 
   async getAll(): Promise<{ results: Town[] }> {
@@ -88,6 +89,9 @@ export class TownService {
   }
 
   async deleteTown(deletedTown: Town) {
+    for (const event of deletedTown.events) {
+      await this.eventModel.deleteOne({ _id: event._id }).exec();
+    }
     return await this.townModel.deleteOne({ _id: deletedTown._id }).exec();
   }
 }
