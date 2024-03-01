@@ -79,7 +79,7 @@ export class EventService {
     const town = await this.townModel.findById(deletedEvent.inTownId).exec();
     console.log('Town: ', town);
     town.events = town.events.filter(
-      (event) => (event._id! = deletedEvent._id)
+      (event) => (event._id != deletedEvent._id)
     );
     console.log('Events: ', town.events);
     await town.save();
