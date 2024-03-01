@@ -21,8 +21,6 @@ import { UserEditComponent } from './features/user-component/user-edit/user-edit
 import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponentComponent } from './features/login-component.component';
-import { LoginComponentComponent } from './features/login-component/login-component.component';
 import { LoginComponent } from './features/login-component/login.component';
 import { RegisterComponent } from './features/register-component/register.component';
 
@@ -47,8 +45,6 @@ import { RegisterComponent } from './features/register-component/register.compon
     UserListComponent,
     UserEditComponent,
     UserDetailComponent,
-    LoginComponentComponent,
-    LoginComponentComponent,
     LoginComponent,
     RegisterComponent,
   ],
