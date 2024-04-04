@@ -1,9 +1,17 @@
 <div class="navbar">
-    <div class="home-img-bg"><a routerLink="home"><img src="../../../assets/Images/StoneCabin.png" alt=""
-                class="home-img"></a></div>
-    <a routerLink="/user">Users </a> | 
-    <a routerLink="/town">Towns </a> | 
-    <a routerLink="/villager">Villagers </a> | 
-    <a routerLink="/event">Events</a> |
-    <a routerLink="/about">About </a>
+  <div class="home-img-bg">
+    <a routerLink="home"
+      ><img src="../../../assets/Images/StoneCabin.png" alt="" class="home-img"
+    /></a>
+  </div>
+  <div class="navigation-tabs">
+    <a routerLink="/user" routerLinkActive="active-link">Users</a>
+    <a routerLink="/town" routerLinkActive="active-link">Towns</a>
+    <a routerLink="/villager" routerLinkActive="active-link">Villagers</a>
+    <a routerLink="/event" routerLinkActive="active-link">Events</a>
+    <a routerLink="/about" routerLinkActive="active-link">About</a>
+  </div>
+  <div class="user-info">
+    <a routerLink="/login">Login</a>
+  </div>
 </div>

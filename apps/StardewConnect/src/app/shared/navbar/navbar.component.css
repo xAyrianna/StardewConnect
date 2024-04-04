@@ -1,0 +1,76 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 85px;
+  background-image: url('../../../assets/Images/hout.png');
+  background-repeat: repeat-x;
+  padding-inline: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* image stuff */
+.home-img {
+  width: 44px;
+  position: absolute;
+  top: 0;
+  left: 11px;
+}
+
+.home-img-bg {
+  position: relative;
+  width: 65px;
+  height: 65px;
+  background-color: antiquewhite;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.navigation-tabs {
+  a {
+    margin: 4px;
+    padding: 4px 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: 0.1s ease-in-out;
+    &:hover {
+      color: #3b3b3b;
+      background-color: #fabc72;
+    }
+    &:active {
+      color: #f0f0f0;
+      background-color: #a37741;
+    }
+    &.active-link {
+      color: #fabc72;
+      background-color: #3b3b3b;
+    }
+  }
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+
+  a {
+    background-color: #fabc72;
+    border: 1px solid #c46205;
+    color: #000;
+    padding: 4px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    &:hover {
+      background-color: #6d3e12;
+      border: 1px solid #fabc72;
+      color: #fff;
+    }
+  }
+}

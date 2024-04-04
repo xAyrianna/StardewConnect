@@ -1,157 +1,214 @@
 <div class="blank-box">
-    <div class="row">
-        <div class="col-md-8">
-            <h3>Over deze applicatie</h3>
-            <p> Deze applicatie is gemaakt in het kader van het vak 'Clientside web frameworks' van Avans Hogeschool
-                Breda. </p>
-            <h1>StardewConnect</h1>
-            <p>Om Stardew Valley™ spelers dichterbij elkaar te brengen wil ik een applicatie maken waarbij het mogelijk
-                is om dorpen te creëren. Deze dorpen liggen in Stardew Valley, vlak bij het dorp waar het spel zich
-                afspeelt. In de gemaakte dorpen kunnen gebruikers verschillende bewoners toevoegen die ze ook zelf
-                maken. Vervolgens is het ook mogelijk om events te maken die in hun eigen gemaakte dorpen plaats vinden.
-                Ook moet het mogelijk zijn om bevriend te raken met de bewoners. Dit zal bijgehouden met een friendship
-                level. Daarbij kunnen gebruikers ook de bewoners van andere gebruikers zien en deze aan hun eigen dorpen
-                toevoegen. Gebruikers kunnen elkaar volgen, pas als ze elkaar volgen worden de bewoners van hen en de
-                personen die zij volgen zichtbaar. Tot slot zal er een overzicht zijn met de bewoners die de gebruiker
-                bevriend heeft op volgorde van het aantal hartjes dat ze hebben en zal er bij staan in welke dorpen van
-                de gebruiker ze zitten.</p>
-        </div>
-        <div class="col-sm-6 col-md-8 col-lg-3">
-            <div class="card">
-                <div class="d-flex justify-content-center align-items-center px-3 py-3">
-                    <!-- Picture of myself? -->
-                    <img src="../../../assets/Images/Picture.jpg" class="card-img-top rounded profile-pic" alt="..." />
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Ayrianna Chatlein</h5>
-                    <p class="card-text">Studentnummer: 2187226</p>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Over deze applicatie</h3>
+      <p>
+        Deze applicatie is gemaakt in het kader van het vak 'Clientside web
+        frameworks' van Avans Hogeschool Breda.
+      </p>
+      <h1>StardewConnect</h1>
+      <p>
+        Om Stardew Valley™ spelers dichterbij elkaar te brengen wil ik een
+        applicatie maken waarbij het mogelijk is om dorpen te creëren. Deze
+        dorpen liggen in Stardew Valley, vlak bij het dorp waar het spel zich
+        afspeelt. In de gemaakte dorpen kunnen gebruikers verschillende bewoners
+        toevoegen die ze ook zelf maken. Vervolgens is het ook mogelijk om
+        events te maken die in hun eigen gemaakte dorpen plaats vinden. Ook moet
+        het mogelijk zijn om bevriend te raken met de bewoners. Dit zal
+        bijgehouden met een friendship level. Daarbij kunnen gebruikers ook de
+        bewoners van andere gebruikers zien en deze aan hun eigen dorpen
+        toevoegen. Gebruikers kunnen elkaar volgen, pas als ze elkaar volgen
+        worden de bewoners van hen en de personen die zij volgen zichtbaar. Tot
+        slot zal er een overzicht zijn met de bewoners die de gebruiker bevriend
+        heeft op volgorde van het aantal hartjes dat ze hebben en zal er bij
+        staan in welke dorpen van de gebruiker ze zitten.
+      </p>
     </div>
-    <h3>Entiteiten</h3>
-    <p> In de onderstaande diagram is er te zien dat een gebruiker nul of meerdere dorpjes kan hebben. Deze dorpjes
-        kunnen nul of meer bewoners hebben die de gebruiker kan bevrienden. Daarbij kan een dorp ook nul of meer events
-        organiseren. Voor de gebruiker is het mogelijk om alle entiteiten te creëren. Voor een bewoner is er voor
-        birthday gekozen voor een string omdat in het spel de bewoners geen echte datum hebben voor hun verjaardag maar
-        een seizoen met een dag. Dit wilde ik voor de bewoners van de dorpjes ook doen.</p>
-    <img src="../../../assets/Images/Erd.png" class="px-5 pb-3 img-fluid" alt="">
-    <div class="row">
-        <div class="col-sm-12 col-md-4">
-            <p>Town</p>
-            <ul>
-                <li>Name: string</li>
-                <li>Capacity: number</li>
-                <li>Facilities: String[]</li>
-                <li>CreationDate: Date</li>
-            </ul>
+    <div class="col-sm-6 col-md-8 col-lg-3">
+      <div class="card">
+        <div class="d-flex justify-content-center align-items-center px-3 py-3">
+          <!-- Picture of myself? -->
+          <img
+            src="../../../assets/Images/Picture.jpg"
+            class="card-img-top rounded profile-pic"
+            alt="..."
+          />
         </div>
-        <div class="col-sm-12 col-md-4">
-            <p>Villager</p>
-            <ul>
-                <li>name: string</li>
-                <li>gender: enum</li>
-                <li>lifeStage: enum</li>
-                <li>marriageable: boolean</li>
-                <li>birthday: string</li>
-                <li>favoriteGifts: String[]</li>
-            </ul>
+        <div class="card-body">
+          <h5 class="card-title">Ayrianna Chatlein</h5>
+          <p class="card-text">Studentnummer: 2187226</p>
         </div>
-        <div class="col-sm-12 col-md-4">
-            <p>Event</p>
-            <ul>
-                <li>name: string</li>
-                <li>description: string</li>
-                <li>date: string</li>
-                <li>location: string</li>
-                <li>hasHappened: boolean</li>
-            </ul>
-        </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <h3>Userstories</h3>
-            <p> Hier verwoord je in de vorm van userstories de functionaliteit van jouw applicatie. </p>
-            <table class="table-bordered">
-                <thead>
-                    <th>Nr</th>
-                    <th class="col-6">Userstory</th>
-                    <th>toelichting + geimplementeerd door</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td> Als gebruiker wil ik kunnen registreren voor de applicatie. Zodat ik deze kan gebruiken.
-                        </td>
-                        <td>Een gebruiker moet een account kunnen aanmaken. Geimplementeerd door user-edit component
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td> Als gebruiker wil ik kunnen inloggen op de applicatie zodat ik deze kan gebruiken. </td>
-                        <td>Een gebruiker moet na het registreren de inloggegevens kunnen gebruiken om mee in te loggen.
-                            Geimplementeerd door user-? component </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td> Als ingelogde gebruiker wil ik mijn eigen dorpen kunnen maken, ophalen, wijzigen en
-                            verwijderen. Zodat deze up-to-date blijven. </td>
-                        <td>Town CRUD, Geimplementeerd door town-* components</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td> Als ingelogde gebruiker wil ik mijn eigen bewoners kunnen maken, ophalen, wijzigen en
-                            verwijderen. Zodat deze up-to-date blijven. </td>
-                        <td>Villager CRUD, Geimplementeerd door villager-* components</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td> Als ingelogde gebruiker wil ik mijn eigen events voor mijn eigen dorpen kunnen maken,
-                            ophalen, wijzigen en verwijderen. Zodat deze up-to-date blijven. </td>
-                        <td>Event CRUD, Geimplementeerd door event-* components</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td> Als ingelogde gebruiker wil ik andere gebruikers kunnen volgen zodat ik kan zien wat zij
-                            allemaal gemaakt hebben.</td>
-                        <td> Geimplementeerd door user-? component</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td> Als ingelogde gebruiker wil ik bewoners van de mensen die ik volg kunnen zien en aan mijn
-                            eigen dorp kunnen toevoegen, zodat ik mijn dorpjes kan vergroten met bewoners van anderen.
-                        </td>
-                        <td>Geimplementeerd door villager-list component</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td> Als ingelogde gebruiker wil ik de bewoners kunnen zien van de mensen die mijn volgers
-                            volgen </td>
-                        <td>Een ingelogde gebruiker kan deze bewoners zien, het toevoegen van deze bewoners aan hun dorp
-                            is niet mogelijk. Geimplementeerd door villager-list component </td>
-                    </tr>
-                    <tr>
-                        <td>9 </td>
-                        <td> Als ingelogde gebruikers wil ik de dorpen aanbevolen krijgen van de mensen ik volg zodat ik
-                            inspiratie op kan doen.</td>
-                        <td>Geimplementeerd door town-? component </td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td> Als ingelogde gebruiker wil ik vrienden kunnen worden met mijn eigen bewoners maar ook met
-                            die van andere gebruikers.</td>
-                        <td>Geimplementeerd door villager-details component</td>
-                    </tr>
-                    <tr>
-                        <td>11</td>
-                        <td> Als ingelogde gebruiker wil ik een gesorteerde lijst zien met welke bewoners ik bevriend
-                            ben. </td>
-                        <td>De gebruiker kan bewoners bevrienden, deze levels gaan tot en met 10. Er wordt een lijst
-                            weergegeven met de hoogste levels bovenaan. Geimplementeerd door villager-list component
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  </div>
+  <h3>Entiteiten</h3>
+  <p>
+    In de onderstaande diagram is er te zien dat een gebruiker nul of meerdere
+    dorpjes kan hebben. Deze dorpjes kunnen nul of meer bewoners hebben die de
+    gebruiker kan bevrienden. Daarbij kan een dorp ook nul of meer events
+    organiseren. Voor de gebruiker is het mogelijk om alle entiteiten te
+    creëren. Voor een bewoner is er voor birthday gekozen voor een string omdat
+    in het spel de bewoners geen echte datum hebben voor hun verjaardag maar een
+    seizoen met een dag. Dit wilde ik voor de bewoners van de dorpjes ook doen.
+  </p>
+  <img
+    src="../../../assets/Images/Erd.png"
+    class="px-5 pb-3 img-fluid"
+    alt=""
+  />
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
+      <b>Town</b>
+      <ul>
+        <li>Name: string</li>
+        <li>Capacity: number</li>
+        <li>Facilities: string[]</li>
+        <li>CreationDate: Date</li>
+      </ul>
     </div>
+    <div class="col-sm-12 col-md-4">
+      <b>Villager</b>
+      <ul>
+        <li>name: string</li>
+        <li>gender: enum</li>
+        <li>lifeStage: enum</li>
+        <li>marriageable: boolean</li>
+        <li>birthday: string</li>
+        <li>favoriteGifts: string[]</li>
+      </ul>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <b>Event</b>
+      <ul>
+        <li>name: string</li>
+        <li>description: string</li>
+        <li>date: string</li>
+        <li>location: string</li>
+        <li>hasHappened: boolean</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Userstories</h3>
+      <p>
+        Hier verwoord je in de vorm van userstories de functionaliteit van jouw
+        applicatie.
+      </p>
+      <table class="table-bordered">
+        <thead>
+          <th>Nr</th>
+          <th class="col-6">Userstory</th>
+          <th>toelichting + geimplementeerd door</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              Als gebruiker wil ik kunnen registreren voor de applicatie. Zodat
+              ik deze kan gebruiken.
+            </td>
+            <td>
+              Een gebruiker moet een account kunnen aanmaken. Geimplementeerd
+              door user-edit component
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              Als gebruiker wil ik kunnen inloggen op de applicatie zodat ik
+              deze kan gebruiken.
+            </td>
+            <td>
+              Een gebruiker moet na het registreren de inloggegevens kunnen
+              gebruiken om mee in te loggen. Geimplementeerd door user-?
+              component
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              Als ingelogde gebruiker wil ik mijn eigen dorpen kunnen maken,
+              ophalen, wijzigen en verwijderen. Zodat deze up-to-date blijven.
+            </td>
+            <td>Town CRUD, Geimplementeerd door town-* components</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>
+              Als ingelogde gebruiker wil ik mijn eigen bewoners kunnen maken,
+              ophalen, wijzigen en verwijderen. Zodat deze up-to-date blijven.
+            </td>
+            <td>Villager CRUD, Geimplementeerd door villager-* components</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>
+              Als ingelogde gebruiker wil ik mijn eigen events voor mijn eigen
+              dorpen kunnen maken, ophalen, wijzigen en verwijderen. Zodat deze
+              up-to-date blijven.
+            </td>
+            <td>Event CRUD, Geimplementeerd door event-* components</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>
+              Als ingelogde gebruiker wil ik andere gebruikers kunnen volgen
+              zodat ik kan zien wat zij allemaal gemaakt hebben.
+            </td>
+            <td>Geimplementeerd door user-? component</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>
+              Als ingelogde gebruiker wil ik bewoners van de mensen die ik volg
+              kunnen zien en aan mijn eigen dorp kunnen toevoegen, zodat ik mijn
+              dorpjes kan vergroten met bewoners van anderen.
+            </td>
+            <td>Geimplementeerd door villager-list component</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>
+              Als ingelogde gebruiker wil ik de bewoners kunnen zien van de
+              mensen die mijn volgers volgen
+            </td>
+            <td>
+              Een ingelogde gebruiker kan deze bewoners zien, het toevoegen van
+              deze bewoners aan hun dorp is niet mogelijk. Geimplementeerd door
+              villager-list component
+            </td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>
+              Als ingelogde gebruikers wil ik de dorpen aanbevolen krijgen van
+              de mensen ik volg zodat ik inspiratie op kan doen.
+            </td>
+            <td>Geimplementeerd door town-? component</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>
+              Als ingelogde gebruiker wil ik vrienden kunnen worden met mijn
+              eigen bewoners maar ook met die van andere gebruikers.
+            </td>
+            <td>Geimplementeerd door villager-details component</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>
+              Als ingelogde gebruiker wil ik een gesorteerde lijst zien met
+              welke bewoners ik bevriend ben.
+            </td>
+            <td>
+              De gebruiker kan bewoners bevrienden, deze levels gaan tot en met
+              10. Er wordt een lijst weergegeven met de hoogste levels bovenaan.
+              Geimplementeerd door villager-list component
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

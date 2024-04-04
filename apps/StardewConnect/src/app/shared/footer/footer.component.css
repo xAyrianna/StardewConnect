@@ -1,7 +1,10 @@
 footer {
-    position: relative;
-    margin-top: 15px;
-    bottom: 0;
-    width: 100%;
-  }
-  
+  bottom: 0;
+  width: 100%;
+  background-image: url('../../../assets/Images/hout.png');
+  background-repeat: repeat-x;
+  object-fit: scale-down;
+  padding: 16px;
+  position: sticky;
+  z-index: 1;
+}
