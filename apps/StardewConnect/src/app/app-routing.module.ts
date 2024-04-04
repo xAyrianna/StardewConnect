@@ -14,12 +14,16 @@ import { VillagerDetailComponent } from './features/villager-component/villager-
 import { UserListComponent } from './features/user-component/user-list/user-list.component';
 import { UserEditComponent } from './features/user-component/user-edit/user-edit.component';
 import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
+import { LoginComponent } from './features/login-component/login.component';
+import { RegisterComponent } from './features/register-component/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent, pathMatch: 'full' },
   { path: 'about', component: AboutComponent, pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent, pathMatch: 'full'},
+  { path: 'login', component: LoginComponent, pathMatch: 'full'},
 
   { path: 'user', component: UserListComponent, pathMatch: 'full' },
   { path: 'user/new', component: UserEditComponent, pathMatch: 'full' },
