@@ -44,3 +44,10 @@ export class Town {
 }
 
 export const TownSchema = SchemaFactory.createForClass(Town);
+
+TownSchema.post('save', async function (doc) {
+  console.log('Town saved', doc);
+  const user = this.$model('User');
+  await user.updateOne({ _id: doc.createdBy }, { $push: { towns: doc._id } });
+});
+

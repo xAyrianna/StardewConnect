@@ -1,9 +1,8 @@
-import { Town } from '@StardewConnect/libs/data';
+import { Town} from '@StardewConnect/libs/data';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TownService } from '../town.service';
-import { User } from '@StardewConnect/libs/data';
 
 @Component({
   selector: 'stardew-connect-town-edit',
