@@ -50,7 +50,7 @@ export class TownEditComponent implements OnInit, OnDestroy {
           creationDate: new Date(),
           events: [],
           villagersInTown: [],
-          createdBy:  '', //Add user id
+          createdBy: localStorage.getItem('user_ID') ?? '', //Add user id
         };
       }
     });

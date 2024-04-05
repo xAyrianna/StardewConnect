@@ -32,7 +32,7 @@ export class UserController {
   @ApiResponse({ status: 201, description: 'User created successfully' })
   addUser(@Body() user: User) {
     console.log("Create method called")
-    this.userService.addUser(user);
+    return this.userService.addUser(user);
   }
 
   @Put()

@@ -1,1 +1,74 @@
-<p>register works!</p>
+<div class="blank-box container">
+  <h1>Stardew Connect Register</h1>
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-control" [(ngModel)]="user.username" required
+            #username="ngModel" [ngClass]="{'is-invalid': username.invalid && (username.dirty || username.touched)}">
+          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">
+            <div *ngIf="username.errors?.['required']">Username is required.</div>
+            <div *ngIf="username.errors?.['minlength']">Username must be at least 4 characters long.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="emailAddress">Email Address</label>
+          <input type="email" id="emailAddress" name="emailAddress" class="form-control" [(ngModel)]="user.emailAddress" required email
+            #emailAddress="ngModel" [ngClass]="{'is-invalid': emailAddress.invalid && (emailAddress.dirty || emailAddress.touched)}">
+          <div *ngIf="emailAddress.invalid && (emailAddress.dirty || emailAddress.touched)" class="invalid-feedback">
+            <div *ngIf="emailAddress.errors?.['required']">Email Address is required.</div>
+            <div *ngIf="emailAddress.errors?.['email']">Please enter a valid email address.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" [(ngModel)]="user.name" required
+            #name="ngModel" [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}">
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">Name is required.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="birthday">Birthday</label>
+          <input type="date" id="birthday" name="birthday" class="form-control" [(ngModel)]="user.birthday" required
+            #birthday="ngModel" [ngClass]="{'is-invalid': birthday.invalid && (birthday.dirty || birthday.touched)}">
+          <div *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)" class="invalid-feedback">Birthday is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="favoriteThing">Favorite Thing</label>
+          <input type="text" id="favoriteThing" name="favoriteThing" class="form-control" [(ngModel)]="user.favoriteThing" required
+            #favoriteThing="ngModel" [ngClass]="{'is-invalid': favoriteThing.invalid && (favoriteThing.dirty || favoriteThing.touched)}">
+          <div *ngIf="favoriteThing.invalid && (favoriteThing.dirty || favoriteThing.touched)" class="invalid-feedback">Favorite Thing is required.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Column -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" [(ngModel)]="user.password" required minlength="6"
+            #password="ngModel" [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
+            <div *ngIf="password.errors?.['required']">Password is required.</div>
+            <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters long.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="error" style="color: #d33c31" class="mb-2">{{error}}</div>
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+</div>

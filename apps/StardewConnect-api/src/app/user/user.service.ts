@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { User } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -64,13 +64,23 @@ export class UserService {
   }
 
   async addUser(createdUserDto: User): Promise<UserModel> {
-    console.log('Creating ' + createdUserDto + ' in the database');
-    createdUserDto.password = await bcrypt.hash(createdUserDto.password, 10);
-    const createdUser = await new this.userModel(createdUserDto);
-    return createdUser.save();
-    // newUser.id = this.users.at(this.users.length - 1)!.id + 1;
-    // console.log(newUser.id);
-    // this.users.push(newUser);
+    try {
+      console.log('Creating ' + createdUserDto + ' in the database');
+      createdUserDto.password = await bcrypt.hash(createdUserDto.password, 10);
+      const createdUser = await (await new this.userModel(createdUserDto)).save();
+      console.log('Created ' + createdUser);
+      return createdUser;
+    } catch (error) {
+      console.log('Error creating user: ', error);
+      if (error.code === 11000) {
+        if (error.keyPattern.username) {
+          throw new HttpException('Username is already taken', 400);
+        } else if (error.keyPattern.emailAddress) {
+          throw new HttpException('Email is already taken', 400);
+        }
+      }
+      throw new HttpException('Error creating user', 500);
+    }
   }
 
   async updateUser(updatedUser: User): Promise<User> {

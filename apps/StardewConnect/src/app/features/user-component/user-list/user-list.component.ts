@@ -13,36 +13,6 @@ export class UserListComponent implements OnInit, OnDestroy {
   users: User[] | undefined;
   subscription: Subscription | undefined;
 
-  mockUsers: User[] = [
-    {
-      username: 'test1',
-      emailAddress: 'test@test.com',
-      password: 'password',
-      favoriteThing: 'test',
-      name: 'test',
-      birthday: new Date(),
-      memberSince: new Date(),
-    },
-    {
-      username: 'test2',
-      emailAddress: 'test@test.com',
-      password: 'password',
-      favoriteThing: 'test',
-      name: 'test',
-      birthday: new Date(),
-      memberSince: new Date(),
-    },
-    {
-      username: 'test3',
-      emailAddress: 'test@test.com',
-      password: 'password',
-      favoriteThing: 'test',
-      name: 'test',
-      birthday: new Date(),
-      memberSince: new Date(),
-    },
-  ];
-
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {

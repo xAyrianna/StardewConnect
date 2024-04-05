@@ -92,7 +92,7 @@ describe('UserService', () => {
       favoriteThing: 'test',
       memberSince: new Date(),
     };
-    service.addUser(newUser).subscribe((user) => {
+    service.registerUser(newUser).subscribe((user) => {
       expect(user).toEqual(newUser);
     });
 

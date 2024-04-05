@@ -10,13 +10,13 @@ export class User {
     @IsMongoId()
     _id: string;
 
-    @Prop()
+    @Prop({required: true, unique: true})
     username: string;
 
     @Prop()
     name: string;
 
-    @Prop()
+    @Prop({required: true, unique: true})
     emailAddress: string;
 
     @Prop()

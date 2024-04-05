@@ -15,8 +15,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   user: User | undefined;
   subscription: Subscription | undefined;
   userName: string | undefined;
-  
-
 
   constructor(
     private route: ActivatedRoute,
@@ -75,7 +73,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     } else {
       // nieuwe user toevoegen aan array
       console.log('adding user');
-      (await this.userService.addUser(this.user!)).subscribe();
+      (await this.userService.registerUser(this.user!)).subscribe();
     }
     this.router.navigate(['user']);
   }
