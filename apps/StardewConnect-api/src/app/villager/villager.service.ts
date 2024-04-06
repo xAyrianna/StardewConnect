@@ -2,94 +2,95 @@ import { Injectable } from '@nestjs/common';
 import { Gender, LifeStage, Villager } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Villager as VillagerModel, VillagerDocument } from './schemas/villager.schema';
+import {
+  Villager as VillagerModel,
+  VillagerDocument,
+} from './schemas/villager.schema';
+import { Neo4jService } from '../neo4j/neo4j.service';
+import { villagerCypher } from './neo4j/villager.cypher';
+
 @Injectable()
 export class VillagerService {
-    // villagers: Villager[] = [
-    //   {
-    //     id: 1,
-    //     name: 'Evelyn',
-    //     gender: Gender.Female,
-    //     lifeStage: LifeStage.Elder,
-    //     marriageable: false,
-    //     birthday: 'Winter 20',
-    //     favoriteGifts: [
-    //       'Beet',
-    //       'Chocolate Cake',
-    //       'Diamond',
-    //       'Fairy Rose',
-    //       'Stuffing',
-    //       'Tulip',
-    //     ],
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Sophia',
-    //     gender: Gender.Female,
-    //     lifeStage: LifeStage.Adult,
-    //     marriageable: true,
-    //     birthday: 'Winter 27',
-    //     favoriteGifts: [
-    //       'Fairy Stone',
-    //       'Grampleton Orange Chicken',
-    //       'Fairy Rose',
-    //       'Puppyfish',
-    //     ],
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Morgan',
-    //     gender: Gender.Other,
-    //     lifeStage: LifeStage.Child,
-    //     marriageable: false,
-    //     birthday: 'Fall 7',
-    //     favoriteGifts: ['Iridium Bar', 'Void Egg', 'Void Mayonnaise'],
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Victor',
-    //     gender: Gender.Male,
-    //     lifeStage: LifeStage.Adult,
-    //     marriageable: true,
-    //     birthday: 'Summer 23',
-    //     favoriteGifts: [
-    //       'Aged Blue Moon Wine',
-    //       'Spaghetti',
-    //       'Battery Pack',
-    //       'Duck Feather',
-    //       'Lunarite',
-    //     ],
-    //   },
-    // ];
-    constructor(
-      @InjectModel(VillagerModel.name) private villagerModel: Model<VillagerDocument>
-    ) {}
-  
-    async getAll(): Promise <{ results: Villager[]}> {
-      const villagers = await this.villagerModel.find().exec();
-      console.log("Database returns: ", villagers);
-      return { results: villagers};
-    }
-  
-    async getVillagerByName(name: string): Promise<{ results: Villager}> {
-    const villager = await this.villagerModel.findOne({ name }).exec();
-    return { results: villager }; 
-    }
-  
-    async addVillager(createdVillagerDto: Villager): Promise<VillagerModel> {
-      const createdVillager = await new this.villagerModel(createdVillagerDto);
-      return createdVillager.save();
-    }
-  
-    async updateVillager(updatedVillager: Villager): Promise<VillagerModel> {
-      const town = await this.villagerModel
-      .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, { new: true })
-      .exec();
-    return town;
-    }
-  
-    async deleteVillager(deletedVillager: Villager) {
-      // delete villager
-      return await this.villagerModel.deleteOne({ _id: deletedVillager._id }).exec();
-    }
+  constructor(
+    @InjectModel(VillagerModel.name)
+    private villagerModel: Model<VillagerDocument>,
+    private readonly neo4jService: Neo4jService
+  ) {}
+
+  async getAll(): Promise<{ results: Villager[] }> {
+    const villagers = await this.villagerModel.find().exec();
+    console.log('Database returns: ', villagers);
+    return { results: villagers };
   }
+
+  async getVillagerByName(name: string): Promise<{ results: Villager }> {
+    const villager = await this.villagerModel.findOne({ name }).exec();
+    return { results: villager };
+  }
+
+  async addVillager(createdVillagerDto: Villager): Promise<VillagerModel> {
+    const createdVillager = await new this.villagerModel(createdVillagerDto);
+    await this.neo4jService.write(villagerCypher.addVillager, {
+      id: createdVillagerDto._id,
+    });
+    return createdVillager.save();
+  }
+
+  async updateVillager(updatedVillager: Villager): Promise<VillagerModel> {
+    const villager = await this.villagerModel
+      .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, {
+        new: true,
+      })
+      .exec();
+    return villager;
+  }
+
+  async deleteVillager(deletedVillager: Villager) {
+    // delete villager
+    const villager = await this.villagerModel
+      .deleteOne({ _id: deletedVillager._id })
+      .exec();
+    await this.neo4jService.write(villagerCypher.removeVillager, {
+      id: deletedVillager._id,
+    });
+    return villager;
+  }
+
+  async befriendVillager(username: string, id: string) {
+    return await this.neo4jService.write(villagerCypher.befriendVillager, {
+      id,
+      username,
+    });
+  }
+
+  async unfriendVillager(username: string, id: string) {
+    return await this.neo4jService.write(villagerCypher.unfriendVillager, {
+      id,
+      username,
+    });
+  }
+
+  async getBefriendedVillagers(username: string) {
+    const result = await this.neo4jService.read(villagerCypher.getBefriendedVillagers, {
+      username,
+    });
+    return result.records.map((record) => record.get('b').properties);
+  }
+
+  async updateVillagerHearts(username: string, id: string) {
+    const result = await this.neo4jService.read(villagerCypher.getVillagerHearts, {
+      id,
+      username,
+    });
+    let numberOfHearts = result.records[0].get('befriends.numberOfHearts');
+    if (numberOfHearts >= 10) {
+      return;
+    }
+    numberOfHearts++;
+    return await this.neo4jService.write(villagerCypher.updateVillagerHearts, {
+      id,
+      username,
+      numberOfHearts,
+    });
+  }
+}
