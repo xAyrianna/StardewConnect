@@ -8,54 +8,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TownService {
-  // towns: Town[] = [
-  //   {
-  //     id: 1,
-  //     name: 'Stardrop Town',
-  //     capacity: 6,
-  //     facilities: [
-  //       'General Store',
-  //       'Hospital',
-  //       'Joja Mart',
-  //       'Saloon',
-  //       'Museum',
-  //     ],
-  //     creationDate: new Date('June 5, 1980'),
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Fairhaven',
-  //     capacity: 10,
-  //     facilities: ['General Store', 'Hospital', 'Animal Shop', 'Saloon'],
-  //     creationDate: new Date('January 15, 1958'),
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Emerald City',
-  //     capacity: 5,
-  //     facilities: [
-  //       'General Store',
-  //       'Hospital',
-  //       'Joja Mart',
-  //       'Saloon',
-  //       'Museum',
-  //     ],
-  //     creationDate: new Date('April 02, 2002'),
-  //   },
-  //   {
-  //     id: 4,
-  //     name: 'Blue Moon Town',
-  //     capacity: 15,
-  //     facilities: [
-  //       'General Store',
-  //       'Hair Dresser',
-  //       'Bakery',
-  //       'Saloon',
-  //       'Smith',
-  //     ],
-  //     creationDate: new Date('August 30, 2009'),
-  //   },
-  // ];
+
   constructor(
     @InjectModel(TownModel.name) private townModel: Model<TownDocument>, @InjectModel(EventModel.name) private eventModel: Model<EventDocument>, @InjectModel(UserModel.name) private userModel: Model<UserDocument>
   ) {}
