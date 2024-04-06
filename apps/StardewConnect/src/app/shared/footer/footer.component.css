@@ -6,5 +6,26 @@ footer {
   object-fit: scale-down;
   padding: 16px;
   position: sticky;
+  display: flex;
+  justify-content: space-between;
   z-index: 1;
+}
+
+a {
+  font-weight: bold;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: 0.1s ease-in-out;
+  &:hover {
+    color: #3b3b3b;
+    background-color: #fabc72;
+  }
+  &:active {
+    color: #f0f0f0;
+    background-color: #a37741;
+  }
+  &.active-link {
+    color: #fabc72;
+    background-color: #3b3b3b;
+  }
 }
