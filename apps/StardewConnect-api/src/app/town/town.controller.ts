@@ -6,13 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { TownService } from './town.service';
 import { Town } from '@StardewConnect/libs/data';
 import {ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('town')
 @ApiTags('Town')
+@UseGuards(AuthGuard)
 export class TownController {
   constructor(private readonly townService: TownService) {}
 

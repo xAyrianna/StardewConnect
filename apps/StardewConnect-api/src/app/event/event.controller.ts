@@ -6,13 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from '@StardewConnect/libs/data';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('event')
 @ApiTags('Event')
+@UseGuards(AuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
