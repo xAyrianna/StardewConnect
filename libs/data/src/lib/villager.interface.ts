@@ -20,4 +20,5 @@ export interface Villager {
   marriageable: boolean;
   birthday: string;
   favoriteGifts: string[];
+  createdBy: string;
 }

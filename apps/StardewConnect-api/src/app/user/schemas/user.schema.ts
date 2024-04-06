@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { IsMongoId } from "class-validator";
 import { Document, Schema as MongooseSchema } from "mongoose";
-import { Town } from "@StardewConnect/libs/data";
+import { Town, Villager } from "@StardewConnect/libs/data";
 
 export type UserDocument = User & Document;
 
@@ -37,6 +37,13 @@ export class User {
         ref: 'Town',
     })
     towns?: Town[];
+
+    @Prop({
+        default: [],
+        type: [MongooseSchema.Types.ObjectId],
+        ref: 'Villager',
+    })
+    villagers?: Villager[];
 
 }
 

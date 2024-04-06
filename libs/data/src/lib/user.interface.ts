@@ -1,4 +1,5 @@
 import { Town } from "./town.interface"
+import {Villager} from "./villager.interface"
 
 export interface User{
     _id?: number
@@ -10,4 +11,5 @@ export interface User{
     favoriteThing: string 
     memberSince: Date
     towns?: Town[]
+    villagers?: Villager[]
 }

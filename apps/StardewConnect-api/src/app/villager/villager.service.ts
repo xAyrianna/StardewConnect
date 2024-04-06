@@ -8,12 +8,14 @@ import {
 } from './schemas/villager.schema';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { villagerCypher } from './neo4j/villager.cypher';
+import { User as UserModel, UserDocument } from '../user/schemas/user.schema';
 
 @Injectable()
 export class VillagerService {
   constructor(
     @InjectModel(VillagerModel.name)
     private villagerModel: Model<VillagerDocument>,
+    @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
     private readonly neo4jService: Neo4jService
   ) {}
 
@@ -50,6 +52,15 @@ export class VillagerService {
     const villager = await this.villagerModel
       .deleteOne({ _id: deletedVillager._id })
       .exec();
+
+    const user = await this.userModel
+      .findById(deletedVillager.createdBy)
+      .exec();
+    user.villagers = user.villagers.filter(
+      (villager) => villager._id != deletedVillager._id
+    );
+    await user.save();
+
     await this.neo4jService.write(villagerCypher.removeVillager, {
       id: deletedVillager._id,
     });
@@ -71,17 +82,23 @@ export class VillagerService {
   }
 
   async getBefriendedVillagers(username: string) {
-    const result = await this.neo4jService.read(villagerCypher.getBefriendedVillagers, {
-      username,
-    });
+    const result = await this.neo4jService.read(
+      villagerCypher.getBefriendedVillagers,
+      {
+        username,
+      }
+    );
     return result.records.map((record) => record.get('b').properties);
   }
 
   async updateVillagerHearts(username: string, id: string) {
-    const result = await this.neo4jService.read(villagerCypher.getVillagerHearts, {
-      id,
-      username,
-    });
+    const result = await this.neo4jService.read(
+      villagerCypher.getVillagerHearts,
+      {
+        id,
+        username,
+      }
+    );
     let numberOfHearts = result.records[0].get('befriends.numberOfHearts');
     if (numberOfHearts >= 10) {
       return;
