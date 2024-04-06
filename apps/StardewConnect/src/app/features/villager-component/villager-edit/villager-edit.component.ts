@@ -51,6 +51,7 @@ export class VillagerEditComponent implements OnInit, OnDestroy {
           marriageable: false,
           birthday: '',
           favoriteGifts: [''],
+          createdBy: localStorage.getItem('user_ID') ?? '',
         };
       }
     });
