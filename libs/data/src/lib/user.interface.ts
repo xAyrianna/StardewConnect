@@ -2,7 +2,7 @@ import { Town } from "./town.interface"
 import {Villager} from "./villager.interface"
 
 export interface User{
-    _id?: number
+    _id?: string
     username: string 
     name: string
     emailAddress: string
