@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './jwt-auth.guard';
 import { UserCredentials } from '@StardewConnect/libs/data';
+import { InjectToken, Token } from './token.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -17,7 +18,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Get('profile')
-    getProfile(@Request() req){
-        return req.user;
+    getProfile(@InjectToken() token: Token){
+        return this.authService.profile(token.sub)
     }
 }

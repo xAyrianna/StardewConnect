@@ -31,14 +31,14 @@ export class VillagerController {
   
     @Put()
     @ApiResponse({ status: 200, description: 'Villager updated successfully' })
-    updateVillager(@Body() updatedUser: Villager) {
-      this.villagerService.updateVillager(updatedUser);
+    updateVillager(@Body() updatedUser: Villager, @InjectToken() token : Token){
+      this.villagerService.updateVillager(updatedUser, token.sub);
     }
   
     @Delete()
     @ApiResponse({ status: 204, description: 'Villager deleted successfully' })
-    deleteVillager(@Body() deletedUser: Villager) {
-      this.villagerService.deleteVillager(deletedUser);
+    deleteVillager(@Body() deletedUser: Villager, @InjectToken() token : Token){
+      this.villagerService.deleteVillager(deletedUser, token.sub);
     }
 
     @Post(':id')

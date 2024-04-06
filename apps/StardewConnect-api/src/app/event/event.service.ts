@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Event } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema } from 'mongoose';
@@ -61,28 +61,42 @@ export class EventService {
     return { results: event };
   }
 
-  async addEvent(createdEventDto: Event): Promise<EventModel> {
+  async addEvent(createdEventDto: Event, userId: string): Promise<EventModel> {
     console.log('Creating ' + createdEventDto);
+    const town = await this.townModel.findById(createdEventDto.inTownId).exec();
+    if(town.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to add an event to this town');
+    }
     const createdEvent = await new this.eventModel(createdEventDto);
     return createdEvent.save();
   }
 
-  async updateEvent(updatedEvent: Event): Promise<Event> {
+  async updateEvent(updatedEvent: Event, userId: string): Promise<Event> {
+    const town = await this.townModel.findById(updatedEvent.inTownId).exec();
+    if(town.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to update this event');
+    }
     const event = await this.eventModel
       .findOneAndUpdate({ _id: updatedEvent._id }, updatedEvent, { new: true })
       .exec();
+    town.events = town.events.map((event) =>
+      event._id == updatedEvent._id ? updatedEvent : event
+    );
     console.log('Updating ' + event);
     return event;
   }
-  async deleteEvent(deletedEvent: Event) {
-    console.log('Deleting ' + deletedEvent._id);
+  async deleteEvent(deletedEvent: Event, userId: string) {
     const town = await this.townModel.findById(deletedEvent.inTownId).exec();
-    console.log('Town: ', town);
+    if(town.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to delete this event');
+    }
+    console.log('Deleting ' + deletedEvent._id);
+    const event = await this.eventModel.deleteOne({ _id: deletedEvent._id }).exec();
     town.events = town.events.filter(
       (event) => (event._id != deletedEvent._id)
     );
     console.log('Events: ', town.events);
     await town.save();
-    return await this.eventModel.deleteOne({ _id: deletedEvent._id }).exec();
+    return event;
   }
 }

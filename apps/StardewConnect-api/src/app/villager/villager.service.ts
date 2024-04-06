@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Gender, LifeStage, Villager } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -38,17 +38,28 @@ export class VillagerService {
     return createdVillager.save();
   }
 
-  async updateVillager(updatedVillager: Villager): Promise<VillagerModel> {
+  async updateVillager(updatedVillager: Villager, userId: string): Promise<VillagerModel> {
+    if(updatedVillager.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to update this villager');
+    }
     const villager = await this.villagerModel
       .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, {
         new: true,
       })
       .exec();
+    const user = await this.userModel.findById(updatedVillager.createdBy).exec();
+    user.villagers = user.villagers.map((villager) =>
+      villager._id == updatedVillager._id ? updatedVillager : villager
+    );
+    await user.save();
     return villager;
   }
 
-  async deleteVillager(deletedVillager: Villager) {
+  async deleteVillager(deletedVillager: Villager, userId: string) {
     // delete villager
+    if(deletedVillager.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to delete this villager');
+    }
     const villager = await this.villagerModel
       .deleteOne({ _id: deletedVillager._id })
       .exec();

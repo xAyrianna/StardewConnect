@@ -1,5 +1,5 @@
 import { Town } from '@StardewConnect/libs/data';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Town as TownModel, TownDocument } from './schemas/town.schema';
 import { Event as EventModel, EventDocument } from '../event/schemas/event.schema'
 import { User as UserModel, UserDocument } from '../user/schemas/user.schema';
@@ -30,25 +30,37 @@ export class TownService {
   }
 
   async addTown(newTown: Town): Promise<TownModel> {
-    newTown.createdBy = null;
     const createdTown = await new this.townModel(newTown);
     return createdTown.save();
   }
 
-  async updateTown(updatedTown: Town): Promise<Town> {
+  async updateTown(updatedTown: Town, userId: string): Promise<Town> {
+    if (updatedTown.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to update this town');
+    }
     const town = await this.townModel
       .findOneAndUpdate({ _id: updatedTown._id }, updatedTown, { new: true })
       .exec();
+    const user = await this.userModel.findById(updatedTown.createdBy).exec();
+    user.towns = user.towns.map((town) =>
+      town._id == updatedTown._id ? updatedTown : town
+    );
+    await user.save();
     return town;
   }
 
-  async deleteTown(deletedTown: Town) {
+  async deleteTown(deletedTown: Town, userId: string) {
+    if (deletedTown.createdBy != userId) {
+      throw new ForbiddenException('You are not authorized to delete this town');
+    }
+    const town = await this.townModel.deleteOne({ _id: deletedTown._id }).exec();
+
     for (const event of deletedTown.events) {
       await this.eventModel.deleteOne({ _id: event._id }).exec();
     }
     const user = await this.userModel.findById(deletedTown.createdBy).exec();
     user.towns = user.towns.filter((town) => town._id != deletedTown._id);
     await user.save();
-    return await this.townModel.deleteOne({ _id: deletedTown._id }).exec();
+    return town;
   }
 }

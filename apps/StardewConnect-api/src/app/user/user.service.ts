@@ -15,13 +15,18 @@ export class UserService {
   ) {}
 
   async getAll(): Promise<{ results: User[] }> {
-    const users = await this.userModel.find().exec();
+    const users = await this.userModel.find().populate('towns').populate('villagers').exec();
     console.log('Database returns: ', users);
     return { results: users };
   }
 
   async getUserByUsername(username: string): Promise<{ results: User }> {
     const user = await this.userModel.findOne({ username }).exec();
+    return { results: user };
+  }
+
+  async getUserById(id: string): Promise<{ results: User }> {
+    const user = await this.userModel.findById(id).exec();
     return { results: user };
   }
 
@@ -51,7 +56,10 @@ export class UserService {
     }
   }
 
-  async updateUser(updatedUser: User): Promise<User> {
+  async updateUser(updatedUser: User, userId: string): Promise<User> {
+    if (updatedUser._id != userId) {
+      throw new HttpException('You are not authorized to update this user', 403);
+    }
     updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     const user = await this.userModel
       .findOneAndUpdate({ _id: updatedUser._id }, updatedUser, { new: true })
@@ -64,8 +72,11 @@ export class UserService {
     return user;
   }
 
-  async deleteUser(deletedUser: User) {
+  async deleteUser(deletedUser: User, userId: string) {
     console.log('Deleting ' + deletedUser);
+    if (deletedUser._id != userId) {
+      throw new HttpException('You are not authorized to delete this user', 403);
+    }
     const user = await this.userModel
       .findOneAndDelete({ _id: deletedUser._id })
       .exec();

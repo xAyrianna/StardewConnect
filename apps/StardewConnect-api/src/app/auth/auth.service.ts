@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
+
     constructor(private userService: UserService, private jwtService: JwtService) {}
 
     async login(username: string, pass: string): Promise<any> {
@@ -23,5 +24,9 @@ export class AuthService {
             access_token: await this.jwtService.signAsync(payload),
             user: user
         };
+    }
+
+    async profile(sub: string) {
+        return await this.userService.getUserById(sub);
     }
 }

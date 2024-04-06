@@ -12,6 +12,7 @@ import { TownService } from './town.service';
 import { Town } from '@StardewConnect/libs/data';
 import {ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/jwt-auth.guard';
+import { InjectToken, Token } from '../auth/token.decorator';
 
 @Controller('town')
 @ApiTags('Town')
@@ -45,13 +46,13 @@ export class TownController {
 
   @Put()
   @ApiResponse({ status: 200, description: 'Town updated successfully' })
-  updateTown(@Body() updatedTown: Town) {
-    this.townService.updateTown(updatedTown);
+  updateTown(@Body() updatedTown: Town, @InjectToken() token: Token) {
+    this.townService.updateTown(updatedTown, token.sub);
   }
 
   @Delete()
   @ApiResponse({ status: 204, description: 'Town deleted successfully' })
-  deleteTown(@Body() deletedTown: Town) {
-    this.townService.deleteTown(deletedTown);
+  deleteTown(@Body() deletedTown: Town, @InjectToken() token: Token){
+    this.townService.deleteTown(deletedTown, token.sub);
   }
 }

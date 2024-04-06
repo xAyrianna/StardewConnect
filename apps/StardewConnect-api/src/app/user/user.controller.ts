@@ -42,14 +42,14 @@ export class UserController {
 
   @Put()
   @ApiResponse({ status: 200, description: 'User updated successfully' })
-  updateUser(@Body() updatedUser: User) {
-    this.userService.updateUser(updatedUser);
+  updateUser(@Body() updatedUser: User, @InjectToken() token : Token){
+    this.userService.updateUser(updatedUser, token.sub);
   }
 
   @Delete()
   @ApiResponse({ status: 204, description: 'User deleted successfully' })
-  deleteUser(@Body() deletedUser: User) {
-    this.userService.deleteUser(deletedUser);
+  deleteUser(@Body() deletedUser: User, @InjectToken() token : Token){
+    this.userService.deleteUser(deletedUser, token.sub);
   }
 
   @Post('follow/:toFollow')
