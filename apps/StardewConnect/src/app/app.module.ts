@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './features/login-component/login.component';
 import { RegisterComponent } from './features/register-component/register.component';
+import { httpInterceptorProviders } from './features/auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { RegisterComponent } from './features/register-component/register.compon
     HttpClientModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
