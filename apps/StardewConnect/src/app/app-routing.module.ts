@@ -16,41 +16,126 @@ import { UserEditComponent } from './features/user-component/user-edit/user-edit
 import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
 import { LoginComponent } from './features/login-component/login.component';
 import { RegisterComponent } from './features/register-component/register.component';
+import { UserProfileComponent } from './features/user-component/user-profile/user-profile.component';
+import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  { path: 'home', component: HomeComponent, pathMatch: 'full' },
+  {
+    path: 'home',
+    component: HomeComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
   { path: 'about', component: AboutComponent, pathMatch: 'full' },
-  { path: 'register', component: RegisterComponent, pathMatch: 'full'},
-  { path: 'login', component: LoginComponent, pathMatch: 'full'},
+  { path: 'register', component: RegisterComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full' },
 
-  { path: 'user', component: UserListComponent, pathMatch: 'full' },
-  { path: 'user/new', component: UserEditComponent, pathMatch: 'full' },
-  { path: 'user/:id', component: UserDetailComponent, pathMatch: 'full' },
-  { path: 'user/:id/edit', component: UserEditComponent, pathMatch: 'full' },
+  {
+    path: 'user',
+    component: UserListComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user/new',
+    component: UserEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user/:id',
+    component: UserDetailComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user/:id/edit',
+    component: UserEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user/profile',
+    component: UserProfileComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'town', component: TownListComponent, pathMatch: 'full' },
-  { path: 'town/new', component: TownEditComponent, pathMatch: 'full' },
-  { path: 'town/:id', component: TownDetailComponent, pathMatch: 'full' },
-  { path: 'town/:id/edit', component: TownEditComponent, pathMatch: 'full' },
+  {
+    path: 'town',
+    component: TownListComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'town/new',
+    component: TownEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'town/:id',
+    component: TownDetailComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'town/:id/edit',
+    component: TownEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'event', component: EventListComponent, pathMatch: 'full' },
-  { path: 'event/new', component: EventEditComponent, pathMatch: 'full' },
-  { path: 'event/:id', component: EventDetailComponent, pathMatch: 'full' },
-  { path: 'event/:id/edit', component: EventEditComponent, pathMatch: 'full' },
+  {
+    path: 'event',
+    component: EventListComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'event/new',
+    component: EventEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'event/:id',
+    component: EventDetailComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'event/:id/edit',
+    component: EventEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'villager', component: VillagerListComponent, pathMatch: 'full' },
-  { path: 'villager/new', component: VillagerEditComponent, pathMatch: 'full' },
+  {
+    path: 'villager',
+    component: VillagerListComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'villager/new',
+    component: VillagerEditComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
   {
     path: 'villager/:id',
     component: VillagerDetailComponent,
     pathMatch: 'full',
+    canActivate: [AuthGuard],
   },
   {
     path: 'villager/:id/edit',
     component: VillagerEditComponent,
     pathMatch: 'full',
+    canActivate: [AuthGuard],
   },
 ];
 

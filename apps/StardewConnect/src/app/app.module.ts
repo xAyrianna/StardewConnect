@@ -24,6 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './features/login-component/login.component';
 import { RegisterComponent } from './features/register-component/register.component';
 import { httpInterceptorProviders } from './features/auth/auth.interceptor';
+import { UserProfileComponent } from './features/user-component/user-profile/user-profile.component';
+import { AddVillagerDialogComponent } from './features/villager-component/add-villager-dialog/add-villager-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { httpInterceptorProviders } from './features/auth/auth.interceptor';
     UserDetailComponent,
     LoginComponent,
     RegisterComponent,
+    UserProfileComponent,
+    AddVillagerDialogComponent,
   ],
   imports: [
     BrowserModule,
