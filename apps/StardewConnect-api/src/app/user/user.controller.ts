@@ -33,6 +33,13 @@ export class UserController {
     return this.userService.getUserByUsername(username);
   }
 
+  @Get('id/:id')
+  @ApiResponse({ status: 200, description: 'User by id' })
+  getUserById(@Param('id') id: string) {
+    console.log("Get by id method called")
+    return this.userService.getUserById(id);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'User created successfully' })
   addUser(@Body() user: User) {
@@ -70,9 +77,28 @@ export class UserController {
     return this.userService.getFollowers(token.username);
   }
 
+  @Get('check/:toFollow')
+  @ApiResponse({ status: 200, description: 'Check if friends' })
+  checkIfFollowing(@Param('toFollow') toFollow: string, @InjectToken() token : Token) {
+    return this.userService.checkIfFollowing(token.username, toFollow);
+  }
+
   @Get('following')
   @ApiResponse({ status: 200, description: 'List of following' })
   getFollowing(@InjectToken() token : Token) {
     return this.userService.getFollowing(token.username);
   }
+
+  @Get('recommendations')
+  @ApiResponse({ status: 200, description: 'List of recommendations' })
+  getRecommendations(@InjectToken() token : Token) {
+    return this.userService.getRecommendations(token.username);
+  }
+
+  @Get('recommendations/friends')
+  @ApiResponse({ status: 200, description: 'List of recommendations' })
+  getFriendRecommendations(@InjectToken() token : Token,) {
+    return this.userService.getUserFromBefriended(token.username);
+  }
+
 }

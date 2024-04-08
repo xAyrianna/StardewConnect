@@ -47,6 +47,12 @@ export class VillagerController {
       this.villagerService.befriendVillager(token.username, id);
     }
 
+    @Put('hearts/:id')
+    @ApiResponse({ status: 200, description: 'Villager hearts updated' })
+    updateHearts(@Param('id') id: string, @InjectToken() token : Token) {
+      this.villagerService.updateVillagerHearts(token.username, id);
+    }
+
     @Delete(':id')
     @ApiResponse({ status: 204, description: 'Villager unfriended' })
     unfriendVillager(@Param('id') id: string, @InjectToken() token : Token) {
@@ -57,5 +63,17 @@ export class VillagerController {
     @ApiResponse({ status: 200, description: 'List of friends' })
     getFriends(@InjectToken() token : Token) {
       return this.villagerService.getBefriendedVillagers(token.username);
+    }
+
+    @Get('check/:id')
+    @ApiResponse({ status: 200, description: 'Check if friends' })
+    checkIfFriends(@Param('id') id: string, @InjectToken() token : Token) {
+      return this.villagerService.checkIfFriends(token.username, id);
+    }
+
+    @Get('hearts/:id')
+    @ApiResponse({ status: 200, description: 'Amount of hearts' })
+    getHearts(@Param('id') id: string, @InjectToken() token : Token) {
+      return this.villagerService.getVillagerHearts(token.username, id);
     }
   }

@@ -26,7 +26,9 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<{ results: User }> {
-    const user = await this.userModel.findById(id).exec();
+    console.log('Getting user by id: ' + id);
+    const user = await this.userModel.findById(id).populate('towns').populate('villagers').exec();
+    console.log('Database returns: ', user);
     return { results: user };
   }
 
@@ -61,13 +63,16 @@ export class UserService {
       throw new HttpException('You are not authorized to update this user', 403);
     }
     updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
+    const oldUser = await this.userModel.findById(updatedUser._id).exec();
     const user = await this.userModel
       .findOneAndUpdate({ _id: updatedUser._id }, updatedUser, { new: true })
       .exec();
-    await this.neo4jService.write(userCypher.updateUsername, {
-      username: updatedUser.username,
-      newUsername: updatedUser.username,
-    });
+      if(oldUser.username != updatedUser.username){
+        await this.neo4jService.write(userCypher.updateUsername, {
+          username: updatedUser.username,
+          newUsername: updatedUser.username,
+        });
+      }
     console.log('Updating ' + user);
     return user;
   }
@@ -111,5 +116,30 @@ export class UserService {
     let following = result.records.map((record) => record.get('following').properties);
     return following;
   }
+
+    async checkIfFollowing(username: string, toFollow: string) {
+    const result = await this.neo4jService.read(userCypher.checkIfFollowing, {
+      username,
+      toFollow,
+    });
+    return result.records.length > 0;
+  }
+
+  async getRecommendations(username: string) {
+    const result = await this.neo4jService.read(userCypher.getRecommendations, {
+      username,
+    });
+    let recommendations = result.records.map((record) => record.get('c').properties);
+    return recommendations;
+  }
+
+  async getUserFromBefriended(username: string) {
+    const result = await this.neo4jService.read(userCypher.getUserFromBefriended, {
+      username,
+    });
+    let users = result.records.map((record) => record.get('b').properties);
+    return users;
+  }
+  
 
 }

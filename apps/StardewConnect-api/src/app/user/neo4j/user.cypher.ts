@@ -36,4 +36,25 @@ export const userCypher = {
    */
   getFollowing:
     'MATCH (a:User {username: $username})-[follow:FOLLOWS]->(following:User) RETURN following',
+  /**
+   * params: username
+   *
+   * returns: user
+   */
+  getRecommendations:
+    'MATCH (a:User {username: $username})-[:FOLLOWS]->(b:User)-[:FOLLOWS]->(c:User) WHERE NOT (a)-[:FOLLOWS]->(c) RETURN c',
+  /**
+   * params: username
+   *
+   * returns: user
+   */
+  getUserFromBefriended:
+    'MATCH (a:User {username: $username})-[:BEFRIENDED]->(v:Villager)<-[:BEFRIENDED]-(b:User) WHERE NOT (a)-[:FOLLOWS]->(b) AND NOT a = b RETURN b',
+  /**
+   * params: username, toFollow
+   * 
+   * returns: user
+   */
+  checkIfFollowing:
+    'MATCH (a:User {username: $username})-[follow:FOLLOWS]->(b:User {username: $toFollow}) RETURN b', 
 };

@@ -9,6 +9,7 @@ import {
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { villagerCypher } from './neo4j/villager.cypher';
 import { User as UserModel, UserDocument } from '../user/schemas/user.schema';
+import { Town as TownModel, TownDocument } from '../town/schemas/town.schema';
 
 @Injectable()
 export class VillagerService {
@@ -16,6 +17,7 @@ export class VillagerService {
     @InjectModel(VillagerModel.name)
     private villagerModel: Model<VillagerDocument>,
     @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
+    @InjectModel(TownModel.name) private townModel: Model<TownDocument>,
     private readonly neo4jService: Neo4jService
   ) {}
 
@@ -31,17 +33,19 @@ export class VillagerService {
   }
 
   async addVillager(createdVillagerDto: Villager): Promise<VillagerModel> {
-    const createdVillager = await new this.villagerModel(createdVillagerDto);
+    const createdVillager = await (await new this.villagerModel(createdVillagerDto)).save();
+  
     await this.neo4jService.write(villagerCypher.addVillager, {
-      id: createdVillagerDto._id,
+      id: createdVillager._id.toString(),
     });
-    return createdVillager.save();
+    return createdVillager;
   }
 
   async updateVillager(updatedVillager: Villager, userId: string): Promise<VillagerModel> {
     if(updatedVillager.createdBy != userId) {
       throw new ForbiddenException('You are not authorized to update this villager');
     }
+    const oldVillager = await this.villagerModel.findById(updatedVillager._id).exec();
     const villager = await this.villagerModel
       .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, {
         new: true,
@@ -71,6 +75,8 @@ export class VillagerService {
       (villager) => villager._id != deletedVillager._id
     );
     await user.save();
+
+    const town = 
 
     await this.neo4jService.write(villagerCypher.removeVillager, {
       id: deletedVillager._id,
@@ -102,6 +108,14 @@ export class VillagerService {
     return result.records.map((record) => record.get('b').properties);
   }
 
+  async checkIfFriends(username: string, id: string) {
+    const result = await this.neo4jService.read(villagerCypher.checkIfFriends, {
+      id,
+      username,
+    });
+    return result.records.length > 0;
+  }
+
   async updateVillagerHearts(username: string, id: string) {
     const result = await this.neo4jService.read(
       villagerCypher.getVillagerHearts,
@@ -120,5 +134,18 @@ export class VillagerService {
       username,
       numberOfHearts,
     });
+  }
+
+  async getVillagerHearts(username: string, id: string) {
+    const result = await this.neo4jService.read(villagerCypher.getVillagerHearts, {
+      id,
+      username,
+    });
+    if(result.records.length == 0) {
+      return 0
+    } 
+    let numberOfHearts = result.records[0].get('befriends.numberOfHearts')
+    console.log(numberOfHearts.toNumber())
+    return numberOfHearts.toNumber();
   }
 }

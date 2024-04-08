@@ -43,5 +43,11 @@ export const villagerCypher = {
      */
     getVillagerHearts:
     'MATCH (a:User {username: $username})-[befriends:BEFRIENDS]->(b:Villager {id: $id}) RETURN befriends.numberOfHearts',
-
+    /**
+     * params: id, username
+     * 
+     * returns: villager
+     */
+    checkIfFriends:
+    'MATCH (a:User {username: $username})-[befriends:BEFRIENDS]->(b:Villager {id: $id}) RETURN b'
 }
