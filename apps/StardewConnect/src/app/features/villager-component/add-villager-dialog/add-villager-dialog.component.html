@@ -1,0 +1,15 @@
+<div class="container">
+    <h2>Adding to town</h2>
+    <form (ngSubmit)="onSubmit()">
+      <p>Choose the town you want to add {{villager?.name}} to:</p>
+      <select [(ngModel)]="selectedTown" name="town">
+        <option value="" disabled>Select a town</option>
+        <option *ngFor="let town of towns" [ngValue]="town">{{town.name}}</option>
+      </select>
+      <div *ngIf="error" style="color: #d33c31" class="mb-2">{{error}}</div>
+      <div class="button-group mt-3">
+        <button type="submit">Submit</button>
+        <button type="button" (click)="closeModal()">Close</button>
+      </div>
+    </form>
+  </div>

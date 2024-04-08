@@ -1,0 +1,7 @@
+.container{
+    background-image: url('../../../../assets/Images/cloudyBackground.png');
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-top: 10px;
+}
