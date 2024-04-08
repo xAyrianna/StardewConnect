@@ -52,4 +52,40 @@ export class VillagerService {
     console.log(options);
     return this.http.delete<Villager>(villagerUrl, options);
   }
+
+  befriendVillager(villager: Villager) {
+    const villagerUrl = this.BASE_URL + '/villager/' + villager._id;
+    return this.http.post<Villager>(villagerUrl, {});
+  }
+
+  unfriendVillager(villager: Villager) {
+    const villagerUrl = this.BASE_URL + '/villager/' + villager._id;
+    return this.http.delete<Villager>(villagerUrl);
+  }
+
+  updateVillagerHearts(villager: Villager) {
+    const villagerUrl = this.BASE_URL + '/villager/hearts/' + villager._id;
+    return this.http.put<Villager>(villagerUrl, {});
+  }
+
+  getFriends(): Observable<Villager[]> {
+    const villagerUrl = this.BASE_URL + '/villager/friends';
+    return this.http.get<ApiResponse<Villager[]>>(villagerUrl).pipe(
+      map((response: ApiResponse<Villager[]>) => response.results),
+      tap((villagers: Villager[]) => {
+        console.log(villagers);
+        return villagers;
+      })
+    );
+  }
+
+  checkIfFriends(villager: Villager): Observable<boolean> {
+    const villagerUrl = this.BASE_URL + '/villager/check/' + villager._id;
+    return this.http.get<boolean>(villagerUrl);
+  }
+
+  getHearts(villager: Villager): Observable<number> {
+    const villagerUrl = this.BASE_URL + '/villager/hearts/' + villager._id;
+    return this.http.get<number>(villagerUrl);
+  }
 }

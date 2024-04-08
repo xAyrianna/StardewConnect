@@ -3,6 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { VillagerService } from '../villager.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddVillagerDialogComponent } from '../add-villager-dialog/add-villager-dialog.component';
 
 @Component({
   selector: 'stardew-connect-villager-detail',
@@ -13,15 +15,19 @@ export class VillagerDetailComponent implements OnInit, OnDestroy {
   componentId: string | null | undefined;
   villager: Villager | undefined;
   subscription: Subscription | undefined;
+  isCreator: boolean = false;
+  amountOfHearts: number = 0;
+  areFriends: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private villagerService: VillagerService
+    private villagerService: VillagerService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.subscription = this.route.paramMap.subscribe((params) => {
       this.componentId = params.get('id');
       if (this.componentId) {
         this.subscription = this.villagerService
@@ -29,6 +35,17 @@ export class VillagerDetailComponent implements OnInit, OnDestroy {
           .subscribe((response) => {
             this.villager = response;
             console.log(this.villager);
+            if (this.villager.createdBy == localStorage.getItem('userId')) {
+              this.isCreator = true;
+            }
+            this.subscription = this.villagerService.checkIfFriends(this.villager).subscribe((response) => {
+              console.log(response);
+              this.areFriends = response;
+            });
+            this.subscription = this.villagerService.getHearts(this.villager).subscribe((response) => {
+              console.log(response);
+              this.amountOfHearts = response;
+            });
           });
       } else {
         console.log('Nieuwe component');
@@ -42,5 +59,35 @@ export class VillagerDetailComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-}
 
+  openDialog() {
+    const modalRef = this.modalService.open(AddVillagerDialogComponent, {
+      centered: true, 
+    });
+    modalRef.componentInstance.villager = this.villager;
+  }
+
+  befriend() {
+    if (this.villager) {
+      this.subscription = this.villagerService.befriendVillager(this.villager).subscribe(() => {
+        this.router.navigate(['/villagers']);
+      });
+    }
+  }
+
+  unfriend() {
+    if (this.villager) {
+      this.subscription = this.villagerService.unfriendVillager(this.villager).subscribe(() => {
+        this.router.navigate(['/villager']);
+      });
+    }
+  }
+
+  giveGift(){
+    if (this.villager) {
+      this.subscription = this.villagerService.updateVillagerHearts(this.villager).subscribe(() => {
+        this.router.navigate(['/villager']);
+      });
+    }
+  }
+}

@@ -1,17 +1,29 @@
-<div class="blank-box" id="userlist">
+<div class="blank-box container" id="userlist">
     <div class="row">
         <div class="col">
             <h1>{{villager?.name}}</h1>
             <h6>Birthday: {{villager?.birthday}}</h6>
             <p>Gender: {{villager?.gender}} <br> Lifestage: {{villager?.lifeStage}} <br> Marriageable:
                 {{villager?.marriageable ? "yes" : "no"}} </p>
+            <p>Number of hearts: {{amountOfHearts}}</p>
             <p>Favorite gifts:</p>
             <ul>
                 <li *ngFor="let favoriteGift of villager?.favoriteGifts">{{favoriteGift }}</li>
             </ul>
         </div>
         <div class="col text-end">
-            <button type="button" class="btn btn-info" routerLink="edit">Edit villager</button>
+            <div *ngIf="isCreator">
+                <button type="button" class="btn btn-info" routerLink="edit">Edit villager</button>
+            </div>
+            <button type="button" class="btn btn-info" (click)="openDialog()">Add {{villager?.name}} to your town</button>
+            <div *ngIf="!areFriends">
+            <button type="button" class="btn btn-info" (click)="befriend()">Befriend {{villager?.name}}?</button>
+            </div>
+            <div *ngIf="areFriends">
+            <button type="button" class="btn btn-info" (click)="giveGift()">Give a gift to {{villager?.name}}?</button>
+            <button type="button" class="btn btn-info" (click)="unfriend()">unfriend {{villager?.name}}?</button>
+            </div>
+            
         </div>
     </div>
 </div>
