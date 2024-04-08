@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, catchError, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs';
 import { ApiResponse, User, UserCredentials } from '@StardewConnect/libs/data';
 
 @Injectable({
@@ -9,6 +9,7 @@ import { ApiResponse, User, UserCredentials } from '@StardewConnect/libs/data';
 })
 export class UserService {
   BASE_URL = environment.apiUrl;
+   userLoggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +21,7 @@ export class UserService {
         if (result.access_token && result.user) {
           localStorage.setItem('access_token', result.access_token);
           localStorage.setItem('user_ID', result.user._id);
+          this.userLoggedIn.next(true);
           return result;
         }
       }),
@@ -53,11 +55,21 @@ export class UserService {
     );
   }
 
+  getProfile(): Observable<User> {
+    const BASE_URL = this.BASE_URL + "/auth/profile"
+    return this.http.get<ApiResponse<User>>(BASE_URL).pipe(map((response: ApiResponse<User>) => response.results));
+  }
+
   getUserByUsername(username: string): Observable<User> {
     const userUrl = this.BASE_URL + '/user/' + username;
     return this.http
       .get<ApiResponse<User>>(userUrl)
       .pipe(map((response: ApiResponse<User>) => response.results));
+  }
+
+  getUserByID(id: string) {
+    const userUrl = this.BASE_URL + '/user/id/' + id;
+    return this.http.get<ApiResponse<User>>(userUrl).pipe(map((response: ApiResponse<User>) => response.results));
   }
 
   updateUser(updatedUser: User) {

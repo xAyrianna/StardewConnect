@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../features/user-component/user.service';
 
 @Component({
   selector: 'stardew-connect-navbar',
@@ -11,7 +12,11 @@ export class NavbarComponent implements OnInit {
   activeRoute = window.location.pathname;
   loggedIn = false;
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, userService: UserService) {
+    userService.userLoggedIn.subscribe((value) => {
+      this.loggedIn = value;
+    });
+  }
 
   ngOnInit(): void {
     console.log('Current route: ' + this.activeRoute);
