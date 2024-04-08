@@ -7,7 +7,7 @@ export interface Token {
 
 export const InjectToken = createParamDecorator(
 	(_data: unknown, ctx: ExecutionContext) => {
-		const response = ctx.switchToHttp().getResponse();
-		return response.locals.token;
+		const response = ctx.switchToHttp().getRequest();
+		return response.user;
 	},
 );
