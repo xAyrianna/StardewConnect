@@ -6,10 +6,11 @@
   </div>
   <div class="navigation-tabs">
     <div *ngIf="loggedIn">
-    <a routerLink="/user" routerLinkActive="active-link">Users</a>
+    <a routerLink="/user" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Users</a>
     <a routerLink="/town" routerLinkActive="active-link">Towns</a>
     <a routerLink="/villager" routerLinkActive="active-link">Villagers</a>
     <a routerLink="/event" routerLinkActive="active-link">Events</a>
+    <a routerLink="/user/{{loggedInUser}}" routerLinkActive="active-link">Profile</a>
   </div>
   </div>
   <div class="user-info">
