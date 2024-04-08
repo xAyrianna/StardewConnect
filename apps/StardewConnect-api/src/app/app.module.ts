@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
 import { TownController } from './town/town.controller';
 import { UserController } from './user/user.controller';
 import { EventController } from './event/event.controller';
@@ -31,7 +30,6 @@ import { Neo4jModule } from './neo4j/neo4j.module';
     AuthModule,
   ],
   controllers: [
-    AppController,
     TownController,
     UserController,
     EventController,
