@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TownController } from './town/town.controller';
 import { TownService } from './town/town.service';
 import { UserService } from './user/user.service';
@@ -44,8 +43,6 @@ import { Neo4jModule } from './neo4j/neo4j.module';
     VillagerController,
     AuthController,
   ],
-  providers: [
-    AppService,
-  ],
+  providers: [],
 })
 export class AppModule {}
