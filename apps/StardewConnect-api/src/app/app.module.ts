@@ -46,7 +46,6 @@ import { Neo4jModule } from './neo4j/neo4j.module';
   ],
   providers: [
     AppService,
-    AuthService,
   ],
 })
 export class AppModule {}
