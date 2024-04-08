@@ -17,11 +17,7 @@
         het mogelijk zijn om bevriend te raken met de bewoners. Dit zal
         bijgehouden met een friendship level. Daarbij kunnen gebruikers ook de
         bewoners van andere gebruikers zien en deze aan hun eigen dorpen
-        toevoegen. Gebruikers kunnen elkaar volgen, pas als ze elkaar volgen
-        worden de bewoners van hen en de personen die zij volgen zichtbaar. Tot
-        slot zal er een overzicht zijn met de bewoners die de gebruiker bevriend
-        heeft op volgorde van het aantal hartjes dat ze hebben en zal er bij
-        staan in welke dorpen van de gebruiker ze zitten.
+        toevoegen. Gebruikers kunnen elkaar volgen en elkaars bewoners en dorpen bekijken.
       </p>
     </div>
     <div class="col-sm-6 col-md-8 col-lg-3">
@@ -50,6 +46,8 @@
     creëren. Voor een bewoner is er voor birthday gekozen voor een string omdat
     in het spel de bewoners geen echte datum hebben voor hun verjaardag maar een
     seizoen met een dag. Dit wilde ik voor de bewoners van de dorpjes ook doen.
+    De relatie tussen de bewoners en gebruikers en tussen de gebruikers wordt beide bijgehouden
+    door neo4j, het vriendschapslevel zit gekoppeld aan de relatie tussen de bewoners en de gebruikers.
   </p>
   <img
     src="../../../assets/Images/Erd.png"
@@ -60,31 +58,39 @@
     <div class="col-sm-12 col-md-4">
       <b>Town</b>
       <ul>
+        <li>TownID: string</li>
         <li>Name: string</li>
         <li>Capacity: number</li>
         <li>Facilities: string[]</li>
         <li>CreationDate: Date</li>
+        <li>CreatedBy: string</li>
+        <li>Events: Event[] </li>
+        <li>villagersInTown: Villager[]</li>
       </ul>
     </div>
     <div class="col-sm-12 col-md-4">
       <b>Villager</b>
       <ul>
+        <li>VillagerID: string</li>
         <li>name: string</li>
-        <li>gender: enum</li>
-        <li>lifeStage: enum</li>
+        <li>gender: enum:Gender</li>
+        <li>lifeStage: enum:LifeStage</li>
         <li>marriageable: boolean</li>
         <li>birthday: string</li>
         <li>favoriteGifts: string[]</li>
+        <li>createdBy: string</li>
       </ul>
     </div>
     <div class="col-sm-12 col-md-4">
       <b>Event</b>
       <ul>
+        <li>EventID: string</li>
         <li>name: string</li>
         <li>description: string</li>
         <li>date: string</li>
         <li>location: string</li>
         <li>hasHappened: boolean</li>
+        <li>inTownId: string</li>
       </ul>
     </div>
   </div>
@@ -110,7 +116,7 @@
             </td>
             <td>
               Een gebruiker moet een account kunnen aanmaken. Geimplementeerd
-              door user-edit component
+              door user entiteit
             </td>
           </tr>
           <tr>
@@ -121,8 +127,7 @@
             </td>
             <td>
               Een gebruiker moet na het registreren de inloggegevens kunnen
-              gebruiken om mee in te loggen. Geimplementeerd door user-?
-              component
+              gebruiken om mee in te loggen. Geimplementeerd door user entiteit
             </td>
           </tr>
           <tr>
@@ -131,7 +136,7 @@
               Als ingelogde gebruiker wil ik mijn eigen dorpen kunnen maken,
               ophalen, wijzigen en verwijderen. Zodat deze up-to-date blijven.
             </td>
-            <td>Town CRUD, Geimplementeerd door town-* components</td>
+            <td>Town CRUD, Geimplementeerd door town entiteit</td>
           </tr>
           <tr>
             <td>4</td>
@@ -139,7 +144,7 @@
               Als ingelogde gebruiker wil ik mijn eigen bewoners kunnen maken,
               ophalen, wijzigen en verwijderen. Zodat deze up-to-date blijven.
             </td>
-            <td>Villager CRUD, Geimplementeerd door villager-* components</td>
+            <td>Villager CRUD, Geimplementeerd door villager entiteit</td>
           </tr>
           <tr>
             <td>5</td>
@@ -148,7 +153,7 @@
               dorpen kunnen maken, ophalen, wijzigen en verwijderen. Zodat deze
               up-to-date blijven.
             </td>
-            <td>Event CRUD, Geimplementeerd door event-* components</td>
+            <td>Event CRUD, Geimplementeerd door event entiteit</td>
           </tr>
           <tr>
             <td>6</td>
@@ -156,7 +161,7 @@
               Als ingelogde gebruiker wil ik andere gebruikers kunnen volgen
               zodat ik kan zien wat zij allemaal gemaakt hebben.
             </td>
-            <td>Geimplementeerd door user-? component</td>
+            <td>Geimplementeerd door user entiteit</td>
           </tr>
           <tr>
             <td>7</td>
@@ -165,47 +170,26 @@
               kunnen zien en aan mijn eigen dorp kunnen toevoegen, zodat ik mijn
               dorpjes kan vergroten met bewoners van anderen.
             </td>
-            <td>Geimplementeerd door villager-list component</td>
+            <td>Geimplementeerd door villager entiteit</td>
           </tr>
           <tr>
             <td>8</td>
             <td>
               Als ingelogde gebruiker wil ik de bewoners kunnen zien van de
-              mensen die mijn volgers volgen
+              mensen die mijn volgers volgen.
             </td>
             <td>
-              Een ingelogde gebruiker kan deze bewoners zien, het toevoegen van
-              deze bewoners aan hun dorp is niet mogelijk. Geimplementeerd door
-              villager-list component
+              Een ingelogde gebruiker kan deze bewoners zien en toevoegen aan hun eigen dorp. Geimplementeerd door
+              villager entiteit.
             </td>
           </tr>
           <tr>
             <td>9</td>
             <td>
-              Als ingelogde gebruikers wil ik de dorpen aanbevolen krijgen van
-              de mensen ik volg zodat ik inspiratie op kan doen.
-            </td>
-            <td>Geimplementeerd door town-? component</td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>
               Als ingelogde gebruiker wil ik vrienden kunnen worden met mijn
               eigen bewoners maar ook met die van andere gebruikers.
             </td>
-            <td>Geimplementeerd door villager-details component</td>
-          </tr>
-          <tr>
-            <td>11</td>
-            <td>
-              Als ingelogde gebruiker wil ik een gesorteerde lijst zien met
-              welke bewoners ik bevriend ben.
-            </td>
-            <td>
-              De gebruiker kan bewoners bevrienden, deze levels gaan tot en met
-              10. Er wordt een lijst weergegeven met de hoogste levels bovenaan.
-              Geimplementeerd door villager-list component
-            </td>
+            <td>Geimplementeerd door villager entiteit</td>
           </tr>
         </tbody>
       </table>
