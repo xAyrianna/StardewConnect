@@ -41,18 +41,18 @@ export class TownController {
   @Post()
   @ApiResponse({ status: 201, description: 'Town created successfully' })
   addTown(@Body() town: Town) {
-    this.townService.addTown(town);
+    return this.townService.addTown(town);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Town updated successfully' })
   updateTown(@Body() updatedTown: Town, @InjectToken() token: Token) {
-    this.townService.updateTown(updatedTown, token.sub);
+    return this.townService.updateTown(updatedTown, token.sub);
   }
 
   @Delete()
   @ApiResponse({ status: 204, description: 'Town deleted successfully' })
   deleteTown(@Body() deletedTown: Town, @InjectToken() token: Token){
-    this.townService.deleteTown(deletedTown, token.sub);
+    return this.townService.deleteTown(deletedTown, token.sub);
   }
 }
