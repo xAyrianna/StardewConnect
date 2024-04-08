@@ -1,0 +1,10 @@
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.blank-box {
+    flex: 1;
+    margin: 20px;
+    /* Add other styles as needed */
+}

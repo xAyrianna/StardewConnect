@@ -13,17 +13,22 @@
         </div>
         <div class="col text-end">
             <div *ngIf="isCreator">
-                <button type="button" class="btn btn-info" routerLink="edit">Edit villager</button>
+                <div class="mb-1">
+                    <button type="button" class="btn btn-info" routerLink="edit">Edit villager</button>
+                </div>
+                <div class="mb-1">
+                    <button type="button" class="btn btn-danger" (click)="deleteVillager()">Delete user</button>
+                </div>
             </div>
-            <button type="button" class="btn btn-info" (click)="openDialog()">Add {{villager?.name}} to your town</button>
-            <div *ngIf="!areFriends">
-            <button type="button" class="btn btn-info" (click)="befriend()">Befriend {{villager?.name}}?</button>
-            </div>
-            <div *ngIf="areFriends">
-            <button type="button" class="btn btn-info" (click)="giveGift()">Give a gift to {{villager?.name}}?</button>
-            <button type="button" class="btn btn-info" (click)="unfriend()">unfriend {{villager?.name}}?</button>
-            </div>
-            
+            <div *ngIf="!areFriends" class="mb-1">
+                <button type="button" class="btn btn-info" (click)="befriend()">Befriend {{villager?.name}}?</button>
+                </div>
+                <div *ngIf="areFriends">               
+                <button type="button" class="btn btn-danger mb-1" (click)="unfriend()">unfriend {{villager?.name}}?</button>
+                <button type="button" class="btn btn-info mb-1" (click)="giveGift()">Give a gift to {{villager?.name}}?</button>
+
+                </div>
+            <button type="button" class="btn btn-info mb-1" (click)="openDialog()">Add {{villager?.name}} to your town</button>
         </div>
     </div>
 </div>

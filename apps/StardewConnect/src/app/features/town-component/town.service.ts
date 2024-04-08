@@ -15,11 +15,9 @@ export class TownService {
   getAllTowns(): Observable<Town[]>{
     const townUrl = this.BASE_URL + '/town';
 
-    console.log('get ' + townUrl);
     return this.http.get<ApiResponse<Town[]>>(townUrl).pipe(
       map((response: ApiResponse<Town[]>) => response.results),
       tap((towns: Town[]) => {
-        console.log(towns);
         return towns;
       })
     );
@@ -56,7 +54,6 @@ export class TownService {
     const options = {
       body: deletedTown,
     };
-    console.log(options);
     return this.http.delete<Town>(townUrl, options);
   }
 }

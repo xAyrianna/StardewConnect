@@ -1,4 +1,4 @@
-import { Town} from '@StardewConnect/libs/data';
+import { Town } from '@StardewConnect/libs/data';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -35,7 +35,6 @@ export class TownEditComponent implements OnInit, OnDestroy {
           .subscribe((response) => {
             this.town = { ...response }; //spread
             this.townName = response.name;
-            console.log(this.town);
           });
       } else {
         console.log('Nieuwe component');
@@ -68,13 +67,18 @@ export class TownEditComponent implements OnInit, OnDestroy {
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting town');
-      this.townService.updateTown(this.town!).subscribe();
+      this.townService.updateTown(this.town!).subscribe(() => {
+        console.log('Town updated');
+        this.router.navigate(['town']);
+      });
     } else {
       // nieuw object toevoegen aan array
       console.log('adding town');
-      this.townService.addTown(this.town!).subscribe();
+      this.townService.addTown(this.town!).subscribe(() => {
+        console.log('Town added');
+        this.router.navigate(['town']);
+      });
     }
-    this.router.navigate(['town']);
   }
 
   deleteFacility(i: number) {
@@ -88,4 +92,3 @@ export class TownEditComponent implements OnInit, OnDestroy {
     return facility.name;
   }
 }
-

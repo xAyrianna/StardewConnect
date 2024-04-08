@@ -29,15 +29,6 @@
         </td>
         <td class="text-center">{{ villager.lifeStage }}</td>
         <td class="text-center">{{ villager?.marriageable ? 'yes' : 'no' }}</td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="deleteVillager(villager)"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>

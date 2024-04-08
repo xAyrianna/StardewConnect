@@ -1,4 +1,4 @@
-<div class="blank-box" id="userlist">
+<div class="blank-box">
     <div class="row">
         <div class="col">
             <h1>{{user?.username}}</h1>
@@ -6,7 +6,58 @@
             <p>Name: {{user?.name}} <br> Email: {{user?.emailAddress}} <br> Favorite thing: {{user?.favoriteThing}}</p>
         </div>
         <div class="col text-end">
-            <button type="button" class="btn btn-info" routerLink="edit">Edit user</button>
+            <div *ngIf="loggedInUser == user?._id">
+                <div class="mb-1">
+                    <button type="button" class="btn btn-info" routerLink="edit">Edit user</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete user</button>
+                </div>
+            </div>
+            <div *ngIf="loggedInUser != user?._id">
+                <div *ngIf="!isFollowing">
+                    <button type="button" class="btn btn-info" (click)="follow()">Follow {{user?.username}}?</button>
+                </div>
+                <div *ngIf="isFollowing">
+                    <button type="button" class="btn btn-info" (click)="unfollow()">Unfollow {{user?.username}}?</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Villagers made by {{user?.username}}:</p>
+            <ul>
+                <div *ngIf="!user?.villagers || user?.villagers?.length === 0">
+                    <li>No villagers made by {{user?.username}} yet.</li>
+                </div>
+                <div *ngIf="user?.villagers!.length > 0">
+                    <li *ngFor="let villager of user?.villagers">
+                        <a routerLink="/villager/{{ villager.name }}"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{villager.name}}</a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <div class="col">
+            <p>Towns made by {{user?.username}}:</p>
+            <ul>
+                <div *ngIf="!user?.towns || user?.towns?.length === 0">
+                    <p>No towns made yet. 
+                        <span *ngIf="loggedInUser == user?._id">
+                            <a routerLink="/town/new"
+                            routerLinkActive="active"
+                            ariaCurrentWhenActive="page"> Make a town</a>
+                        </span>
+                </div>
+                <div *ngIf="user?.towns!.length > 0">
+                    <li *ngFor="let town of user?.towns">
+                        <a routerLink="/town/{{ town.name }}"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{town.name}}</a>
+                    </li>
+                </div>
+            </ul>
         </div>
     </div>
 </div>

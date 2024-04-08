@@ -4,16 +4,61 @@
             <h1>{{town?.name}}</h1>
             <h6>Founded in: {{creationDate}}</h6>
             <p>Capacity: {{town?.capacity}}</p>
+        </div>
+        <div class="col text-end">
+            <div *ngIf="isCreator">
+                <div class="mb-1">
+                    <button type="button" class="btn btn-info" routerLink="edit">Edit town</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger" (click)="deleteTown()">Delete town</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <p>Facilities:</p>
             <ul>
                 <li *ngFor="let facility of town?.facilities">{{facility}}</li>
             </ul>
-            <!-- <ul *ngIf="town?.events">
-                <li *ngFor="let event of town?.events">{{event}}</li>
-            </ul> -->
         </div>
-        <div class="col text-end">
-            <button type="button" class="btn btn-info" routerLink="edit">Edit town</button>
+        <div class="col">
+            <p>Villagers in town:</p>
+            <ul>
+                <div *ngIf="!town?.villagersInTown || town?.villagersInTown?.length === 0">
+                    <p>No villagers yet.</p>
+                </div>
+                <div *ngIf="town?.villagersInTown!.length > 0">
+                    <li *ngFor="let villager of town?.villagersInTown">
+                        <a routerLink="/villager/{{ villager.name }}"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{villager.name}}</a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Events in {{town?.name}}:</p>
+            <ul>
+                <div *ngIf="!town?.events || town?.events?.length === 0">
+                    <p>No events yet.
+                        <span *ngIf="userID == town?.createdBy">
+                            <a routerLink="/event/new"
+                            routerLinkActive="active"
+                            ariaCurrentWhenActive="page">Organize an event</a>
+                        </span>
+                </div>
+                <div *ngIf="town?.events!.length > 0">
+                    <li *ngFor="let event of town?.events">
+                        <a routerLink="/event/{{ event.name }}"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page">{{event.name}}</a>
+                    </li>
+                </div>
+            </ul>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="blank-box" id="userlist">
+<div class="blank-box">
     <div class="row">
         <div class="col">
             <h1>{{event?.name}}</h1>
@@ -7,7 +7,14 @@
             <p>Location: {{event?.location}}<br> {{event?.description}} </p>
         </div>
         <div class="col text-end">
-            <button type="button" class="btn btn-info" routerLink="edit">Edit event</button>
+            <div *ngIf="isCreator">
+                <div class="mb-1">
+                    <button type="button" class="btn btn-info" routerLink="edit">Edit event</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger" (click)="deleteEvent()">Delete event</button>
+                </div>
+            </div> 
         </div>
     </div>
 </div>

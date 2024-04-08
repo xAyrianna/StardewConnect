@@ -6,41 +6,55 @@ import { User as UserModel, UserDocument } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { userCypher } from './neo4j/user.cypher';
+import { VillagerService } from '../villager/villager.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
-    private readonly neo4jService: Neo4jService
+    private readonly neo4jService: Neo4jService,
   ) {}
 
   async getAll(): Promise<{ results: User[] }> {
-    const users = await this.userModel.find().populate('towns').populate('villagers').exec();
-    console.log('Database returns: ', users);
+    const users = await this.userModel
+      .find()
+      .populate('towns')
+      .populate('villagers')
+      .exec();
     return { results: users };
   }
 
   async getUserByUsername(username: string): Promise<{ results: User }> {
-    const user = await this.userModel.findOne({ username }).exec();
+    const user = await this.userModel
+      .findOne({ username })
+      .populate({
+        path: 'towns',
+        populate: { path: 'villagersInTown' },
+      })
+      .populate('villagers')
+      .exec();
     return { results: user };
   }
 
   async getUserById(id: string): Promise<{ results: User }> {
-    console.log('Getting user by id: ' + id);
-    const user = await this.userModel.findById(id).populate('towns').populate('villagers').exec();
-    console.log('Database returns: ', user);
+    const user = await this.userModel
+      .findById(id)
+      .populate({
+        path: 'towns',
+        populate: { path: 'villagersInTown' },
+      })
+      .populate('villagers')
+      .exec();
     return { results: user };
   }
 
   async addUser(createdUserDto: User): Promise<UserModel> {
     try {
-      console.log('Creating ' + createdUserDto + ' in the database');
       createdUserDto.password = await bcrypt.hash(createdUserDto.password, 10);
 
       const createdUser = await (
         await new this.userModel(createdUserDto)
       ).save();
-      console.log('Created ' + createdUser);
       await this.neo4jService.write(userCypher.addUser, {
         username: createdUserDto.username,
       });
@@ -59,28 +73,34 @@ export class UserService {
   }
 
   async updateUser(updatedUser: User, userId: string): Promise<User> {
+    console.log('Updating ' + updatedUser)
     if (updatedUser._id != userId) {
-      throw new HttpException('You are not authorized to update this user', 403);
+      throw new HttpException(
+        'You are not authorized to update this user',
+        403
+      );
     }
-    updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     const oldUser = await this.userModel.findById(updatedUser._id).exec();
+    delete updatedUser.password;
     const user = await this.userModel
       .findOneAndUpdate({ _id: updatedUser._id }, updatedUser, { new: true })
       .exec();
-      if(oldUser.username != updatedUser.username){
-        await this.neo4jService.write(userCypher.updateUsername, {
-          username: updatedUser.username,
-          newUsername: updatedUser.username,
-        });
-      }
-    console.log('Updating ' + user);
+    if (oldUser.username != updatedUser.username) {
+      await this.neo4jService.write(userCypher.updateUsername, {
+        username: updatedUser.username,
+        newUsername: updatedUser.username,
+      });
+    }
     return user;
   }
 
   async deleteUser(deletedUser: User, userId: string) {
     console.log('Deleting ' + deletedUser);
     if (deletedUser._id != userId) {
-      throw new HttpException('You are not authorized to delete this user', 403);
+      throw new HttpException(
+        'You are not authorized to delete this user',
+        403
+      );
     }
     const user = await this.userModel
       .findOneAndDelete({ _id: deletedUser._id })
@@ -106,18 +126,26 @@ export class UserService {
   }
 
   async getFollowers(username: string) {
-    const result = await this.neo4jService.read(userCypher.getFollowers, { username });
-    let followers = result.records.map((record) => record.get('follower').properties);
+    const result = await this.neo4jService.read(userCypher.getFollowers, {
+      username,
+    });
+    let followers = result.records.map(
+      (record) => record.get('follower').properties
+    );
     return followers;
   }
 
   async getFollowing(username: string) {
-    const result = await this.neo4jService.read(userCypher.getFollowing, { username });
-    let following = result.records.map((record) => record.get('following').properties);
+    const result = await this.neo4jService.read(userCypher.getFollowing, {
+      username,
+    });
+    let following = result.records.map(
+      (record) => record.get('following').properties
+    );
     return following;
   }
 
-    async checkIfFollowing(username: string, toFollow: string) {
+  async checkIfFollowing(username: string, toFollow: string) {
     const result = await this.neo4jService.read(userCypher.checkIfFollowing, {
       username,
       toFollow,
@@ -126,20 +154,43 @@ export class UserService {
   }
 
   async getRecommendations(username: string) {
+    let resultUsers: User[] = [];
     const result = await this.neo4jService.read(userCypher.getRecommendations, {
       username,
     });
-    let recommendations = result.records.map((record) => record.get('c').properties);
-    return recommendations;
+    let recommendations = result.records.map(
+      (record) => record.get('c').properties
+    );
+    for (let user of recommendations) {
+      const userToAdd = (await this.getUserByUsername(user.username)).results;
+
+      const isUserInArray = resultUsers.some(resultUser => resultUser.username === userToAdd.username);
+    
+      if (!isUserInArray) {
+        resultUsers.push(userToAdd);
+      }
+    }
+    return {results: resultUsers};
   }
 
   async getUserFromBefriended(username: string) {
-    const result = await this.neo4jService.read(userCypher.getUserFromBefriended, {
-      username,
-    });
+    let resultUsers: User[] = [];
+    const result = await this.neo4jService.read(
+      userCypher.getUserFromBefriended,
+      {
+        username,
+      }
+    );
     let users = result.records.map((record) => record.get('b').properties);
-    return users;
-  }
-  
+    for (let user of users) {
+      const userToAdd = (await this.getUserByUsername(user.username)).results;
 
+      const isUserInArray = resultUsers.some(resultUser => resultUser.username === userToAdd.username);
+    
+      if (!isUserInArray) {
+        resultUsers.push(userToAdd);
+      }
+    }
+    return {results: resultUsers};
+  }
 }

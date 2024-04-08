@@ -6,20 +6,18 @@ import { ApiResponse, Event } from '@StardewConnect/libs/data';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
-  BASE_URL = environment.apiUrl
+  BASE_URL = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<Event[]> {
     const eventUrl = this.BASE_URL + '/event';
 
-    console.log('get ' + eventUrl);
     return this.http.get<ApiResponse<Event[]>>(eventUrl).pipe(
       map((response: ApiResponse<Event[]>) => response.results),
       tap((events: Event[]) => {
-        console.log(events);
         return events;
       })
     );
@@ -48,7 +46,6 @@ export class EventService {
     const options = {
       body: deletedEvent,
     };
-    console.log(options);
     return this.http.delete<Event>(eventUrl, options);
   }
 }

@@ -15,7 +15,6 @@
         <th scope="col">Username</th>
         <th scope="col">Emailaddress</th>
         <th scope="col">Favorite thing</th>
-        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -25,20 +24,10 @@
             routerLink="{{ user.username }}"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
-            >{{ user.username }}</a
-          >
+            >{{ user.username }}</a>
         </td>
         <td>{{ user.emailAddress }}</td>
         <td>{{ user.favoriteThing }}</td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="deleteUser(user)"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>

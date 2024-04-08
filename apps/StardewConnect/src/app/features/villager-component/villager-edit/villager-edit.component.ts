@@ -37,7 +37,6 @@ export class VillagerEditComponent implements OnInit, OnDestroy {
           .subscribe((response) => {
             this.villager = { ...response }; //spread
             this.villagerName = response.name;
-            console.log(this.villager);
           });
       } else {
         console.log('Nieuwe component');
@@ -70,13 +69,20 @@ export class VillagerEditComponent implements OnInit, OnDestroy {
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting villager');
-      this.villagerService.updateVillager(this.villager!).subscribe();
+      this.villagerService
+        .updateVillager(this.villager!)
+        .subscribe((response) => {
+          console.log('Villager updated');
+          this.router.navigate(['villager']);
+        });
     } else {
       // nieuwe object toevoegen aan array
       console.log('adding villager');
-      this.villagerService.addVillager(this.villager!).subscribe();
+      this.villagerService.addVillager(this.villager!).subscribe(() => {
+        console.log('Villager added');
+        this.router.navigate(['villager']);
+      });
     }
-    this.router.navigate(['villager']);
   }
 
   deleteFavoriteGift(i: number) {

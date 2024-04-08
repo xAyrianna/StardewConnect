@@ -17,7 +17,6 @@ export class TownListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.townService.getAllTowns().subscribe((response) => {
       this.towns = response;
-      console.log(this.towns);
     });
   }
 
@@ -26,14 +25,5 @@ export class TownListComponent implements OnInit, OnDestroy {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
-  }
-
-  deleteTown(town: Town) {
-    console.log('deleting town');
-    this.townService
-      .deleteTown(town)
-      .subscribe(
-        () => (this.towns = this.towns?.filter((t) => t._id !== town._id))
-      );
   }
 }

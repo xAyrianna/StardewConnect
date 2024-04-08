@@ -30,8 +30,11 @@ export class EventEditComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(async (params) => {
       this.componentId = params.get('id');
       await this.townService.getAllTowns().subscribe((response) => {
-        console.log('Available towns:', response);
-        this.availableTowns = response;
+        for (let town of response) {
+          if(town.createdBy == localStorage.getItem('user_ID')){
+            this.availableTowns.push(town);
+          }
+        }
       });
       if (this.componentId) {
         console.log('Bestaande component');
@@ -43,12 +46,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
           .subscribe((response) => {
             this.event = { ...response }; //spread
             this.eventName = response.name;
-            console.log(this.event);
           });
       } else {
         console.log('Nieuwe component');
         this.componentExists = false;
-        console.log(`${this.availableTowns}`);
         // geen bestaande object, dus nieuw object maken
         this.event = {
           _id: undefined,
@@ -72,19 +73,19 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('Submitting the form');
-    // User toevoegen aan UserArray
-
-    // trying to update the event list for chosen town
-
-
     if (this.componentExists) {
       // update bestaande entry
       console.log('editting event');
-      this.eventService.updateEvent(this.event!).subscribe();
+      this.eventService.updateEvent(this.event!).subscribe(() => {
+        console.log('Event updated:');
+        this.router.navigate(['event']);
+      });
     } else {
       // nieuwe object toevoegen aan array
-      this.eventService.addEvent(this.event!).subscribe();
+      this.eventService.addEvent(this.event!).subscribe(() => {
+        console.log('Event added');
+        this.router.navigate(['event']);
+      });
     }
-    this.router.navigate(['event']);
   }
 }

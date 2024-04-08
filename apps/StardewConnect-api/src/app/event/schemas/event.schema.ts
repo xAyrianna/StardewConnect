@@ -31,7 +31,6 @@ export class Event {
 export const EventSchema = SchemaFactory.createForClass(Event);
 
 EventSchema.post('save', async function (doc) {
-  console.log('Event saved', doc);
   const Town = this.$model('Town');
   await Town.updateOne({ _id: doc.inTownId }, { $push: { events: doc._id } });
 });

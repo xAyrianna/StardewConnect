@@ -48,57 +48,66 @@ export class UserController {
   }
 
   @Put()
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'User updated successfully' })
   updateUser(@Body() updatedUser: User, @InjectToken() token : Token){
-    this.userService.updateUser(updatedUser, token.sub);
+    return this.userService.updateUser(updatedUser, token.sub);
   }
 
   @Delete()
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 204, description: 'User deleted successfully' })
   deleteUser(@Body() deletedUser: User, @InjectToken() token : Token){
-    this.userService.deleteUser(deletedUser, token.sub);
+    return this.userService.deleteUser(deletedUser, token.sub);
   }
 
   @Post('follow/:toFollow')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'User followed successfully' })
   followUser(@Param('toFollow') toFollow: string, @InjectToken() token : Token) {
-    this.userService.followUser(token.username,toFollow);
+    console.log("Follow method called")
+    return this.userService.followUser(token.username,toFollow);
   }
 
   @Delete('unfollow/:toUnfollow')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'User unfollowed successfully' })
   unfollowUser(@Param('toUnfollow') toUnfollow: string, @InjectToken() token : Token) {
-    this.userService.unfollowUser(token.username,toUnfollow);
+    return this.userService.unfollowUser(token.username,toUnfollow);
   }
 
   @Get('followers')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'List of followers' })
   getFollowers(@InjectToken() token : Token) {
     return this.userService.getFollowers(token.username);
   }
 
   @Get('check/:toFollow')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'Check if friends' })
   checkIfFollowing(@Param('toFollow') toFollow: string, @InjectToken() token : Token) {
     return this.userService.checkIfFollowing(token.username, toFollow);
   }
 
   @Get('following')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'List of following' })
   getFollowing(@InjectToken() token : Token) {
     return this.userService.getFollowing(token.username);
   }
 
-  @Get('recommendations')
+  @Get('recommendations/following')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'List of recommendations' })
   getRecommendations(@InjectToken() token : Token) {
     return this.userService.getRecommendations(token.username);
   }
 
   @Get('recommendations/friends')
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'List of recommendations' })
   getFriendRecommendations(@InjectToken() token : Token,) {
     return this.userService.getUserFromBefriended(token.username);
   }
-
 }

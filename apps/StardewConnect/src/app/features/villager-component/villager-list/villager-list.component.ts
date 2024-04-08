@@ -17,7 +17,6 @@ export class VillagerListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.villagerService.getAllVillagers().subscribe((response) => {
       this.villagers = response;
-      console.log(this.villagers);
     });
   }
 
@@ -26,14 +25,5 @@ export class VillagerListComponent implements OnInit, OnDestroy {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
-  }
-
-  deleteVillager(villager: Villager) {
-    console.log('deleting villager');
-    this.villagerService
-      .deleteVillager(villager)
-      .subscribe(
-        () => (this.villagers = this.villagers?.filter((v) => v._id !== villager._id))
-      );
   }
 }

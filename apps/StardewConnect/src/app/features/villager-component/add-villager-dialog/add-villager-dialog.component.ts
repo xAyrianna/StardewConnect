@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../user-component/user.service';
 import { TownService } from '../../town-component/town.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stardew-connect-add-villager-dialog',
@@ -20,15 +21,14 @@ export class AddVillagerDialogComponent implements OnInit {
   constructor(
     private activeModal: NgbActiveModal,
     private userService: UserService,
-    private townService: TownService
+    private townService: TownService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('user_ID'));
     this.subscription = this.userService
       .getUserByID(localStorage.getItem('user_ID') ?? '')
       .subscribe((response) => {
-        console.log(response);
         this.towns = response.towns ?? [];
       });
   }
@@ -41,18 +41,23 @@ export class AddVillagerDialogComponent implements OnInit {
     if (
       this.selectedTown.villagersInTown?.length >= this.selectedTown.capacity
     ) {
-      this.error = 'This town is full;';
+      this.error = 'This town is full';
       return;
     }
-    if(this.selectedTown.villagersInTown?.includes(this.villager!._id!)){
-      this.error = 'This villager is already in this town';
-      return;
+    if (this.selectedTown.villagersInTown.length > 0) {
+      for (let villager of this.selectedTown.villagersInTown) {
+        if (villager._id == this.villager?._id) {
+          this.error = 'This villager is already in this town';
+          return;
+        }
+      }
     }
     if (this.villager?._id) {
-      this.selectedTown.villagersInTown.push(this.villager._id);
+      console.log('Adding villager to town');
+      this.selectedTown.villagersInTown.push(this.villager);
       await this.townService.updateTown(this.selectedTown).subscribe();
       this.activeModal.close();
-      //ToDo reroute?
+      this.router.navigate(['/town/' + this.selectedTown.name]);
     }
   }
 
@@ -60,4 +65,3 @@ export class AddVillagerDialogComponent implements OnInit {
     this.activeModal.close();
   }
 }
-

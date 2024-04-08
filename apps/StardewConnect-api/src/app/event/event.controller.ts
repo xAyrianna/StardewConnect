@@ -32,21 +32,27 @@ export class EventController {
     return this.eventService.getEventByName(name);
   }
 
+  @Get('creator')
+  @ApiResponse({ status: 200, description: 'Events by creator' })
+  getEventsByCreator(@InjectToken() token: Token) {
+    return this.eventService.getEventsByCreator(token.sub);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'Event created successfully' })
-  addEvent(@Body() event: Event, @InjectToken() token: Token){
-    this.eventService.addEvent(event, token.sub);
+  addEvent(@Body() event: Event, @InjectToken() token: Token) {
+    return this.eventService.addEvent(event, token.sub);
   }
 
   @Put()
   @ApiResponse({ status: 200, description: 'Event updated successfully' })
-  updateEvent(@Body() updatedEvent: Event, @InjectToken() token: Token){
-    this.eventService.updateEvent(updatedEvent, token.sub);
+  updateEvent(@Body() updatedEvent: Event, @InjectToken() token: Token) {
+    return this.eventService.updateEvent(updatedEvent, token.sub);
   }
 
   @Delete()
   @ApiResponse({ status: 204, description: 'Event deleted successfully' })
-  deleteEvent(@Body() deletedEvent: Event, @InjectToken() token: Token){
-    this.eventService.deleteEvent(deletedEvent, token.sub);
+  deleteEvent(@Body() deletedEvent: Event, @InjectToken() token: Token) {
+    return this.eventService.deleteEvent(deletedEvent, token.sub);
   }
 }

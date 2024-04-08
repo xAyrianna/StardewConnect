@@ -1,1 +1,48 @@
-<p>home works!</p>
+<div class="flex-container">
+    <div class="blank-box" id="userlist">
+        <div class="userlist-header">
+            <h4>Users you may know</h4>
+        </div>
+        <table class="table table-striped" *ngIf="recommendedOfFollowing?.length; else noUsers2">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Emailaddress</th>
+                    <th scope="col">Favorite thing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of recommendedOfFollowing">
+                    <td>
+                        <a routerLink="/user/{{ user.username }}" routerLinkActive="active" ariaCurrentWhenActive="page">{{ user.username }}</a>
+                    </td>
+                    <td>{{ user.emailAddress }}</td>
+                    <td>{{ user.favoriteThing }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="blank-box" id="userlist">
+        <div class="userlist-header">
+            <h4>Users with the same interest</h4>
+            <table class="table table-striped" *ngIf="recommendedOfFollowing?.length; else noUsers2">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Emailaddress</th>
+                        <th scope="col">Favorite thing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of recommendedOfFriendship">
+                        <td>
+                            <a routerLink="/user/{{ user.username }}" routerLinkActive="active" ariaCurrentWhenActive="page">{{ user.username }}</a>
+                        </td>
+                        <td>{{ user.emailAddress }}</td>
+                        <td>{{ user.favoriteThing }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #noUsers2><p class="center-text">No one here :(</p></ng-template>
+    </div>
+</div>

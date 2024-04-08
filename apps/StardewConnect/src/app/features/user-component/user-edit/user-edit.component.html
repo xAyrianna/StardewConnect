@@ -82,32 +82,6 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            class="form-control"
-            [(ngModel)]="user!.password"
-            #password="ngModel"
-            minlength="8"
-            required
-            [ngClass]="{ 'is-invalid': password.invalid }"
-          />
-          <div
-            *ngIf="password.invalid && password.touched"
-            class="invalid-feedback"
-          >
-            <div *ngIf="password.errors!['required']">password is required</div>
-            <div *ngIf="password.errors!['minlength']">
-              password has to have at least 8 chars
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-6">
-        <div class="form-group">
           <label for="favoriteThing">Favorite thing</label>
           <input
             type="text"
@@ -128,6 +102,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row mt-2">
+      
     </div>
     <div class="row">
       <div class="col mt-3">

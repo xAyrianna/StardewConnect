@@ -23,7 +23,6 @@ export class VillagerService {
 
   async getAll(): Promise<{ results: Villager[] }> {
     const villagers = await this.villagerModel.find().exec();
-    console.log('Database returns: ', villagers);
     return { results: villagers };
   }
 

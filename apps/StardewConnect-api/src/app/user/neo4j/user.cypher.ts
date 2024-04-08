@@ -15,10 +15,13 @@ export const userCypher = {
    */
   updateUsername:
     'MATCH (user:User {username: $username}) SET a.username = $newUsername RETURN user',
-
-  /** params: username, toFollow */
+  /**
+   * params: username, toFollow
+   *
+   * returns: user
+   */
   followUser:
-    'MATCH (a:User {username: $username}), (b:User {username: $toFollow}) MERGE (a)-[follow:FOLLOWS]->(b)',
+  'MATCH (a:User {username: $username}), (b:User {username: $toFollow}) MERGE (a)-[follow:FOLLOWS]->(b)',
   /** params: username, toUnfollow */
   unfollowUser:
     'MATCH (a:User {username: $username})-[follow:FOLLOWS]->(b:User {username: $toUnfollow}) DELETE follow',
@@ -42,14 +45,14 @@ export const userCypher = {
    * returns: user
    */
   getRecommendations:
-    'MATCH (a:User {username: $username})-[:FOLLOWS]->(b:User)-[:FOLLOWS]->(c:User) WHERE NOT (a)-[:FOLLOWS]->(c) RETURN c',
+    'MATCH (a:User {username: $username})-[:FOLLOWS]->(b:User)-[:FOLLOWS]->(c:User) WHERE NOT (a)-[:FOLLOWS]->(c) AND NOT a = c RETURN c',
   /**
    * params: username
    *
    * returns: user
    */
   getUserFromBefriended:
-    'MATCH (a:User {username: $username})-[:BEFRIENDED]->(v:Villager)<-[:BEFRIENDED]-(b:User) WHERE NOT (a)-[:FOLLOWS]->(b) AND NOT a = b RETURN b',
+    'MATCH (a:User {username: $username})-[:BEFRIENDS]->(v:Villager)<-[:BEFRIENDS]-(b:User) WHERE NOT (a)-[:FOLLOWS]->(b) AND NOT a = b RETURN b',
   /**
    * params: username, toFollow
    * 

@@ -3,6 +3,7 @@ import { IsMongoId } from 'class-validator';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { EventSchema } from '../../event/schemas/event.schema';
 import { Event } from '@StardewConnect/libs/data';
+import { Villager } from '../../../../../../libs/data/src';
 
 export type TownDocument = Town & Document;
 
@@ -34,7 +35,7 @@ export class Town {
     default: [],
     type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Villager' }],
   })
-  villagersInTown: string[];
+  villagersInTown: Villager[];
 
   @Prop({
     default: [],
@@ -46,7 +47,6 @@ export class Town {
 export const TownSchema = SchemaFactory.createForClass(Town);
 
 TownSchema.post('save', async function (doc) {
-  console.log('Town saved', doc);
   const user = this.$model('User');
   await user.updateOne({ _id: doc.createdBy }, { $push: { towns: doc._id } });
 });

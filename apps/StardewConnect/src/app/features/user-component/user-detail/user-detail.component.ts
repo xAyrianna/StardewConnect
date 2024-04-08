@@ -14,6 +14,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   user: User | undefined;
   subscription: Subscription | undefined;
   memberSince: string | undefined;
+  loggedInUser: string | null = localStorage.getItem('user_ID');
+  isFollowing: boolean | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,9 +31,18 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           .getUserByUsername(this.componentId)
           .subscribe((response) => {
             this.user = response;
-            console.log(this.user);
+            const date = new Date(response.memberSince);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+            const year = date.getFullYear();
+            this.memberSince = `${day}/${month}/${year}`;
+
+            this.subscription = this.userService
+              .checkIfFollowing(this.user.username)
+              .subscribe((response) => {;
+                this.isFollowing = response;
+              });
           });
-        this.memberSince = this.user?.memberSince.toLocaleDateString();
       } else {
         console.log('Nieuwe component');
       }
@@ -42,6 +53,37 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     console.log('destroying user-detail component');
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  deleteUser() {
+    console.log('deleting user');
+    if (this.user === undefined) {
+      return;
+    }
+    this.userService
+      .deleteUser(this.user)
+      .subscribe();
+    this.router.navigate(['/user']);
+  }
+
+  follow() {
+    if (this.user) {
+      this.subscription = this.userService
+        .followUser(this.user?.username)
+        .subscribe((response) => {
+          this.isFollowing = true;
+        });
+    }
+  }
+
+  unfollow() {
+    if (this.user) {
+      this.subscription = this.userService
+        .unfollowUser(this.user?.username)
+        .subscribe((response) => {
+          this.isFollowing = false;
+        });
     }
   }
 }

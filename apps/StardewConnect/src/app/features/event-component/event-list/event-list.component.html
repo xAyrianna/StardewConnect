@@ -31,15 +31,6 @@
         <td class="text-center">{{ event.date }}</td>
         <td class="text-center">{{ event?.location }}</td>
         <td class="text-center">{{ event.hasHappened ? 'Yes' : 'No' }}</td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="deleteEvent(event)"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>

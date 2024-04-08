@@ -15,10 +15,12 @@ export class EventListComponent implements OnInit, OnDestroy {
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.subscription = this.eventService.getAllEvents().subscribe((response) => {
-      this.events = response;
-      console.log(this.events);
-    });
+    this.subscription = this.eventService
+      .getAllEvents()
+      .subscribe((response) => {
+        console.log('Making the list')
+        this.events = response;
+      });
   }
 
   ngOnDestroy(): void {
@@ -27,14 +29,4 @@ export class EventListComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
-  deleteEvent(event: Event) {
-    console.log('deleting event');
-    this.eventService
-      .deleteEvent(event)
-      .subscribe(
-        () => (this.events = this.events?.filter((e) => e._id !== event._id))
-      );
-  }
 }
-

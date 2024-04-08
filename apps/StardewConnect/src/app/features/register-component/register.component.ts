@@ -26,7 +26,6 @@ export class RegisterComponent {
   onSubmit() {
     this.userService.registerUser(this.user).subscribe({
       next: (result: any) => {
-        console.log('User registered:', this.user);
         this.router.navigate(['/login']);
       },
       error: (error) => {

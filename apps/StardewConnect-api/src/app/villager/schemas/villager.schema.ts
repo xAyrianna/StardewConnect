@@ -36,7 +36,6 @@ export class Villager {
 export const VillagerSchema = SchemaFactory.createForClass(Villager);
 
 VillagerSchema.post('save', async function (doc) {
-    console.log('Villager saved', doc);
     const user = this.$model('User');
     await user.updateOne({ _id: doc.createdBy }, { $push: { villagers: doc._id } });
   });

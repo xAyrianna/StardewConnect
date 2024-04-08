@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { ApiResponse, Villager } from '@StardewConnect/libs/data';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VillagerService {
   BASE_URL = environment.apiUrl;
@@ -15,11 +15,9 @@ export class VillagerService {
   getAllVillagers(): Observable<Villager[]> {
     const villagerUrl = this.BASE_URL + '/villager';
 
-    console.log('get ' + villagerUrl);
     return this.http.get<ApiResponse<Villager[]>>(villagerUrl).pipe(
       map((response: ApiResponse<Villager[]>) => response.results),
       tap((villagers: Villager[]) => {
-        console.log(villagers);
         return villagers;
       })
     );
@@ -38,7 +36,6 @@ export class VillagerService {
   }
 
   updateVillager(updatedvillager: Villager): Observable<Villager> {
-    console.log('Updating ' + updatedvillager);
     const villagerUrl = this.BASE_URL + '/villager';
     return this.http.put<Villager>(villagerUrl, updatedvillager);
   }
@@ -49,7 +46,6 @@ export class VillagerService {
     const options = {
       body: deletedvillager,
     };
-    console.log(options);
     return this.http.delete<Villager>(villagerUrl, options);
   }
 
@@ -73,7 +69,6 @@ export class VillagerService {
     return this.http.get<ApiResponse<Villager[]>>(villagerUrl).pipe(
       map((response: ApiResponse<Villager[]>) => response.results),
       tap((villagers: Villager[]) => {
-        console.log(villagers);
         return villagers;
       })
     );

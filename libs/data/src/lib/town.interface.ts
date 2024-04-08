@@ -1,4 +1,5 @@
 import { Event } from './event.interface';
+import { Villager } from './villager.interface';
 export interface Town {
   _id?: string;
   name: string;
@@ -7,5 +8,5 @@ export interface Town {
   creationDate: Date;
   createdBy: string;
   events: Event[];
-  villagersInTown: string[];
+  villagersInTown: Villager[];
 }

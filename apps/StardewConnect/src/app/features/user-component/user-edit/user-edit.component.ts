@@ -35,7 +35,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
           .subscribe((response) => {
             this.user = { ...response }; //spread
             this.userName = response.name;
-            console.log(this.user);
           });
       } else {
         console.log('Nieuwe component');

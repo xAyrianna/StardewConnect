@@ -34,18 +34,20 @@ export class VillagerDetailComponent implements OnInit, OnDestroy {
           .getVillagerByName(this.componentId)
           .subscribe((response) => {
             this.villager = response;
-            console.log(this.villager);
-            if (this.villager.createdBy == localStorage.getItem('userId')) {
+
+            if (this.villager.createdBy == localStorage.getItem('user_ID')) {
               this.isCreator = true;
             }
-            this.subscription = this.villagerService.checkIfFriends(this.villager).subscribe((response) => {
-              console.log(response);
-              this.areFriends = response;
-            });
-            this.subscription = this.villagerService.getHearts(this.villager).subscribe((response) => {
-              console.log(response);
-              this.amountOfHearts = response;
-            });
+            this.subscription = this.villagerService
+              .checkIfFriends(this.villager)
+              .subscribe((response) => {
+                this.areFriends = response;
+              });
+            this.subscription = this.villagerService
+              .getHearts(this.villager)
+              .subscribe((response) => {
+                this.amountOfHearts = response;
+              });
           });
       } else {
         console.log('Nieuwe component');
@@ -60,34 +62,51 @@ export class VillagerDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  deleteVillager() {
+    console.log('deleting villager');
+    if (this.villager === undefined) {
+      return;
+    }
+    this.villagerService.deleteVillager(this.villager).subscribe(() => {
+      console.log('Villager deleted');
+      this.router.navigate(['/villager']);
+    });
+  }
+
   openDialog() {
     const modalRef = this.modalService.open(AddVillagerDialogComponent, {
-      centered: true, 
+      centered: true,
     });
     modalRef.componentInstance.villager = this.villager;
   }
 
   befriend() {
     if (this.villager) {
-      this.subscription = this.villagerService.befriendVillager(this.villager).subscribe(() => {
-        this.router.navigate(['/villagers']);
-      });
+      this.subscription = this.villagerService
+        .befriendVillager(this.villager)
+        .subscribe(() => {
+          this.router.navigate(['/villager']);
+        });
     }
   }
 
   unfriend() {
     if (this.villager) {
-      this.subscription = this.villagerService.unfriendVillager(this.villager).subscribe(() => {
-        this.router.navigate(['/villager']);
-      });
+      this.subscription = this.villagerService
+        .unfriendVillager(this.villager)
+        .subscribe(() => {
+          this.router.navigate(['/villager']);
+        });
     }
   }
 
-  giveGift(){
+  giveGift() {
     if (this.villager) {
-      this.subscription = this.villagerService.updateVillagerHearts(this.villager).subscribe(() => {
-        this.router.navigate(['/villager']);
-      });
+      this.subscription = this.villagerService
+        .updateVillagerHearts(this.villager)
+        .subscribe(() => {
+          this.router.navigate(['/villager']);
+        });
     }
   }
 }

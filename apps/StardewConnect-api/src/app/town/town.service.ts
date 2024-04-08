@@ -14,18 +14,17 @@ export class TownService {
   ) {}
 
   async getAll(): Promise<{ results: Town[] }> {
-    const towns = await this.townModel.find().populate('events').exec();
-    console.log('Database returns: ', towns);
+    const towns = await this.townModel.find().populate('villagersInTown').populate('events').exec();
     return { results: towns };
   }
 
   async getTownByName(name: string): Promise<{ results: Town }> {
-    const town = await this.townModel.findOne({ name }).exec();
+    const town = await this.townModel.findOne({ name }).populate('villagersInTown').populate('events').exec();
     return { results: town };
   }
 
   async getTownById(id: string): Promise<{ results: Town }> {
-    const town = await this.townModel.findById(id).exec();
+    const town = await this.townModel.findById(id).populate('villagersInTown').populate('events').exec();
     return { results: town };
   }
 
