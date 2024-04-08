@@ -7,6 +7,8 @@ import { Town, TownSchema } from '../town/schemas/town.schema';
 import { TownService } from '../town/town.service';
 import { User, UserSchema } from '../user/schemas/user.schema';
 import { UserService } from '../user/user.service';
+import { Villager, VillagerSchema } from '../villager/schemas/villager.schema';
+import { VillagerService } from '../villager/villager.service';
 
 @Module({
   imports: [
@@ -14,10 +16,11 @@ import { UserService } from '../user/user.service';
       { name: Event.name, schema: EventSchema },
       { name: Town.name, schema: TownSchema },
       { name: User.name, schema: UserSchema },
+      { name: Villager.name, schema: VillagerSchema },
     ]),
   ],
   controllers: [EventController],
-  providers: [EventService, TownService, UserService],
+  providers: [EventService, TownService, UserService, VillagerService],
   exports: [EventService],
 })
 export class EventModule {}
