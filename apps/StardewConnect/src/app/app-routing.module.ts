@@ -16,11 +16,10 @@ import { UserEditComponent } from './features/user-component/user-edit/user-edit
 import { UserDetailComponent } from './features/user-component/user-detail/user-detail.component';
 import { LoginComponent } from './features/login-component/login.component';
 import { RegisterComponent } from './features/register-component/register.component';
-import { UserProfileComponent } from './features/user-component/user-profile/user-profile.component';
 import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   {
     path: 'home',
@@ -56,13 +55,6 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard],
   },
-  {
-    path: 'user/profile',
-    component: UserProfileComponent,
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-  },
-
   {
     path: 'town',
     component: TownListComponent,
