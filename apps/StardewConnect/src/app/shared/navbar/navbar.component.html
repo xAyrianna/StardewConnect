@@ -10,7 +10,7 @@
     <a routerLink="/town" routerLinkActive="active-link">Towns</a>
     <a routerLink="/villager" routerLinkActive="active-link">Villagers</a>
     <a routerLink="/event" routerLinkActive="active-link">Events</a>
-    <a routerLink="/user/{{loggedInUser}}" routerLinkActive="active-link">Profile</a>
+    <a routerLink="/user/{{loggedInUser}}" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Profile</a>
   </div>
   </div>
   <div class="user-info">
