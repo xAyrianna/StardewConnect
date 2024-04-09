@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'stardewconnect-api.azurewebsites.net/api'
+  apiUrl: 'https://stardewconnect-api.azurewebsites.net/api'
 };
