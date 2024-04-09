@@ -23,7 +23,7 @@
             #name="ngModel"
             minlength="2"
             required
-            [ngClass]="{ 'is-invalid': name.invalid }"
+            [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched)}"
           />
           <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
             <div *ngIf="name.errors!['required']">Name is required</div>
@@ -45,7 +45,7 @@
             #birthday="ngModel"
             minlength="6"
             required
-            [ngClass]="{ 'is-invalid': birthday.invalid }"
+            [ngClass]="{ 'is-invalid': birthday.invalid && (birthday.dirty || birthday.touched)}"
           />
           <div
             *ngIf="birthday.invalid && birthday.touched"
@@ -69,7 +69,7 @@
           [(ngModel)]="villager!.gender"
           #gender="ngModel"
           required
-          [ngClass]="{ 'is-invalid': gender.invalid }"
+          [ngClass]="{ 'is-invalid': gender.invalid && (gender.dirty || gender.touched)}"
         >
           <option
             *ngFor="let type of eGender | keyvalue"

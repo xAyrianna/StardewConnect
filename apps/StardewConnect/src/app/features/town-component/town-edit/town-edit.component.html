@@ -18,7 +18,7 @@
             #name="ngModel"
             minlength="2"
             required
-            [ngClass]="{ 'is-invalid': name.invalid }"
+            [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched)}"
           />
           <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
             <div *ngIf="name.errors!['required']">Name is required</div>
@@ -37,18 +37,16 @@
             class="form-control"
             [(ngModel)]="town!.capacity"
             #capacity="ngModel"
-            minlength="2"
+            minlength="1"
             required
-            [ngClass]="{ 'is-invalid': capacity.invalid }"
+            [ngClass]="{ 'is-invalid': capacity.invalid && (capacity.dirty || capacity.touched)}"
           />
           <div
             *ngIf="capacity.invalid && capacity.touched"
             class="invalid-feedback"
           >
-            <div *ngIf="capacity.errors!['required']">Capacity is required</div>
-            <div *ngIf="capacity.errors!['minlength']">
-              Capacity has to have at least 2 chars
-            </div>
+          <div *ngIf="capacity.errors?.['required']">Capacity is required</div>
+          <div *ngIf="capacity.errors?.['min']">Capacity has to be at least 1</div>
           </div>
         </div>
       </div>

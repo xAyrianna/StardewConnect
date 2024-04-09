@@ -18,7 +18,7 @@
             #name="ngModel"
             minlength="2"
             required
-            [ngClass]="{ 'is-invalid': name.invalid }"
+            [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched)}"
           />
           <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
             <div *ngIf="name.errors!['required']">Name is required</div>
@@ -40,7 +40,7 @@
             #date="ngModel"
             minlength="6"
             required
-            [ngClass]="{ 'is-invalid': date.invalid }"
+            [ngClass]="{ 'is-invalid': date.invalid && (date.dirty || date.touched)}"
           />
           <div *ngIf="date.invalid && date.touched" class="invalid-feedback">
             <div *ngIf="date.errors!['required']">Date is required</div>
@@ -63,7 +63,7 @@
             #location="ngModel"
             minlength="2"
             required
-            [ngClass]="{ 'is-invalid': location.invalid }"
+            [ngClass]="{ 'is-invalid': location.invalid && (location.dirty || location.touched)}"
           />
           <div
             *ngIf="location.invalid && location.touched"
@@ -130,7 +130,7 @@
             #description="ngModel"
             minlength="20"
             required
-            [ngClass]="{ 'is-invalid': description.invalid }"
+            [ngClass]="{ 'is-invalid': description.invalid && (description.dirty || description.touched)}"
           ></textarea>
           <div
             *ngIf="description.invalid && description.touched"
