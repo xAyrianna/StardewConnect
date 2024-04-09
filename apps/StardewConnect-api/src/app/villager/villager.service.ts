@@ -144,7 +144,6 @@ export class VillagerService {
       return 0
     } 
     let numberOfHearts = result.records[0].get('befriends.numberOfHearts')
-    console.log(numberOfHearts.toNumber())
     return numberOfHearts.toNumber();
   }
 }

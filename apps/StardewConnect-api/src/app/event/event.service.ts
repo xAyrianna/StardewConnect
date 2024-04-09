@@ -61,7 +61,6 @@ export class EventService {
     town.events = town.events.map((event) =>
       event._id == updatedEvent._id ? updatedEvent : event
     );
-    console.log('Updating ' + event);
     return event;
   }
   async deleteEvent(deletedEvent: Event, userId: string) {

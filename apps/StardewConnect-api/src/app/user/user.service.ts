@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { User } from '@StardewConnect/libs/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,7 +12,7 @@ import { VillagerService } from '../villager/villager.service';
 export class UserService {
   constructor(
     @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
-    private readonly neo4jService: Neo4jService,
+    private readonly neo4jService: Neo4jService
   ) {}
 
   async getAll(): Promise<{ results: User[] }> {
@@ -73,11 +73,10 @@ export class UserService {
   }
 
   async updateUser(updatedUser: User, userId: string): Promise<User> {
-    console.log('Updating ' + updatedUser)
+    console.log('Updating ' + updatedUser);
     if (updatedUser._id != userId) {
-      throw new HttpException(
-        'You are not authorized to update this user',
-        403
+      throw new ForbiddenException(
+        'You are not authorized to update this user'
       );
     }
     const oldUser = await this.userModel.findById(updatedUser._id).exec();
@@ -95,11 +94,9 @@ export class UserService {
   }
 
   async deleteUser(deletedUser: User, userId: string) {
-    console.log('Deleting ' + deletedUser);
     if (deletedUser._id != userId) {
-      throw new HttpException(
-        'You are not authorized to delete this user',
-        403
+      throw new ForbiddenException(
+        'You are not authorized to delete this user'
       );
     }
     const user = await this.userModel
@@ -164,13 +161,15 @@ export class UserService {
     for (let user of recommendations) {
       const userToAdd = (await this.getUserByUsername(user.username)).results;
 
-      const isUserInArray = resultUsers.some(resultUser => resultUser.username === userToAdd.username);
-    
+      const isUserInArray = resultUsers.some(
+        (resultUser) => resultUser.username === userToAdd.username
+      );
+
       if (!isUserInArray) {
         resultUsers.push(userToAdd);
       }
     }
-    return {results: resultUsers};
+    return { results: resultUsers };
   }
 
   async getUserFromBefriended(username: string) {
@@ -185,12 +184,14 @@ export class UserService {
     for (let user of users) {
       const userToAdd = (await this.getUserByUsername(user.username)).results;
 
-      const isUserInArray = resultUsers.some(resultUser => resultUser.username === userToAdd.username);
-    
+      const isUserInArray = resultUsers.some(
+        (resultUser) => resultUser.username === userToAdd.username
+      );
+
       if (!isUserInArray) {
         resultUsers.push(userToAdd);
       }
     }
-    return {results: resultUsers};
+    return { results: resultUsers };
   }
 }
