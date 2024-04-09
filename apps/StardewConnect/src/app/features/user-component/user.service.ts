@@ -15,7 +15,6 @@ export class UserService {
 
   login(credentials: UserCredentials): Observable<any> {
     const authUrl = this.BASE_URL + '/auth/login';
-    console.log('Logging in user on url: ', authUrl);
 
     return this.http.post(authUrl, credentials).pipe(
       tap((result: any) => {
