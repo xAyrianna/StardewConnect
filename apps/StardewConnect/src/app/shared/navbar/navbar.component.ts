@@ -18,18 +18,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private userService: UserService) {
     userService.userLoggedIn.subscribe((value) => {
       this.loggedIn = value;
-      if(value) {
+      if(value){
         const userId = localStorage.getItem('user_ID');
-        if (userId) {
-          this.subscription = this.userService
-            .getUserByID(userId)
-            .subscribe((response) => {
-              console.log('Logged in user: ' + response.username);
-              this.loggedInUser = response.username;
-            });
+        if(userId){
+          this.userService.getUserByID(userId).subscribe((response) => {
+            this.loggedInUser = response.username;
+          });
         }
-      } else {
-        this.loggedInUser = undefined;
       }
     });
   }
