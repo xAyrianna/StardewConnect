@@ -32,25 +32,36 @@ export class VillagerService {
   }
 
   async addVillager(createdVillagerDto: Villager): Promise<VillagerModel> {
-    const createdVillager = await (await new this.villagerModel(createdVillagerDto)).save();
-  
+    const createdVillager = await (
+      await new this.villagerModel(createdVillagerDto)
+    ).save();
+
     await this.neo4jService.write(villagerCypher.addVillager, {
       id: createdVillager._id.toString(),
     });
     return createdVillager;
   }
 
-  async updateVillager(updatedVillager: Villager, userId: string): Promise<VillagerModel> {
-    if(updatedVillager.createdBy != userId) {
-      throw new ForbiddenException('You are not authorized to update this villager');
+  async updateVillager(
+    updatedVillager: Villager,
+    userId: string
+  ): Promise<VillagerModel> {
+    if (updatedVillager.createdBy != userId) {
+      throw new ForbiddenException(
+        'You are not authorized to update this villager'
+      );
     }
-    const oldVillager = await this.villagerModel.findById(updatedVillager._id).exec();
+    const oldVillager = await this.villagerModel
+      .findById(updatedVillager._id)
+      .exec();
     const villager = await this.villagerModel
       .findOneAndUpdate({ _id: updatedVillager._id }, updatedVillager, {
         new: true,
       })
       .exec();
-    const user = await this.userModel.findById(updatedVillager.createdBy).exec();
+    const user = await this.userModel
+      .findById(updatedVillager.createdBy)
+      .exec();
     user.villagers = user.villagers.map((villager) =>
       villager._id == updatedVillager._id ? updatedVillager : villager
     );
@@ -60,8 +71,10 @@ export class VillagerService {
 
   async deleteVillager(deletedVillager: Villager, userId: string) {
     // delete villager
-    if(deletedVillager.createdBy != userId) {
-      throw new ForbiddenException('You are not authorized to delete this villager');
+    if (deletedVillager.createdBy != userId) {
+      throw new ForbiddenException(
+        'You are not authorized to delete this villager'
+      );
     }
     const villager = await this.villagerModel
       .deleteOne({ _id: deletedVillager._id })
@@ -75,9 +88,7 @@ export class VillagerService {
     );
     await user.save();
 
-    const town = 
-
-    await this.neo4jService.write(villagerCypher.removeVillager, {
+    const town = await this.neo4jService.write(villagerCypher.removeVillager, {
       id: deletedVillager._id,
     });
     return villager;
@@ -136,14 +147,17 @@ export class VillagerService {
   }
 
   async getVillagerHearts(username: string, id: string) {
-    const result = await this.neo4jService.read(villagerCypher.getVillagerHearts, {
-      id,
-      username,
-    });
-    if(result.records.length == 0) {
-      return 0
-    } 
-    let numberOfHearts = result.records[0].get('befriends.numberOfHearts')
+    const result = await this.neo4jService.read(
+      villagerCypher.getVillagerHearts,
+      {
+        id,
+        username,
+      }
+    );
+    if (result.records.length == 0) {
+      return 0;
+    }
+    let numberOfHearts = result.records[0].get('befriends.numberOfHearts');
     return numberOfHearts.toNumber();
   }
 }
