@@ -18,6 +18,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private userService: UserService) {
     userService.userLoggedIn.subscribe((value) => {
       this.loggedIn = value;
+      if(value) {
+        const userId = localStorage.getItem('user_ID');
+        if (userId) {
+          this.subscription = this.userService
+            .getUserByID(userId)
+            .subscribe((response) => {
+              console.log('Logged in user: ' + response.username);
+              this.loggedInUser = response.username;
+            });
+        }
+      } else {
+        this.loggedInUser = undefined;
+      }
     });
   }
 
@@ -25,15 +38,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     console.log('Current route: ' + this.activeRoute);
     if (localStorage.getItem('access_token')) {
       this.loggedIn = true;
-      const userId = localStorage.getItem('user_ID');
-      if (userId) {
-        this.subscription = this.userService
-          .getUserByID(userId)
-          .subscribe((response) => {
-            console.log('Logged in user: ' + response.username);
-            this.loggedInUser = response.username;
-          });
-      }
     }
   }
 
@@ -49,6 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_ID');
     this.loggedIn = false;
+    this.loggedInUser = undefined;
     this.router.navigate(['/login']);
   }
 }
